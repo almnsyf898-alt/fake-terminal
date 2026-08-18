@@ -401,7 +401,8 @@
       flex-direction: column;
       align-items: flex-end;
       gap: 6px;
-      pointer-events: none; /* لتجنب حجب الشاشة، سنفعل الـ pointer على الأبناء */
+      pointer-events: none;
+      touch-action: none;
     }
 
     .robots-bubbles-row {
@@ -440,7 +441,7 @@
       display: flex;
       gap: 12px;
       pointer-events: auto;
-      cursor: grab; /* مؤشر السحب */
+      cursor: grab;
     }
 
     .robots-avatars-row:active {
@@ -466,6 +467,7 @@
       align-items: center;
       position: relative;
       transition: transform 0.2s ease;
+      cursor: pointer;
     }
 
     .robot-avatar.female {
@@ -477,7 +479,6 @@
       transform: scale(1.08);
     }
 
-    /* تعديلات توهج العيون */
     .robot-eyes {
       display: flex;
       gap: 8px;
@@ -495,12 +496,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: inset 0 0 8px rgba(123, 44, 191, 0.6); /* توهج داخلي */
+      box-shadow: inset 0 0 8px rgba(123, 44, 191, 0.6);
     }
 
     .eye.female-eye {
       border-color: #ff2a6d;
-      box-shadow: inset 0 0 8px rgba(255, 42, 109, 0.6); /* توهج داخلي */
+      box-shadow: inset 0 0 8px rgba(255, 42, 109, 0.6);
     }
 
     .pupil {
@@ -508,14 +509,12 @@
       height: 5px;
       background: #00f0ff;
       border-radius: 50%;
-      /* مضاعفة إضاءة البؤبؤ لجعله مشعاً جداً */
       box-shadow: 0 0 10px 2px #00f0ff, 0 0 20px #00f0ff, 0 0 30px #00f0ff;
       transition: transform 0.05s ease-out;
     }
 
     .pupil.female-pupil {
       background: #ff2a6d;
-      /* مضاعفة إضاءة البؤبؤ الأنثوي */
       box-shadow: 0 0 10px 2px #ff2a6d, 0 0 20px #ff2a6d, 0 0 30px #ff2a6d;
     }
 
@@ -638,7 +637,7 @@
     </div>
     <div class="robots-avatars-row" id="robotsDragArea">
       <div class="robot-card">
-        <div class="robot-avatar" id="avatarAthir" onclick="triggerRobotsConversation()">
+        <div class="robot-avatar" id="avatarAthir" onclick="onRobotClick(event)">
           <div class="robot-antenna"></div>
           <div class="robot-eyes">
             <div class="eye"><div class="pupil"></div></div>
@@ -649,7 +648,7 @@
       </div>
 
       <div class="robot-card">
-        <div class="robot-avatar female" id="avatarAthira" onclick="triggerRobotsConversation()">
+        <div class="robot-avatar female" id="avatarAthira" onclick="onRobotClick(event)">
           <div class="robot-antenna female-antenna"></div>
           <span class="robot-bow">🎀</span>
           <div class="robot-eyes">
@@ -739,6 +738,7 @@
       getRandomQuote();
       renderArchive();
       startRobotsIntro(name);
+      initRobotsPosition();
     }
 
     function logout() {
@@ -776,6 +776,7 @@
     }
 
     function updateMainLikeUI() {
+      if (!currentQuote) return;
       const likesMap = getLikesData();
       const userLiked = getUserLikedIds();
       const count = likesMap[currentQuote.id] || 0;
@@ -787,6 +788,7 @@
     }
 
     function toggleMainLike() {
+      if (!currentQuote) return;
       toggleLike(currentQuote.id);
       updateMainLikeUI();
       renderArchive();
@@ -808,12 +810,14 @@
     }
 
     function copyQuote() {
+      if (!currentQuote) return;
       const text = `${document.getElementById('quoteText').innerText} ${document.getElementById('quoteAuthor').innerText}`;
       navigator.clipboard.writeText(text);
       robotsSay("أثير: تم النسخ بنجاح 📋", "أثيرة: يمكنك مشاركتها الآن ههههه ✨");
     }
 
     function speakQuote() {
+      if (!currentQuote) return;
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(currentQuote.text);
@@ -824,8 +828,12 @@
       } else alert("متصفحك لا يدعم القارئ الصوتي.");
     }
 
-    function downloadQuoteImage() {
+    async function downloadQuoteImage() {
+      if (!currentQuote) return;
       robotsSay("أثير: جاري رسم البطاقة الجمالية...", "أثيرة: ستكون صورة فخمة جداً ههههه 🖼️");
+      
+      await document.fonts.ready; // التأكد من تحميل الخطوط قبل الرسم
+
       const canvas = document.createElement('canvas');
       canvas.width = 800; canvas.height = 500;
       const ctx = canvas.getContext('2d');
@@ -946,10 +954,12 @@
       renderArchive();
     }
 
-    function toggleAmbientSound() {
+    async function toggleAmbientSound() {
       const btn = document.getElementById('ambientAudioBtn');
       if (!isAudioPlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+
         const bufferSize = audioCtx.sampleRate * 2;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
@@ -964,7 +974,7 @@
         btn.innerText = "إيقاف الأجواء 🔊";
         robotsSay("أثير: صوت المطر بدأ ينهمر...", "أثيرة: ياه، ما أروع العزلة! ههههه 🎧");
       } else {
-        if (noiseNode) noiseNode.stop();
+        if (noiseNode) { noiseNode.stop(); noiseNode.disconnect(); }
         isAudioPlaying = false; btn.innerText = "أجواء العزلة 🎧";
       }
     }
@@ -1012,28 +1022,34 @@
       robotsSay(randomConv[0], randomConv[1]);
     }
 
-    // حركة الروبوتات التلقائية والتحكم اليدوي (الجديد)
+    // حركة الروبوتات والتحكم
     const robotContainer = document.getElementById('robotsContainer');
     const robotsDragArea = document.getElementById('robotsDragArea');
     
     let isDragging = false;
+    let hasDragged = false;
     let dragStartX, dragStartY;
     let initialLeft, initialTop;
     
-    // موضع البداية أسفل اليمين
-    let posX = window.innerWidth - 180; 
-    let posY = window.innerHeight - 150;
-    
-    // سرعة واتجاه الحركة التلقائية
+    let posX = 0;
+    let posY = 0;
     let velX = -0.5; 
     let velY = -0.4;
+
+    function initRobotsPosition() {
+      const maxW = Math.max(10, window.innerWidth - (robotContainer.offsetWidth || 180));
+      const maxH = Math.max(10, window.innerHeight - (robotContainer.offsetHeight || 150));
+      posX = maxW - 20;
+      posY = maxH - 20;
+      robotContainer.style.left = `${posX}px`;
+      robotContainer.style.top = `${posY}px`;
+    }
 
     function animateRobotsMovement() {
       if (!isDragging) {
         posX += velX;
         posY += velY;
 
-        // حدود الشاشة لارتداد الروبوتات
         const maxW = window.innerWidth - robotContainer.offsetWidth;
         const maxH = window.innerHeight - robotContainer.offsetHeight;
 
@@ -1050,12 +1066,11 @@
       requestAnimationFrame(animateRobotsMovement);
     }
 
-    // دوال السحب والإفلات
     function startDrag(e) {
-      // تجاهل إذا كان النقر على الأزرار/الفقاعات
-      if(e.target.closest('.robot-bubble')) return; 
+      if (e.target.closest('.robot-bubble')) return; 
       
       isDragging = true;
+      hasDragged = false;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       dragStartX = clientX;
@@ -1066,9 +1081,11 @@
 
     function drag(e) {
       if (!isDragging) return;
-      e.preventDefault(); 
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const dist = Math.hypot(clientX - dragStartX, clientY - dragStartY);
+      if (dist > 5) hasDragged = true;
 
       posX = initialLeft + (clientX - dragStartX);
       posY = initialTop + (clientY - dragStartY);
@@ -1081,18 +1098,31 @@
 
     function stopDrag() { isDragging = false; }
 
-    // ربط الأحداث بمنطقة الروبوتات
+    function onRobotClick(e) {
+      if (hasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      triggerRobotsConversation();
+    }
+
     robotsDragArea.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', stopDrag);
 
-    robotsDragArea.addEventListener('touchstart', startDrag, {passive: false});
-    window.addEventListener('touchmove', drag, {passive: false});
+    robotsDragArea.addEventListener('touchstart', startDrag, {passive: true});
+    window.addEventListener('touchmove', drag, {passive: true});
     window.addEventListener('touchend', stopDrag);
 
-    // بدء الحركة التلقائية
-    animateRobotsMovement();
+    window.addEventListener('resize', () => {
+      const maxW = window.innerWidth - robotContainer.offsetWidth;
+      const maxH = window.innerHeight - robotContainer.offsetHeight;
+      posX = Math.max(0, Math.min(posX, maxW));
+      posY = Math.max(0, Math.min(posY, maxH));
+    });
 
+    animateRobotsMovement();
 
     // خلفية النجوم والتأثيرات
     const canvas = document.getElementById('bgCanvas');
