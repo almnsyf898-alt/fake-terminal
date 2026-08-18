@@ -2,2613 +2,1032 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
-
-<title>إثير وأثير 🤖✨</title>
+<title>عالم الظلال</title>
 
 <style>
-
-/* =====================================================
-   🌌 الأساس
-===================================================== */
-
 * {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background:
-    radial-gradient(
-      circle at 20% 10%,
-      rgba(120, 80, 255, .20),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(0, 220, 255, .14),
-      transparent 30%
-    ),
-    linear-gradient(
-      160deg,
-      #080912,
-      #111329 50%,
-      #070812
-    );
-
-  color: #fff;
-  overflow-x: hidden;
-  transition:
-    background .5s ease,
-    color .5s ease;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% 20%, #202033 0%, #0b0b12 45%, #050508 100%);
+    color: #e8e4dc;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
 }
 
-/* =====================================================
-   ✨ النجوم الخلفية
-===================================================== */
+/* الخلفية */
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  background-image:
-    radial-gradient(
-      circle,
-      rgba(255,255,255,.7) 1px,
-      transparent 1px
-    );
-
-  background-size: 55px 55px;
-  opacity: .12;
-
-  pointer-events: none;
-  animation: starsMove 18s linear infinite;
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image:
+        radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 95px 95px;
+    animation: stars 18s linear infinite;
 }
 
-@keyframes starsMove {
-  from {
-    transform: translateY(0);
-  }
+@keyframes stars {
+    from {
+        transform: translateY(0);
+    }
 
-  to {
-    transform: translateY(-55px);
-  }
+    to {
+        transform: translateY(95px);
+    }
 }
 
-/* =====================================================
-   🧱 التطبيق
-===================================================== */
-
-.app {
-  width: min(100%, 1100px);
-  min-height: 100vh;
-
-  margin: auto;
-  padding: 18px;
-
-  position: relative;
-  z-index: 1;
-}
-
-/* =====================================================
-   🎀 الرأس
-===================================================== */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 14px 16px;
-  margin-bottom: 18px;
-
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 22px;
-
-  background:
-    rgba(15, 17, 35, .72);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 15px 50px rgba(0,0,0,.25);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logoIcon {
-  width: 44px;
-  height: 44px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 14px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7c4dff,
-      #00d9ff
-    );
-
-  box-shadow:
-    0 0 25px rgba(80,130,255,.35);
-
-  font-size: 23px;
-}
-
-.logoText strong {
-  display: block;
-  font-size: 17px;
-}
-
-.logoText span {
-  display: block;
-  margin-top: 2px;
-
-  color: #aeb5d9;
-  font-size: 11px;
-}
-
-.topActions {
-  display: flex;
-  gap: 8px;
-}
-
-.iconBtn {
-  width: 42px;
-  height: 42px;
-
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 13px;
-
-  background: rgba(255,255,255,.06);
-  color: white;
-
-  font-size: 18px;
-  cursor: pointer;
-
-  transition:
-    transform .2s ease,
-    background .2s ease;
-}
-
-.iconBtn:active {
-  transform: scale(.90);
-}
-
-.iconBtn:hover {
-  background: rgba(255,255,255,.12);
-}
-
-/* =====================================================
-   💜 الترحيب
-===================================================== */
+/* الغلاف */
 
 .hero {
-  padding: 25px 20px;
-  margin-bottom: 18px;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 20px;
+    position: relative;
+}
 
-  text-align: center;
+.symbol {
+    width: 90px;
+    height: 90px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: 30px;
+    box-shadow:
+        0 0 25px rgba(150,130,255,.15),
+        inset 0 0 20px rgba(255,255,255,.04);
 
-  border-radius: 28px;
+    animation: float 4s ease-in-out infinite;
+}
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(124,77,255,.15),
-      rgba(0,217,255,.08)
-    );
+@keyframes float {
+    0%,100% {
+        transform: translateY(0);
+    }
 
-  border: 1px solid rgba(255,255,255,.09);
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .hero h1 {
-  margin: 0;
-
-  font-size: clamp(27px, 7vw, 48px);
-
-  background:
-    linear-gradient(
-      90deg,
-      #fff,
-      #b7a4ff,
-      #79eaff
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  color: transparent;
+    font-size: clamp(38px, 10vw, 75px);
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    text-shadow: 0 0 25px rgba(180,170,255,.25);
 }
 
 .hero p {
-  margin: 10px auto 0;
-
-  max-width: 600px;
-
-  color: #aeb5d9;
-  line-height: 1.8;
-  font-size: 14px;
+    max-width: 650px;
+    line-height: 2;
+    color: #aaa7b4;
+    font-size: 17px;
 }
 
-/* =====================================================
-   🤖 الروبوتات
-===================================================== */
-
-.robots {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 14px;
-
-  margin-bottom: 18px;
+.enter-btn {
+    margin-top: 35px;
+    padding: 14px 34px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 30px;
+    background: rgba(255,255,255,.04);
+    color: #eee;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .3s;
 }
 
-.robotCard {
-  position: relative;
-
-  min-height: 355px;
-
-  padding: 18px 12px;
-
-  border-radius: 28px;
-
-  background:
-    linear-gradient(
-      160deg,
-      rgba(255,255,255,.08),
-      rgba(255,255,255,.025)
-    );
-
-  border: 1px solid rgba(255,255,255,.10);
-
-  overflow: hidden;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.25);
-
-  transition:
-    transform .35s ease,
-    box-shadow .35s ease;
+.enter-btn:hover {
+    background: rgba(255,255,255,.1);
+    transform: translateY(-3px);
 }
 
-.robotCard:hover {
-  transform: translateY(-4px);
-}
-
-.robotCard::before {
-  content: "";
-
-  position: absolute;
-
-  width: 180px;
-  height: 180px;
-
-  top: -90px;
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(125,90,255,.25),
-      transparent 70%
-    );
-
-  pointer-events: none;
-}
-
-.robotName {
-  position: relative;
-  z-index: 2;
-
-  text-align: center;
-
-  font-size: 19px;
-  font-weight: 800;
-
-  margin-bottom: 8px;
-}
-
-.robotMood {
-  position: relative;
-  z-index: 2;
-
-  text-align: center;
-
-  color: #9da5ca;
-
-  font-size: 11px;
-
-  margin-bottom: 12px;
-}
-
-/* =====================================================
-   🤖 الرأس
-===================================================== */
-
-.avatar {
-  width: 170px;
-  height: 205px;
-
-  margin: 0 auto;
-
-  position: relative;
-
-  transform-origin:
-    50% 90%;
-
-  transition:
-    transform .45s ease;
-}
-
-/* الهوائي */
-
-.antenna {
-  position: absolute;
-
-  top: -18px;
-  left: 50%;
-
-  width: 4px;
-  height: 28px;
-
-  transform: translateX(-50%);
-
-  border-radius: 10px;
-
-  background: #9fa8ff;
-}
-
-.antenna::after {
-  content: "";
-
-  position: absolute;
-
-  width: 11px;
-  height: 11px;
-
-  top: -5px;
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  border-radius: 50%;
-
-  background: #7c4dff;
-
-  box-shadow:
-    0 0 14px #7c4dff;
-}
-
-/* الرأس */
-
-.robotHead {
-  position: absolute;
-
-  inset: 12px 5px 5px;
-
-  border-radius: 45px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #30364f,
-      #161a2b
-    );
-
-  border:
-    2px solid rgba(255,255,255,.13);
-
-  box-shadow:
-    inset 0 2px 10px rgba(255,255,255,.08),
-    0 18px 35px rgba(0,0,0,.35);
-
-  overflow: hidden;
-}
-
-/* لمعان الرأس */
-
-.robotHead::before {
-  content: "";
-
-  position: absolute;
-
-  top: 10px;
-  left: 18px;
-
-  width: 70px;
-  height: 20px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.07);
-
-  transform: rotate(-18deg);
-}
-
-/* =====================================================
-   👀 العينان
-===================================================== */
-
-.face {
-  position: absolute;
-
-  inset: 48px 22px 25px;
-
-  border-radius: 28px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #101426,
-      #080a13
-    );
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  box-shadow:
-    inset 0 0 25px rgba(0,0,0,.55);
-}
-
-.eyes {
-  position: absolute;
-
-  left: 15px;
-  right: 15px;
-  top: 23px;
-
-  display: flex;
-  justify-content: space-between;
-}
-
-.eye {
-  width: 42px;
-  height: 49px;
-
-  position: relative;
-
-  overflow: hidden;
-
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      160deg,
-      #d8fbff,
-      #66dfff
-    );
-
-  box-shadow:
-    0 0 20px rgba(80,220,255,.45);
-
-  transition:
-    height .12s ease,
-    transform .15s ease;
-}
-
-/* البؤبؤ */
-
-.pupil {
-  position: absolute;
-
-  width: 17px;
-  height: 22px;
-
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      #ffffff 0 10%,
-      #141629 12% 70%,
-      #05060b 72%
-    );
-
-  transition:
-    transform .12s ease;
-}
-
-/* اللمعة */
-
-.pupil::after {
-  content: "";
-
-  position: absolute;
-
-  width: 5px;
-  height: 5px;
-
-  top: 3px;
-  left: 4px;
-
-  border-radius: 50%;
-
-  background: white;
-}
-
-/* الفم */
-
-.mouth {
-  position: absolute;
-
-  width: 36px;
-  height: 7px;
-
-  left: 50%;
-  bottom: 25px;
-
-  transform: translateX(-50%);
-
-  border-radius: 20px;
-
-  background: #6de8ff;
-
-  box-shadow:
-    0 0 12px rgba(80,220,255,.4);
-
-  transition:
-    width .2s ease,
-    height .2s ease;
-}
-
-/* =====================================================
-   🫧 الكلام
-===================================================== */
-
-.message {
-  min-height: 53px;
-
-  margin: 8px 0 0;
-  padding: 10px 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  border-radius: 16px;
-
-  background:
-    rgba(255,255,255,.045);
-
-  border:
-    1px solid rgba(255,255,255,.07);
-
-  color: #d9def5;
-
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-/* =====================================================
-   🎛️ الأزرار
-===================================================== */
-
-.controls {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 9px;
-
-  margin-top: 10px;
-}
-
-.controlBtn {
-  min-height: 43px;
-
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 14px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  color: white;
-
-  font-size: 12px;
-
-  cursor: pointer;
-
-  transition:
-    transform .18s ease,
-    background .18s ease;
-}
-
-.controlBtn:active {
-  transform: scale(.94);
-}
-
-.controlBtn:hover {
-  background:
-    rgba(124,77,255,.18);
-}
-
-/* =====================================================
-   📊 الحالة
-===================================================== */
-
-.statusPanel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 9px;
-
-  padding: 13px;
-
-  border-radius: 20px;
-
-  background:
-    rgba(255,255,255,.045);
-
-  border:
-    1px solid rgba(255,255,255,.07);
-
-  color: #b9c0df;
-
-  font-size: 12px;
-}
-
-.statusDot {
-  width: 9px;
-  height: 9px;
-
-  border-radius: 50%;
-
-  background: #52f5a6;
-
-  box-shadow:
-    0 0 12px #52f5a6;
-
-  animation:
-    statusPulse 1.8s infinite;
-}
-
-@keyframes statusPulse {
-  0%,100% {
-    opacity: .5;
-    transform: scale(.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* =====================================================
-   📱 الهاتف
-===================================================== */
-
-@media (max-width: 650px) {
-
-  .app {
-    padding: 10px;
-  }
-
-  .robots {
-    gap: 10px;
-  }
-
-  .robotCard {
-    min-height: 330px;
-    padding: 13px 8px;
-  }
-
-  .avatar {
-    width: 145px;
-    height: 180px;
-  }
-
-  .face {
-    inset:
-      43px 18px 22px;
-  }
-
-  .eye {
-    width: 36px;
-    height: 43px;
-  }
-
-  .pupil {
-    width: 15px;
-    height: 20px;
-  }
-
-  .controls {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-  .hero {
-    padding: 20px 14px;
-  }
-
-  .hero h1 {
-    font-size: 29px;
-  }
-}
-
-@media (max-width: 390px) {
-
-  .robotCard {
-    min-height: 315px;
-  }
-
-  .avatar {
-    transform: scale(.92);
-    margin-top: -5px;
-    margin-bottom: -8px;
-  }
-
-  .message {
-    font-size: 11px;
-  }
-}
-
-/* =====================================================
-   ✨ الحركات العامة
-===================================================== */
-
-.floatAnimation {
-  animation:
-    softFloat 4s ease-in-out infinite;
-}
-
-@keyframes softFloat {
-  0%,100% {
-    transform:
-      translateY(0)
-      rotate(0deg);
-  }
-
-  50% {
-    transform:
-      translateY(-5px)
-      rotate(.5deg);
-  }
-}
-
-.hidden {
-  display: none !important;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-  <!-- =================================================
-       🎀 الرأس
-  ================================================== -->
-
-  <header class="topbar">
-
-    <div class="logo">
-
-      <div class="logoIcon">
-        🤖
-      </div>
-
-      <div class="logoText">
-        <strong>إثير وأثير</strong>
-        <span>رفيقاك الرقميان ✨</span>
-      </div>
-
-    </div>
-
-    <div class="topActions">
-
-      <button
-        class="iconBtn"
-        id="themeBtn"
-        type="button"
-        title="المظهر"
-      >
-        🌙
-      </button>
-
-      <button
-        class="iconBtn"
-        id="resetBtn"
-        type="button"
-        title="إعادة"
-      >
-        ↻
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- =================================================
-       💜 الترحيب
-  ================================================== -->
-
-  <section class="hero">
-
-    <h1>
-      أهلاً بك في عالم إثير وأثير
-    </h1>
-
-    <p>
-      شخصيتان رقميتان تتفاعلان معك،
-      تتحرك أعينهما وتبتسمان وتستجيبان
-      للمس واللمس بطريقة لطيفة ✨
-    </p>
-
-  </section>
-
-
-  <!-- =================================================
-       🤖 الشخصيتان
-  ================================================== -->
-
-  <main class="robots">
-
-    <!-- إثير -->
-
-    <section
-      class="robotCard"
-      data-robot="ether"
-    >
-
-      <div class="robotName">
-        إثير 💜
-      </div>
-
-      <div
-        class="robotMood"
-        id="moodEther"
-      >
-        سعيد برؤيتك
-      </div>
-
-
-      <div
-        class="avatar floatAnimation"
-        id="avatarEther"
-      >
-
-        <div class="antenna"></div>
-
-        <div class="robotHead">
-
-          <div class="face">
-
-            <div class="eyes">
-
-              <div class="eye">
-                <div class="pupil"></div>
-              </div>
-
-              <div class="eye">
-                <div class="pupil"></div>
-              </div>
-
-            </div>
-
-            <div class="mouth"></div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="message"
-        id="messageEther"
-      >
-        مرحباً! أنا إثير 👋
-      </div>
-
-
-      <div class="controls">
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="hello"
-          data-target="ether"
-        >
-          👋 تحية
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="happy"
-          data-target="ether"
-        >
-          😊 فرح
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="talk"
-          data-target="ether"
-        >
-          💬 تحدث
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="move"
-          data-target="ether"
-        >
-          ✨ حركة
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- أثير -->
-
-    <section
-      class="robotCard"
-      data-robot="athir"
-    >
-
-      <div class="robotName">
-        أثير 💙
-      </div>
-
-      <div
-        class="robotMood"
-        id="moodAthir"
-      >
-        في انتظارك
-      </div>
-
-
-      <div
-        class="avatar floatAnimation"
-        id="avatarAthir"
-      >
-
-        <div class="antenna"></div>
-
-        <div class="robotHead">
-
-          <div class="face">
-
-            <div class="eyes">
-
-              <div class="eye">
-                <div class="pupil"></div>
-              </div>
-
-              <div class="eye">
-                <div class="pupil"></div>
-              </div>
-
-            </div>
-
-            <div class="mouth"></div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="message"
-        id="messageAthir"
-      >
-        أهلاً! أنا أثير 🌸
-      </div>
-
-
-      <div class="controls">
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="hello"
-          data-target="athir"
-        >
-          👋 تحية
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="happy"
-          data-target="athir"
-        >
-          😊 فرح
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="talk"
-          data-target="athir"
-        >
-          💬 تحدث
-        </button>
-
-        <button
-          class="controlBtn"
-          type="button"
-          data-action="move"
-          data-target="athir"
-        >
-          ✨ حركة
-        </button>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- =================================================
-       📊 الحالة
-  ================================================== -->
-
-  <section class="statusPanel">
-
-    <span class="statusDot"></span>
-
-    <span id="statusText">
-      إثير وأثير متصلان وجاهزان للتفاعل ✨
-    </span>
-
-  </section>
-
-</div>
-
-<!--
-  ⬇️ هنا سيتكمل الجزء الثاني
---><!-- =========================
-     الجزء الثاني
-     واجهة الروبوتات + التفاعل
-========================= -->
-
-<section class="robots-section" id="robots">
-
-  <div class="section-title">
-    <span>🤖</span>
-    <h2>مختبر الروبوتات</h2>
-    <p>تفاعل مع أثير وإثيرة واكتشف حركاتهما</p>
-  </div>
-
-  <div class="robots-grid">
-
-    <!-- أثير -->
-    <div class="robot-card" id="athirCard">
-
-      <div class="robot-avatar-wrap">
-        <div class="robot-glow"></div>
-
-        <div class="robot-avatar" id="athirAvatar">
-          <div class="robot-face">
-
-            <div class="eye left-eye">
-              <div class="eye-pupil"></div>
-              <div class="eye-shine"></div>
-            </div>
-
-            <div class="eye right-eye">
-              <div class="eye-pupil"></div>
-              <div class="eye-shine"></div>
-            </div>
-
-            <div class="robot-mouth"></div>
-
-          </div>
-        </div>
-      </div>
-
-      <h3>أثير</h3>
-      <p class="robot-status" id="athirStatus">
-        ✨ جاهز للتفاعل
-      </p>
-
-      <div class="robot-actions">
-        <button onclick="robotWave('athir')">
-          👋 تحية
-        </button>
-
-        <button onclick="robotHappy('athir')">
-          😊 فرح
-        </button>
-
-        <button onclick="robotThink('athir')">
-          🤔 تفكير
-        </button>
-      </div>
-
-    </div>
-
-
-    <!-- إثيرة -->
-    <div class="robot-card" id="athiraCard">
-
-      <div class="robot-avatar-wrap">
-        <div class="robot-glow"></div>
-
-        <div class="robot-avatar female" id="athiraAvatar">
-          <div class="robot-face">
-
-            <div class="eye left-eye">
-              <div class="eye-pupil"></div>
-              <div class="eye-shine"></div>
-            </div>
-
-            <div class="eye right-eye">
-              <div class="eye-pupil"></div>
-              <div class="eye-shine"></div>
-            </div>
-
-            <div class="robot-mouth"></div>
-
-          </div>
-        </div>
-      </div>
-
-      <h3>إثيرة</h3>
-      <p class="robot-status" id="athiraStatus">
-        🌸 جاهزة للتفاعل
-      </p>
-
-      <div class="robot-actions">
-        <button onclick="robotWave('athira')">
-          👋 تحية
-        </button>
-
-        <button onclick="robotHappy('athira')">
-          💕 فرح
-        </button>
-
-        <button onclick="robotThink('athira')">
-          🤔 تفكير
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- لوحة التحكم -->
-  <div class="control-panel">
-
-    <h3>⚡ التحكم الذكي</h3>
-
-    <div class="control-buttons">
-
-      <button id="magicBtn">
-        ✨ حركة سحرية
-      </button>
-
-      <button id="danceBtn">
-        💃 رقصة الروبوتات
-      </button>
-
-      <button id="blinkBtn">
-        👁️ غمزة جماعية
-      </button>
-
-      <button id="resetBtn">
-        🔄 إعادة الحركة
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<style>
-
-/* =========================
-   قسم الروبوتات
-========================= */
-
-.robots-section {
-  width: 100%;
-  padding: 70px 20px;
-  box-sizing: border-box;
+/* الأقسام */
+
+.section {
+    max-width: 1050px;
+    margin: auto;
+    padding: 80px 20px;
 }
 
 .section-title {
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-.section-title span {
-  font-size: 45px;
+    text-align: center;
+    margin-bottom: 45px;
 }
 
 .section-title h2 {
-  margin: 10px 0;
-  font-size: 32px;
+    font-size: 32px;
+    margin-bottom: 12px;
 }
 
 .section-title p {
-  opacity: .75;
+    color: #777582;
 }
 
+/* بطاقة الاقتباس */
 
-/* الشبكة */
-
-.robots-grid {
-  max-width: 1000px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+.quote-box {
+    position: relative;
+    padding: 45px 30px;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 24px;
+    background: rgba(255,255,255,.025);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    text-align: center;
+    overflow: hidden;
 }
 
-
-/* بطاقة الروبوت */
-
-.robot-card {
-  position: relative;
-  padding: 30px 20px;
-  text-align: center;
-  border-radius: 30px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.10),
-      rgba(255,255,255,.03)
-    );
-
-  border: 1px solid rgba(255,255,255,.12);
-
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.25);
-
-  backdrop-filter: blur(15px);
-
-  transition:
-    transform .4s ease,
-    box-shadow .4s ease;
+.quote-box::before {
+    content: "“";
+    position: absolute;
+    top: -30px;
+    right: 20px;
+    font-size: 150px;
+    color: rgba(255,255,255,.035);
 }
 
-.robot-card:hover {
-  transform: translateY(-8px);
+.quote {
+    position: relative;
+    font-size: clamp(22px, 5vw, 34px);
+    line-height: 1.9;
+    color: #eeeae3;
 }
 
-
-/* دائرة الروبوت */
-
-.robot-avatar-wrap {
-  position: relative;
-  width: 190px;
-  height: 190px;
-  margin: auto;
+.author {
+    margin-top: 25px;
+    color: #777582;
 }
 
+/* بطاقات العالم */
 
-/* الإضاءة */
-
-.robot-glow {
-  position: absolute;
-  inset: 10px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(100,200,255,.45),
-      transparent 65%
-    );
-
-  filter: blur(20px);
-
-  animation: glowPulse 3s infinite;
+.world-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
 }
 
-
-/* الرأس */
-
-.robot-avatar {
-  position: absolute;
-
-  width: 145px;
-  height: 125px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 45% 45% 40% 40%;
-
-  background:
-    linear-gradient(
-      145deg,
-      #eef7ff,
-      #9db7ca
-    );
-
-  border: 3px solid rgba(255,255,255,.7);
-
-  box-shadow:
-    inset 0 -10px 20px rgba(0,0,0,.15),
-    0 15px 35px rgba(0,0,0,.3);
-
-  transition:
-    transform .5s ease;
+.world-card {
+    min-height: 170px;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.025);
+    transition: .35s;
 }
 
-
-/* الوجه */
-
-.robot-face {
-  position: absolute;
-  inset: 0;
+.world-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(190,180,255,.3);
+    background: rgba(255,255,255,.05);
 }
 
-
-/* العين */
-
-.eye {
-  position: absolute;
-
-  width: 35px;
-  height: 45px;
-
-  top: 35px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      #7ee7ff 0 15%,
-      #1677a3 35%,
-      #071a2a 70%
-    );
-
-  box-shadow:
-    0 0 12px rgba(70,220,255,.8);
-
-  overflow: hidden;
-
-  transition:
-    height .15s ease,
-    transform .3s ease;
+.world-card .icon {
+    font-size: 30px;
+    margin-bottom: 15px;
 }
 
-.left-eye {
-  left: 28px;
+.world-card h3 {
+    margin-bottom: 10px;
 }
 
-.right-eye {
-  right: 28px;
+.world-card p {
+    color: #888692;
+    line-height: 1.8;
+    font-size: 14px;
 }
 
+/* الروبوتات - ميزة جانبية */
 
-/* بؤبؤ العين */
-
-.eye-pupil {
-  position: absolute;
-
-  width: 11px;
-  height: 11px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background: #fff;
-
-  box-shadow:
-    0 0 8px #fff;
+.robot-area {
+    margin-top: 40px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.02);
+    border: 1px solid rgba(255,255,255,.06);
+    text-align: center;
 }
 
-
-/* لمعان العين */
-
-.eye-shine {
-  position: absolute;
-
-  width: 7px;
-  height: 7px;
-
-  left: 9px;
-  top: 9px;
-
-  border-radius: 50%;
-
-  background: white;
+.robot {
+    display: inline-block;
+    font-size: 45px;
+    margin: 10px 20px;
+    animation: robotFloat 3s ease-in-out infinite;
 }
 
-
-/* الفم */
-
-.robot-mouth {
-  position: absolute;
-
-  width: 38px;
-  height: 12px;
-
-  left: 50%;
-  bottom: 25px;
-
-  transform: translateX(-50%);
-
-  border-bottom: 3px solid #31576b;
-
-  border-radius: 0 0 30px 30px;
-
-  transition: .3s ease;
+.robot:nth-child(2) {
+    animation-delay: 1s;
 }
 
+@keyframes robotFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
 
-/* إثيرة */
-
-.robot-avatar.female {
-  background:
-    linear-gradient(
-      145deg,
-      #ffeaf7,
-      #c6a7c9
-    );
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
-.robot-avatar.female .eye {
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      #ffb8ec 0 15%,
-      #a946a0 35%,
-      #28122d 70%
-    );
+/* الفوتر */
 
-  box-shadow:
-    0 0 12px rgba(255,120,230,.8);
+footer {
+    padding: 50px 20px;
+    text-align: center;
+    color: #55535f;
+    border-top: 1px solid rgba(255,255,255,.05);
 }
-
-
-/* الاسم */
-
-.robot-card h3 {
-  font-size: 25px;
-  margin: 10px 0 5px;
-}
-
-.robot-status {
-  opacity: .7;
-  min-height: 25px;
-}
-
-
-/* الأزرار */
-
-.robot-actions {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.robot-actions button,
-.control-buttons button {
-
-  border: none;
-
-  padding: 11px 15px;
-
-  border-radius: 14px;
-
-  cursor: pointer;
-
-  color: inherit;
-
-  background:
-    rgba(255,255,255,.10);
-
-  border: 1px solid rgba(255,255,255,.12);
-
-  transition:
-    transform .2s ease,
-    background .2s ease;
-}
-
-.robot-actions button:hover,
-.control-buttons button:hover {
-
-  transform: scale(1.05);
-
-  background:
-    rgba(255,255,255,.20);
-}
-
-
-/* لوحة التحكم */
-
-.control-panel {
-
-  max-width: 900px;
-
-  margin: 40px auto 0;
-
-  padding: 25px;
-
-  text-align: center;
-
-  border-radius: 25px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  border:
-    1px solid rgba(255,255,255,.1);
-}
-
-.control-panel h3 {
-  margin-top: 0;
-}
-
-.control-buttons {
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: 12px;
-
-  flex-wrap: wrap;
-}
-
-
-/* حركة الإضاءة */
-
-@keyframes glowPulse {
-
-  0%,100% {
-    transform: scale(.95);
-    opacity: .6;
-  }
-
-  50% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-
-}
-
-
-/* اهتزاز خفيف */
-
-.robot-shake {
-
-  animation:
-    robotShake .5s ease;
-
-}
-
-@keyframes robotShake {
-
-  0%,100% {
-    transform: translate(-50%,-50%) rotate(0);
-  }
-
-  25% {
-    transform: translate(-50%,-50%) rotate(-5deg);
-  }
-
-  75% {
-    transform: translate(-50%,-50%) rotate(5deg);
-  }
-
-}
-
 
 /* الهاتف */
 
 @media (max-width: 700px) {
 
-  .robots-grid {
-    grid-template-columns: 1fr;
-  }
+    .world-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .section-title h2 {
-    font-size: 26px;
-  }
+    .hero {
+        min-height: 85vh;
+    }
 
+    .section {
+        padding: 60px 15px;
+    }
+
+    .quote-box {
+        padding: 35px 20px;
+    }
 }
-
 </style>
+</head>
 
+<body>
 
-<script>
+<!-- العالم الرئيسي -->
 
-/* =========================
-   تفاعل الروبوتات
-========================= */
+<header class="hero">
 
-function getRobot(name) {
+    <div class="symbol">☾</div>
 
-  return document.getElementById(
-    name === "athir"
-      ? "athirAvatar"
-      : "athiraAvatar"
-  );
-
-}
-
-
-function getStatus(name) {
-
-  return document.getElementById(
-    name === "athir"
-      ? "athirStatus"
-      : "athiraStatus"
-  );
-
-}
-
-
-/* تحية */
-
-function robotWave(name) {
-
-  const robot = getRobot(name);
-  const status = getStatus(name);
-
-  if (!robot) return;
-
-  robot.classList.remove("robot-shake");
-
-  void robot.offsetWidth;
-
-  robot.classList.add("robot-shake");
-
-  status.textContent =
-    name === "athir"
-      ? "👋 أثير يحييك!"
-      : "👋 إثيرة تحييك!";
-
-}
-
-
-/* فرح */
-
-function robotHappy(name) {
-
-  const robot = getRobot(name);
-  const status = getStatus(name);
-
-  if (!robot) return;
-
-  const eyes =
-    robot.querySelectorAll(".eye");
-
-  const mouth =
-    robot.querySelector(".robot-mouth");
-
-  eyes.forEach(eye => {
-
-    eye.style.transform =
-      "scaleY(.65)";
-
-  });
-
-  mouth.style.height = "20px";
-
-  status.textContent =
-    name === "athir"
-      ? "😄 أثير سعيد!"
-      : "💕 إثيرة سعيدة!";
-
-  setTimeout(() => {
-
-    eyes.forEach(eye => {
-      eye.style.transform = "";
-    });
-
-    mouth.style.height = "";
-
-  }, 900);
-
-}
-
-
-/* تفكير */
-
-function robotThink(name) {
-
-  const robot = getRobot(name);
-  const status = getStatus(name);
-
-  if (!robot) return;
-
-  robot.style.transform =
-    "translate(-50%, -50%) rotate(-7deg)";
-
-  status.textContent =
-    "🤔 لحظة... أفكر";
-
-  setTimeout(() => {
-
-    robot.style.transform =
-      "translate(-50%, -50%)";
-
-    status.textContent =
-      "✨ وجدت الفكرة!";
-
-  }, 1200);
-
-}
-
-
-/* حركة سحرية */
-
-document.getElementById("magicBtn")
-  .addEventListener("click", () => {
-
-    robotWave("athir");
-
-    setTimeout(() => {
-      robotHappy("athira");
-    }, 400);
-
-  });
-
-
-/* رقصة */
-
-document.getElementById("danceBtn")
-  .addEventListener("click", () => {
-
-    ["athir", "athira"].forEach((name, index) => {
-
-      const robot = getRobot(name);
-
-      robot.style.animation =
-        "robotShake .35s infinite";
-
-      setTimeout(() => {
-
-        robot.style.animation = "";
-
-      }, 1800);
-
-    });
-
-  });
-
-
-/* غمزة جماعية */
-
-document.getElementById("blinkBtn")
-  .addEventListener("click", () => {
-
-    document
-      .querySelectorAll(".eye")
-      .forEach(eye => {
-
-        eye.style.height = "5px";
-
-      });
-
-    setTimeout(() => {
-
-      document
-        .querySelectorAll(".eye")
-        .forEach(eye => {
-
-          eye.style.height = "";
-
-        });
-
-    }, 300);
-
-  });
-
-
-/* إعادة */
-
-document.getElementById("resetBtn")
-  .addEventListener("click", () => {
-
-    ["athir", "athira"].forEach(name => {
-
-      const robot = getRobot(name);
-      const status = getStatus(name);
-
-      robot.style.transform =
-        "translate(-50%, -50%)";
-
-      robot.style.animation = "";
-
-      status.textContent =
-        name === "athir"
-          ? "✨ جاهز للتفاعل"
-          : "🌸 جاهزة للتفاعل";
-
-    });
-
-  });
-<!-- =========================
-     الجزء الثالث والأخير
-     اللمسات النهائية + المؤثرات
-========================= -->
-
-<section class="final-section">
-
-  <div class="final-box">
-
-    <div class="final-icon">✨</div>
-
-    <h2>عالم أثير وإثيرة</h2>
+    <h1>عالم الظلال</h1>
 
     <p>
-      عالم صغير مليء بالحركة والذكاء والمفاجآت 🤖💫
+        ليس كل ما تبحث عنه يريد أن يُكتشف...
+        بعض الأشياء تنتظر أن تجدها بنفسك.
     </p>
 
-    <div class="final-buttons">
+    <button class="enter-btn" onclick="enterWorld()">
+        ادخل إلى العالم
+    </button>
 
-      <button id="surpriseBtn">
-        🎁 مفاجأة
-      </button>
+</header>
 
-      <button id="lightsBtn">
-        🌌 تغيير الأجواء
-      </button>
 
+<!-- الاقتباسات -->
+
+<section class="section" id="quotes">
+
+    <div class="section-title">
+        <h2>📜 همسات</h2>
+        <p>اقتباسات تركها أشخاص مروا من هنا</p>
     </div>
 
-    <div id="messageBox" class="message-box">
-      ✨ أهلاً بك في عالمنا
-    </div>
+    <div class="quote-box">
 
-  </div>
+        <div class="quote" id="quote">
+            "أحيانًا، يكون الصمت هو الشيء الوحيد
+            الذي يخبرك بالحقيقة."
+        </div>
+
+        <div class="author" id="author">
+            — مجهول
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- جسيمات الخلفية -->
+<!-- العالم الغامض -->
 
-<div id="particles"></div>
+<section class="section">
 
+    <div class="section-title">
+        <h2>🌑 داخل العالم</h2>
+        <p>هناك أشياء أكثر مما تراه عيناك</p>
+    </div>
 
-<style>
+    <div class="world-grid">
 
-/* =========================
-   القسم الأخير
-========================= */
+        <div class="world-card">
+            <div class="icon">🗝️</div>
+            <h3>الأبواب</h3>
+            <p>
+                بعض الأبواب لا تُفتح بالمفاتيح،
+                بل بالفضول.
+            </p>
+        </div>
 
-.final-section {
+        <div class="world-card">
+            <div class="icon">🔮</div>
+            <h3>الأسرار</h3>
+            <p>
+                كل سر له قصة، وكل قصة تخفي
+                سرًا آخر.
+            </p>
+        </div>
 
-  width: 100%;
+        <div class="world-card">
+            <div class="icon">📖</div>
+            <h3>الحكايات</h3>
+            <p>
+                اقرأ ما تركه الذين مروا
+                قبل أن تصل أنت.
+            </p>
+        </div>
 
-  padding: 70px 20px 100px;
+    </div>
 
-  box-sizing: border-box;
-
-  text-align: center;
-
-}
-
-.final-box {
-
-  max-width: 700px;
-
-  margin: auto;
-
-  padding: 45px 25px;
-
-  border-radius: 35px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.10),
-      rgba(255,255,255,.03)
-    );
-
-  border:
-    1px solid rgba(255,255,255,.12);
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.3);
-
-  backdrop-filter: blur(18px);
-
-}
+</section>
 
 
-.final-icon {
+<!-- الروبوتات مجرد تسلية -->
 
-  font-size: 60px;
+<section class="section">
 
-  animation:
-    finalFloat 3s ease-in-out infinite;
+    <div class="section-title">
+        <h2>🤖 ركن التسلية</h2>
+        <p>حتى في العالم المظلم... هناك من يراقب بصمت.</p>
+    </div>
 
-}
+    <div class="robot-area">
 
+        <div class="robot">🤖</div>
+        <div class="robot">👾</div>
 
-@keyframes finalFloat {
+    </div>
 
-  0%,100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-12px);
-  }
-
-}
+</section>
 
 
-.final-box h2 {
+<footer>
+    🌘 بعض الأبواب لا تظهر إلا لمن يبحث عنها.
+</footer>
 
-  font-size: 30px;
 
-  margin:
-    15px 0 10px;
+<script>
+
+function enterWorld() {
+
+    document.getElementById("quotes").scrollIntoView({
+        behavior: "smooth"
+    });
 
 }
 
+</script>
 
-.final-box p {
+</body>
+</html><script>
+/* =================================
+   🌑 نظام الاقتباسات الغامضة
+================================= */
 
-  opacity: .75;
+const quotes = [
+    {
+        text: "أحيانًا، الطريق الذي تخشاه هو الطريق الذي يقودك إلى نفسك.",
+        author: "— من دفتر مجهول"
+    },
+    {
+        text: "ليست كل الظلال مخيفة... بعضها يخفي شيئًا يستحق الاكتشاف.",
+        author: "— الحارس"
+    },
+    {
+        text: "حين يصمت العالم، تبدأ الأشياء التي لم تكن تراها بالكلام.",
+        author: "— رسالة قديمة"
+    },
+    {
+        text: "لا تبحث عن الحقيقة بسرعة، فبعض الحقائق تحتاج إلى أن تكون مستعدًا لها.",
+        author: "— مجهول"
+    },
+    {
+        text: "كل باب مغلق يحمل سؤالًا أكثر مما يحمل إجابة.",
+        author: "— المسافر"
+    },
+    {
+        text: "ربما لم تصل إلى هذا المكان بالصدفة.",
+        author: "— ؟؟؟"
+    }
+];
 
-  line-height: 1.8;
+let quoteIndex = 0;
 
+function nextQuote() {
+
+    const quote = document.getElementById("quote");
+    const author = document.getElementById("author");
+
+    if (!quote || !author) return;
+
+    quote.style.opacity = "0";
+    author.style.opacity = "0";
+
+    setTimeout(() => {
+
+        quoteIndex++;
+
+        if (quoteIndex >= quotes.length) {
+            quoteIndex = 0;
+        }
+
+        quote.textContent = "“" + quotes[quoteIndex].text + "”";
+        author.textContent = quotes[quoteIndex].author;
+
+        quote.style.opacity = "1";
+        author.style.opacity = "1";
+
+    }, 400);
 }
 
 
-.final-buttons {
+/* =================================
+   🔮 زر اكتشاف اقتباس جديد
+================================= */
 
-  display: flex;
+const quoteBox = document.querySelector(".quote-box");
 
-  justify-content: center;
+if (quoteBox) {
 
-  gap: 12px;
+    const button = document.createElement("button");
 
-  flex-wrap: wrap;
+    button.textContent = "اكتشف همسة أخرى";
 
-  margin-top: 25px;
+    button.style.marginTop = "30px";
+    button.style.padding = "12px 25px";
+    button.style.borderRadius = "25px";
+    button.style.border = "1px solid rgba(255,255,255,.18)";
+    button.style.background = "rgba(255,255,255,.04)";
+    button.style.color = "#ddd";
+    button.style.cursor = "pointer";
 
+    button.onclick = nextQuote;
+
+    quoteBox.appendChild(button);
 }
 
 
-.final-buttons button {
+/* =================================
+   🗝️ نظام الأسرار
+================================= */
 
-  border: none;
+const secretMessages = [
+    "هناك شيء ما يراقب من خلف الستار...",
+    "لقد وجدت أثرًا لم يلاحظه أحد.",
+    "ليس كل شيء في هذا العالم ظاهرًا.",
+    "اقتربت من السر... لكن ليس بما يكفي.",
+    "ربما كان هذا المكان ينتظرك."
+];
 
-  padding:
-    13px 20px;
+let secretIndex = 0;
 
-  border-radius: 16px;
+function revealSecret() {
 
-  cursor: pointer;
+    let message = document.getElementById("secretMessage");
 
-  color: inherit;
+    if (!message) {
 
-  background:
-    rgba(255,255,255,.10);
+        message = document.createElement("div");
 
-  border:
-    1px solid rgba(255,255,255,.12);
+        message.id = "secretMessage";
 
-  transition:
-    transform .25s ease,
-    background .25s ease;
+        message.style.marginTop = "25px";
+        message.style.padding = "20px";
+        message.style.borderRadius = "15px";
+        message.style.background = "rgba(255,255,255,.035)";
+        message.style.border = "1px solid rgba(255,255,255,.08)";
+        message.style.color = "#aaa";
 
+        document.querySelector(".world-grid").after(message);
+    }
+
+    message.textContent = secretMessages[secretIndex];
+
+    secretIndex++;
+
+    if (secretIndex >= secretMessages.length) {
+        secretIndex = 0;
+    }
 }
 
 
-.final-buttons button:hover {
+/* =================================
+   🕯️ إضافة زر الأسرار
+================================= */
 
-  transform:
-    translateY(-3px)
-    scale(1.03);
+const worldGrid = document.querySelector(".world-grid");
 
-  background:
-    rgba(255,255,255,.20);
+if (worldGrid) {
 
+    const secretButton = document.createElement("button");
+
+    secretButton.textContent = "🕯️ ابحث عن سر";
+
+    secretButton.style.display = "block";
+    secretButton.style.margin = "30px auto 0";
+    secretButton.style.padding = "13px 28px";
+    secretButton.style.borderRadius = "30px";
+    secretButton.style.border = "1px solid rgba(255,255,255,.15)";
+    secretButton.style.background = "rgba(255,255,255,.03)";
+    secretButton.style.color = "#ddd";
+    secretButton.style.cursor = "pointer";
+
+    secretButton.onclick = revealSecret;
+
+    worldGrid.parentElement.appendChild(secretButton);
 }
 
 
-/* صندوق الرسالة */
+/* =================================
+   🌘 تأثير ظهور العناصر
+================================= */
 
-.message-box {
+const cards = document.querySelectorAll(
+    ".world-card, .quote-box, .section-title"
+);
 
-  margin-top: 25px;
+const observer = new IntersectionObserver(
+    entries => {
 
-  min-height: 25px;
+        entries.forEach(entry => {
 
-  padding: 14px;
+            if (entry.isIntersecting) {
 
-  border-radius: 15px;
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
 
-  background:
-    rgba(255,255,255,.06);
+            }
 
-  transition:
-    opacity .3s ease,
-    transform .3s ease;
+        });
 
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+cards.forEach(card => {
+
+    card.style.opacity = "0";
+    card.style.transform = "translateY(25px)";
+    card.style.transition = "opacity .8s ease, transform .8s ease";
+
+    observer.observe(card);
+
+});
+
+
+/* =================================
+   ✨ نجمة عشوائية عند الضغط
+================================= */
+
+document.addEventListener("click", event => {
+
+    const star = document.createElement("span");
+
+    star.textContent = "✦";
+
+    star.style.position = "fixed";
+    star.style.left = event.clientX + "px";
+    star.style.top = event.clientY + "px";
+    star.style.pointerEvents = "none";
+    star.style.color = "rgba(220,215,255,.8)";
+    star.style.fontSize = "14px";
+    star.style.zIndex = "9999";
+    star.style.transition = "all .8s ease";
+
+    document.body.appendChild(star);
+
+    requestAnimationFrame(() => {
+
+        star.style.transform = "translateY(-25px) scale(1.8)";
+        star.style.opacity = "0";
+
+    });
+
+    setTimeout(() => {
+        star.remove();
+    }, 800);
+
+});
+
+
+/* =================================
+   🔐 رسالة مخفية
+================================= */
+
+let secretClicks = 0;
+
+document.querySelector(".symbol")?.addEventListener("click", () => {
+
+    secretClicks++;
+
+    if (secretClicks >= 5) {
+
+        alert("🌑 لقد وجدت شيئًا لم يكن من المفترض أن تجده...");
+
+        secretClicks = 0;
+    }
+
+});
+</script><style>
+
+/* =================================
+   🌘 لوحة العالم الخفي
+================================= */
+
+#hiddenWorld {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background:
+        radial-gradient(circle at center,
+        rgba(45,42,70,.95),
+        rgba(3,3,8,.98) 70%);
+    backdrop-filter: blur(10px);
+}
+
+.hidden-box {
+    width: min(600px, 100%);
+    padding: 40px 25px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 25px;
+    background: rgba(255,255,255,.035);
+    box-shadow: 0 25px 80px rgba(0,0,0,.6);
+}
+
+.hidden-box h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.hidden-box p {
+    color: #aaa7b4;
+    line-height: 2;
+}
+
+.close-hidden {
+    margin-top: 25px;
+    padding: 11px 25px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.04);
+    color: #ddd;
+    cursor: pointer;
 }
 
 
-/* =========================
-   الجسيمات
-========================= */
+/* =================================
+   🕯️ رسالة اليوم
+================================= */
 
-#particles {
+.daily-message {
+    margin-top: 35px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.07);
+}
 
-  position: fixed;
+.daily-message span {
+    display: block;
+    color: #777582;
+    margin-bottom: 15px;
+}
 
-  inset: 0;
-
-  pointer-events: none;
-
-  overflow: hidden;
-
-  z-index: 9999;
-
+.daily-message strong {
+    font-size: 20px;
+    line-height: 1.9;
 }
 
 
-.particle {
+/* =================================
+   🤖 ركن الروبوتات الصغير
+================================= */
 
-  position: absolute;
+.robot-area {
+    transition: .4s;
+}
 
-  bottom: -20px;
+.robot-area:hover {
+    border-color: rgba(255,255,255,.15);
+}
 
-  font-size: 14px;
+.robot {
+    cursor: pointer;
+    transition: .3s;
+}
 
-  opacity: 0;
-
-  animation:
-    particleMove linear forwards;
-
+.robot:hover {
+    transform: scale(1.15);
 }
 
 
-@keyframes particleMove {
+/* =================================
+   🌌 وضع الغموض
+================================= */
 
-  0% {
+body.mystery-mode {
+    background:
+        radial-gradient(circle at 50% 10%,
+        #151126 0%,
+        #050509 55%,
+        #000 100%);
+}
 
-    transform:
-      translateY(0)
-      scale(.5)
-      rotate(0deg);
-
-    opacity: 0;
-
-  }
-
-  15% {
-    opacity: .8;
-  }
-
-  85% {
-    opacity: .8;
-  }
-
-  100% {
-
-    transform:
-      translateY(-110vh)
-      scale(1.3)
-      rotate(360deg);
-
-    opacity: 0;
-
-  }
-
+body.mystery-mode .hero h1 {
+    letter-spacing: 8px;
+    text-shadow:
+        0 0 15px rgba(180,160,255,.3),
+        0 0 45px rgba(120,100,255,.15);
 }
 
 
-/* =========================
-   وضع الأجواء
-========================= */
-
-body.magic-mode {
-
-  animation:
-    atmosphere 5s ease-in-out infinite alternate;
-
-}
-
-
-@keyframes atmosphere {
-
-  from {
-
-    filter:
-      hue-rotate(0deg);
-
-  }
-
-  to {
-
-    filter:
-      hue-rotate(35deg);
-
-  }
-
-}
-
-
-/* =========================
-   تأثير ظهور
-========================= */
-
-.final-box,
-.robot-card,
-.control-panel {
-
-  animation:
-    appearUp .8s ease both;
-
-}
-
-
-@keyframes appearUp {
-
-  from {
-
-    opacity: 0;
-
-    transform:
-      translateY(25px);
-
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform:
-      translateY(0);
-
-  }
-
-}
-
-
-/* =========================
-   الهاتف
-========================= */
+/* =================================
+   📱 تحسين الهاتف
+================================= */
 
 @media (max-width: 600px) {
 
-  .robots-section {
+    .hidden-box {
+        padding: 30px 18px;
+    }
 
-    padding-top: 45px;
+    .hidden-box h2 {
+        font-size: 25px;
+    }
 
-  }
-
-  .robot-card {
-
-    padding:
-      25px 15px;
-
-  }
-
-  .robot-avatar-wrap {
-
-    transform:
-      scale(.9);
-
-  }
-
-  .final-box {
-
-    padding:
-      35px 18px;
-
-  }
-
-  .final-box h2 {
-
-    font-size: 25px;
-
-  }
-
-}
-
-
-/* تقليل الحركة لمن يفضل ذلك */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-
-    animation-duration:
-      .01ms !important;
-
-    animation-iteration-count:
-      1 !important;
-
-    transition-duration:
-      .01ms !important;
-
-  }
-
+    .daily-message strong {
+        font-size: 17px;
+    }
 }
 
 </style>
 
 
+<!-- =================================
+     🔮 العالم المخفي
+================================= -->
+
+<div id="hiddenWorld">
+
+    <div class="hidden-box">
+
+        <div style="font-size:50px;margin-bottom:20px;">
+            🌑
+        </div>
+
+        <h2>لقد وصلت إلى المكان المخفي</h2>
+
+        <p id="hiddenText">
+            بعض الأشياء لا تظهر لمن يبحث عنها...
+            بل تظهر لمن يعرف أين ينظر.
+        </p>
+
+        <button class="close-hidden"
+                onclick="closeHiddenWorld()">
+            العودة إلى العالم
+        </button>
+
+    </div>
+
+</div>
+
+
 <script>
 
-/* =========================
-   النظام النهائي
-========================= */
+/* =================================
+   🌑 فتح العالم المخفي
+================================= */
 
-(function () {
+function openHiddenWorld() {
 
-  "use strict";
+    const hidden = document.getElementById("hiddenWorld");
 
+    if (!hidden) return;
 
-  const particles =
-    document.getElementById("particles");
+    hidden.style.display = "flex";
 
-  const messageBox =
-    document.getElementById("messageBox");
+    document.body.classList.add("mystery-mode");
 
-  const surpriseBtn =
-    document.getElementById("surpriseBtn");
-
-  const lightsBtn =
-    document.getElementById("lightsBtn");
+}
 
 
-  /* =========================
-     رسائل المفاجأة
-  ========================= */
+/* =================================
+   🌘 إغلاق العالم المخفي
+================================= */
 
-  const messages = [
+function closeHiddenWorld() {
 
-    "✨ أثير يراقبك... 👀",
+    const hidden = document.getElementById("hiddenWorld");
 
-    "🌸 إثيرة تقول لك مرحباً!",
+    if (!hidden) return;
 
-    "🤖 تم تشغيل الذكاء الاصطناعي",
+    hidden.style.display = "none";
 
-    "💫 شيء جميل سيحدث قريباً...",
+    document.body.classList.remove("mystery-mode");
 
-    "👁️ أثير وإثيرة ينظران إليك",
-
-    "🌌 مرحباً بك في العالم السري",
-
-    "💖 وجودك جعل العالم أجمل",
-
-    "⚡ النظام يعمل بكامل الطاقة"
-
-  ];
+}
 
 
-  /* =========================
-     مفاجأة
-  ========================= */
+/* =================================
+   🗝️ زر سري في عنوان الموقع
+================================= */
 
-  if (surpriseBtn) {
+const title = document.querySelector(".hero h1");
 
-    surpriseBtn.addEventListener(
-      "click",
-      function () {
+if (title) {
 
-        const random =
-          Math.floor(
-            Math.random() *
-            messages.length
-          );
+    let titleClicks = 0;
 
-        messageBox.textContent =
-          messages[random];
+    title.addEventListener("click", () => {
 
+        titleClicks++;
 
-        /* حركة الروبوتات */
+        if (titleClicks >= 3) {
 
-        robotWave("athir");
+            openHiddenWorld();
 
-        setTimeout(
-          function () {
-
-            robotHappy("athira");
-
-          },
-          500
-        );
-
-
-        /* إطلاق الجسيمات */
-
-        createParticles(18);
-
-      }
-    );
-
-  }
-
-
-  /* =========================
-     تغيير الأجواء
-  ========================= */
-
-  if (lightsBtn) {
-
-    lightsBtn.addEventListener(
-      "click",
-      function () {
-
-        document.body
-          .classList.toggle(
-            "magic-mode"
-          );
-
-
-        if (
-          document.body
-            .classList
-            .contains("magic-mode")
-        ) {
-
-          messageBox.textContent =
-            "🌌 تم تشغيل الأجواء السحرية";
-
-        } else {
-
-          messageBox.textContent =
-            "☀️ تمت إعادة الأجواء الطبيعية";
+            titleClicks = 0;
 
         }
 
-      }
-    );
+    });
 
-  }
-
-
-  /* =========================
-     إنشاء الجسيمات
-  ========================= */
-
-  function createParticles(count) {
-
-    const symbols = [
-      "✨",
-      "💫",
-      "⭐",
-      "🌸",
-      "💖",
-      "⚡",
-      "🔹"
-    ];
+}
 
 
-    for (
-      let i = 0;
-      i < count;
-      i++
-    ) {
+/* =================================
+   📜 رسائل العالم المخفي
+================================= */
 
-      const particle =
-        document.createElement("div");
+const hiddenMessages = [
+
+    "ربما لم تكن أنت من وجد هذا المكان... ربما هو من وجدك.",
+
+    "هناك أشياء لا تحتاج إلى تفسير، يكفي أن تشعر بوجودها.",
+
+    "كلما تعمقت أكثر، أصبحت الإجابات أقل وضوحًا.",
+
+    "السر الحقيقي ليس ما وجدته... بل لماذا وجدته.",
+
+    "إذا وصلت إلى هنا، فربما حان الوقت لتعود وتنظر من جديد."
+
+];
+
+let hiddenMessageIndex = 0;
+
+const hiddenText = document.getElementById("hiddenText");
+
+if (hiddenText) {
+
+    hiddenText.addEventListener("click", () => {
+
+        hiddenMessageIndex++;
+
+        if (hiddenMessageIndex >= hiddenMessages.length) {
+            hiddenMessageIndex = 0;
+        }
+
+        hiddenText.textContent =
+            hiddenMessages[hiddenMessageIndex];
+
+    });
+
+}
 
 
-      particle.className =
-        "particle";
+/* =================================
+   🕯️ رسالة اليوم
+================================= */
+
+const dailyMessages = [
+
+    "لا تستعجل الوصول... بعض الطرق أجمل من نهاياتها.",
+
+    "ما تبحث عنه قد يكون أقرب مما تعتقد.",
+
+    "ليس كل صمت فراغًا.",
+
+    "اتبع الفضول، لكن لا تثق بكل ما تجده.",
+
+    "هناك دائمًا قصة خلف الباب المغلق.",
+
+    "أحيانًا تكون الإجابة سؤالًا جديدًا."
+
+];
+
+const dayNumber =
+    Math.floor(Date.now() / 86400000);
+
+const dailyIndex =
+    dayNumber % dailyMessages.length;
+
+const dailySection = document.createElement("div");
+
+dailySection.className = "section";
+
+dailySection.innerHTML = `
+    <div class="daily-message">
+        <span>🌙 رسالة اليوم</span>
+        <strong>${dailyMessages[dailyIndex]}</strong>
+    </div>
+`;
+
+const footer = document.querySelector("footer");
+
+if (footer) {
+    footer.before(dailySection);
+}
 
 
-      particle.textContent =
-        symbols[
-          Math.floor(
-            Math.random() *
-            symbols.length
-          )
+/* =================================
+   🤖 الروبوتات تتفاعل عند الضغط
+================================= */
+
+document.querySelectorAll(".robot").forEach(robot => {
+
+    robot.addEventListener("click", () => {
+
+        const messages = [
+            "🤖 لا تقلق... أنا فقط أراقب.",
+            "👾 هل وجدت السر؟",
+            "🤖 ربما يجب أن تبحث في مكان آخر...",
+            "👾 هذا العالم أغرب مما يبدو.",
+            "🤖 لا تخبر أحدًا بما رأيته."
         ];
 
+        const message =
+            messages[Math.floor(Math.random() * messages.length)];
 
-      particle.style.left =
-        Math.random() * 100 + "%";
+        alert(message);
 
+    });
 
-      particle.style.fontSize =
-        (10 +
-        Math.random() * 18) +
-        "px";
-
-
-      particle.style.animationDuration =
-        (3 +
-        Math.random() * 5) +
-        "s";
+});
 
 
-      particle.style.animationDelay =
-        Math.random() * 1.5 +
-        "s";
+/* =================================
+   🌌 ضغط زر ESC يغلق العالم المخفي
+================================= */
 
+document.addEventListener("keydown", event => {
 
-      particles.appendChild(
-        particle
-      );
+    if (event.key === "Escape") {
 
-
-      setTimeout(
-        function () {
-
-          particle.remove();
-
-        },
-        9000
-      );
+        closeHiddenWorld();
 
     }
 
-  }
+});
 
 
-  /* =========================
-     جسيمات خفيفة تلقائياً
-  ========================= */
+/* =================================
+   ✨ ظهور تدريجي للصفحة
+================================= */
 
-  setInterval(
-    function () {
+window.addEventListener("load", () => {
 
-      if (
-        document.visibilityState ===
-        "visible"
-      ) {
+    document.body.style.opacity = "0";
 
-        createParticles(2);
+    setTimeout(() => {
 
-      }
+        document.body.style.transition =
+            "opacity 1.2s ease";
 
-    },
-    3000
-  );
+        document.body.style.opacity = "1";
 
+    }, 100);
 
-  /* =========================
-     حفظ الوضع
-  ========================= */
+});
 
-  try {
-
-    const savedMode =
-      localStorage.getItem(
-        "athir_magic_mode"
-      );
-
-
-    if (
-      savedMode === "on"
-    ) {
-
-      document.body
-        .classList
-        .add("magic-mode");
-
-    }
-
-
-    if (lightsBtn) {
-
-      lightsBtn.addEventListener(
-        "click",
-        function () {
-
-          localStorage.setItem(
-
-            "athir_magic_mode",
-
-            document.body
-              .classList
-              .contains(
-                "magic-mode"
-              )
-              ? "on"
-              : "off"
-
-          );
-
-        }
-      );
-
-    }
-
-  } catch (error) {
-
-    console.log(
-      "LocalStorage غير متاح"
-    );
-
-  }
-
-
-  /* =========================
-     بداية احتفالية
-  ========================= */
-
-  setTimeout(
-    function () {
-
-      createParticles(10);
-
-    },
-    1000
-  );
-
-
-})();
-
-</script>
-
-
-<!-- =========================
-     نهاية الصفحة
-========================= -->
-
-</body>
-</html>
+          </script>
