@@ -3,354 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة العوالم المظلمة</title>
+    <title>بوابة العوالم المظلمة - V3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
-            --text-color: #e0e0e0;
-            --accent-color: #8a2be2;
-            --glow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
-        }
-
-        body.theme-blood {
-            --bg-color: #0a0000;
-            --text-color: #ffcccc;
-            --accent-color: #cc0000;
-        }
-
-        body.theme-abyss {
-            --bg-color: #00050a;
-            --text-color: #ccffff;
-            --accent-color: #0066cc;
+            --primary: #bb86fc;
+            --background: #000000;
+            --surface: rgba(30, 30, 30, 0.6);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             overflow-x: hidden;
-            transition: all 0.5s ease;
+            background-color: var(--background);
+            color: #ffffff;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* شبكة الجزيئات في الخلفية */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        /* تأثير الزجاج الفخم */
+        .glass-panel {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         /* شاشة الدخول */
         #intro-screen {
+            position: fixed;
+            width: 100%;
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
-            z-index: 100;
-            position: absolute;
-            width: 100%;
+            background: #000;
+            z-index: 999;
+            transition: opacity 1.5s ease, visibility 1.5s;
         }
 
-        h1 {
-            text-shadow: var(--glow);
-            letter-spacing: 2px;
+        /* تأثير التشوه (Glitch) */
+        .glitch-title {
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+            text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
+            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+            99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75); }
         }
 
         input {
             background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            padding: 10px 20px;
-            font-size: 18px;
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            color: #fff;
+            padding: 10px;
+            font-size: 1.5rem;
             text-align: center;
             outline: none;
-            box-shadow: var(--glow);
-            margin: 20px;
+            margin-top: 30px;
+            font-family: inherit;
             transition: 0.3s;
         }
 
         input:focus {
-            box-shadow: 0 0 30px var(--accent-color);
+            border-bottom: 2px solid #fff;
+            box-shadow: 0 10px 10px -10px var(--primary);
         }
 
-        button {
-            background: transparent;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 10px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            text-shadow: var(--glow);
-            box-shadow: var(--glow);
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: var(--accent-color);
-            color: #000;
-        }
-
-        /* المحتوى الرئيسي */
+        /* المحتوى */
         #main-content {
             display: none;
-            padding: 20px;
-            max-width: 800px;
+            padding: 40px 20px;
+            max-width: 900px;
             margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        select {
-            background: #000;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 5px;
-            outline: none;
-        }
-
-        /* الاقتباسات */
-        .quote-card {
-            background: rgba(255, 255, 255, 0.02);
-            border-right: 4px solid var(--accent-color);
-            padding: 20px;
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-in-out;
             position: relative;
         }
 
+        .quote-card {
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .quote-card:hover {
+            transform: scale(1.02);
+            border-left: 4px solid var(--primary);
+        }
+
         .quote-text {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #e0e0e0;
         }
 
         .engagement {
             display: flex;
-            gap: 15px;
-            font-size: 0.9rem;
+            gap: 20px;
             color: #888;
+            font-size: 1rem;
         }
 
-        .like-btn {
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .like-btn { cursor: pointer; transition: 0.3s; }
+        .like-btn:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
 
-        .like-btn:hover {
-            color: var(--accent-color);
-        }
-
-        /* الحكيم / الروبوت */
+        /* الحكيم */
         #wise-man {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--accent-color);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: var(--glow);
-            max-width: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            bottom: 30px;
+            left: 30px;
+            padding: 20px;
             text-align: center;
-            animation: float 4s ease-in-out infinite;
+            border-left: 3px solid var(--primary);
+            animation: float 5s ease-in-out infinite;
+            max-width: 250px;
+            z-index: 100;
         }
 
-        #wise-shape {
-            font-size: 40px;
-            margin-bottom: 10px;
-            transition: 0.5s;
-        }
+        #wise-shape { font-size: 50px; margin-bottom: 15px; transition: all 0.5s; filter: drop-shadow(0 0 10px var(--primary)); }
+        #wise-text { font-size: 1rem; color: #ccc; }
 
-        #wise-text {
-            font-size: 0.9rem;
-        }
-
-        /* الصندوق السحري */
+        /* الصندوق السحري للمطور */
         #magic-box {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border: 2px solid var(--accent-color);
+            top: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, #000 100%);
             cursor: pointer;
-            animation: spin 6s linear infinite, pulseGlow 2s infinite;
+            box-shadow: 0 0 20px var(--primary);
+            animation: pulse 2s infinite;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
+            font-size: 24px;
+            z-index: 100;
         }
 
-        /* التأثيرات الحركية */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: var(--glow); } 50% { box-shadow: 0 0 40px var(--accent-color); } }
+        /* زر الصوت */
+        #audio-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none; /* يظهر بعد الدخول */
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            transition: 0.3s;
+        }
+
+        #audio-toggle:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(187, 134, 252, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(187, 134, 252, 0); } 100% { box-shadow: 0 0 0 0 rgba(187, 134, 252, 0); } }
     </style>
 </head>
 <body>
 
+    <!-- خلفية الجزيئات الحية -->
+    <canvas id="canvas-bg"></canvas>
+
     <!-- شاشة الدخول -->
     <div id="intro-screen">
-        <h1 id="welcome-text">مرحباً بك في البعد المظلم</h1>
-        <input type="text" id="nickname" placeholder="أدخل لقبك للعبور..." autocomplete="off" />
-        <button onclick="enterSite()">دخول</button>
+        <div class="glitch-title">أدخل إلى العدم</div>
+        <input type="text" id="nickname" placeholder="اكتب لقبك واضغط Enter..." onkeypress="handleEnter(event)" autocomplete="off" />
     </div>
 
     <!-- المحتوى الرئيسي -->
     <div id="main-content">
-        <header>
-            <h2 id="user-greeting">الظلام يرحب بك</h2>
-            <div>
-                <input type="text" id="search-bar" placeholder="ابحث في أروقة العدم..." onkeyup="filterQuotes()" />
-                <select id="theme-switcher" onchange="changeTheme()">
-                    <option value="default">الفراغ الأرجواني</option>
-                    <option value="blood">النزيف القرمزي</option>
-                    <option value="abyss">الهاوية الزرقاء</option>
-                </select>
-            </div>
-        </header>
+        <h2 id="greeting" style="text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 2rem;"></h2>
+        
+        <input type="text" id="search" placeholder="ابحث عن أفكارك المظلمة هنا..." class="glass-panel" style="width: 100%; padding: 15px; box-sizing: border-box; color: white; border: none; margin-bottom: 30px; font-family: inherit; font-size: 1.2rem;" onkeyup="filterQuotes()">
 
-        <main id="quotes-container">
-            <!-- سيتم توليد الاقتباسات هنا عبر جافاسكربت -->
-        </main>
+        <div id="quotes-container"></div>
 
-        <!-- الحكيم المتحرك -->
-        <div id="wise-man">
-            <div id="wise-shape">👁️</div>
-            <div id="wise-text">أنا أراقبك...</div>
+        <!-- الحكيم -->
+        <div id="wise-man" class="glass-panel">
+            <div id="wise-shape">💀</div>
+            <div id="wise-text">أنا أنتظر...</div>
         </div>
 
         <!-- الصندوق السحري -->
-        <div id="magic-box" onclick="openCreatorBox()" title="بوابة المطور">✥</div>
+        <div id="magic-box" onclick="window.open('https://www.facebook.com/LONLY8', '_blank')" title="صانع العوالم">🌌</div>
     </div>
 
+    <!-- زر التحكم بالصوت -->
+    <div id="audio-toggle" class="glass-panel" onclick="toggleAudio()" title="إيقاف/تشغيل الصوت">🔊</div>
+
     <script>
-        // قاعدة بيانات الاقتباسات السوداوية
-        const quotes = [
-            "نحن نولد في الظلام، وكل ما نفعله طوال حياتنا هو محاولة إيجاد شرارة.",
-            "الوحوش الحقيقية لا تختبئ تحت سريرك، بل تسكن في صدى أفكارك.",
-            "العدم ليس فارغاً كما تظن، بل هو ممتلئ بكل الأشياء التي فقدناها.",
-            "ابتسم، فالنهاية تقترب بخطوات أهدأ من دقات قلبك.",
-            "المأساة ليست في الموت، بل في الأشياء التي تموت بداخلنا ونحن ما زلنا نتنفس.",
-            "نحن مجرد أشباح مؤقتة، تعتقد أنها تمتلك العالم.",
-            "الضوء كذبة اخترعها الخائفون لكي يناموا."
-        ];
+        // --- 0. نظام توليد الصوت المخيف (Web Audio API) ---
+        let audioCtx;
+        let gainNode;
+        let isAudioPlaying = false;
 
-        // أسئلة وأشكال الحكيم
-        const wiseManPhrases = [
-            "هل أنت متأكد أنك مستيقظ الآن؟",
-            "الزمن يتآكل، ماذا فعلت اليوم؟",
-            "إذا نظرت طويلاً في الهاوية، فإن الهاوية تنظر إليك أيضاً.",
-            "لماذا تتمسك بأشياء ستزول؟",
-            "هل الصمت الذي تسمعه الآن هو حقاً صمت؟"
-        ];
-        const wiseManShapes = ["👁️", "🦉", "🕸️", "🤖", "🌑", "⚕️"];
+        function initDarkAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // ذبذبة أولى (عميقة)
+                const osc1 = audioCtx.createOscillator();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(55.0, audioCtx.currentTime); // تردد منخفض جداً
 
-        function enterSite() {
-            const nickname = document.getElementById('nickname').value.trim();
-            if (nickname === "") return;
+                // ذبذبة ثانية (مشوشة قليلاً لصنع تأثير الرياح/الرعب)
+                const osc2 = audioCtx.createOscillator();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(55.5, audioCtx.currentTime); 
 
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('user-greeting').innerText = `الظلام يرحب بك، ${nickname}`;
-            
-            renderQuotes();
-            startFakeEngagement();
-            startWiseMan();
-        }
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(200, audioCtx.currentTime);
 
-        function renderQuotes() {
-            const container = document.getElementById('quotes-container');
-            container.innerHTML = '';
-            
-            quotes.forEach((quote, index) => {
-                // توليد أرقام تفاعل وهمية عالية لتبدو مشهورة
-                const fakeLikes = Math.floor(Math.random() * 5000) + 1000;
-                const fakeShares = Math.floor(Math.random() * 500) + 50;
+                gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime); // يبدأ صامتاً
+                // يتدرج في الارتفاع ببطء خلال 5 ثواني
+                gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 5);
 
-                const quoteHTML = `
-                    <div class="quote-card">
-                        <div class="quote-text">"${quote}"</div>
-                        <div class="engagement">
-                            <span class="like-btn" onclick="addLike(this)">👁️ إعجاب (<span class="like-count">${fakeLikes}</span>)</span>
-                            <span>🔗 مشاركة (${fakeShares})</span>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += quoteHTML;
-            });
-        }
+                osc1.connect(filter);
+                osc2.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
 
-        // تفاعل تفاعلي مباشر
-        function addLike(element) {
-            const countSpan = element.querySelector('.like-count');
-            let count = parseInt(countSpan.innerText);
-            countSpan.innerText = count + 1;
-            element.style.color = "var(--accent-color)";
-        }
-
-        // تفاعل تلقائي وهمي (العدادات تزيد من تلقاء نفسها لتبدو حية)
-        function startFakeEngagement() {
-            setInterval(() => {
-                const likeCounts = document.querySelectorAll('.like-count');
-                if (likeCounts.length > 0) {
-                    const randomQuote = likeCounts[Math.floor(Math.random() * likeCounts.length)];
-                    let currentLikes = parseInt(randomQuote.innerText);
-                    randomQuote.innerText = currentLikes + Math.floor(Math.random() * 3) + 1;
-                }
-            }, 3000);
-        }
-
-        // محرك البحث عن الاقتباسات
-        function filterQuotes() {
-            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-            const cards = document.querySelectorAll('.quote-card');
-            
-            cards.forEach(card => {
-                const text = card.querySelector('.quote-text').innerText.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-
-        // تغيير مظهر الموقع
-        function changeTheme() {
-            const theme = document.getElementById('theme-switcher').value;
-            document.body.className = '';
-            if (theme !== 'default') {
-                document.body.classList.add(`theme-${theme}`);
+                osc1.start();
+                osc2.start();
+                isAudioPlaying = true;
             }
         }
 
-        // منطق الحكيم/الروبوت المتحرك
+        function toggleAudio() {
+            const toggleBtn = document.getElementById('audio-toggle');
+            if (!audioCtx) return;
+
+            if (isAudioPlaying) {
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); // خفض تدريجي
+                toggleBtn.innerText = "🔇";
+                isAudioPlaying = false;
+            } else {
+                gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 1); // رفع تدريجي
+                toggleBtn.innerText = "🔊";
+                isAudioPlaying = true;
+            }
+        }
+
+        // --- 1. نظام الخلفية الحية (Particles) ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', function(event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y;
+                this.directionX = directionX; this.directionY = directionY;
+                this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 10;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 10;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 10;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 10;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 1) - 0.5;
+                let directionY = (Math.random() * 1) - 0.5;
+                let color = '#bb86fc';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+        }
+        initParticles();
+        animateParticles();
+
+        // --- 2. منطق الموقع والاقتباسات ---
+        const quotes = [
+            "الضوء يخدعك لترى الأشياء، أما الظلام فيجبرك على التفكير فيها.",
+            "نحن لا نخشى الموت، بل نخشى أن نكون قد متنا بالفعل ونحن لا ندري.",
+            "هل فكرت يوماً أن انعكاسك في المرآة هو الأصل، وأنت مجرد انعكاس له؟",
+            "كل ابتسامة تراها في الشارع تخفي خلفها مقبرة من الأحلام.",
+            "الجنون ليس فقدان العقل، بل هو رؤية الحقيقة التي يتعامى عنها الآخرون."
+        ];
+
+        function handleEnter(e) {
+            // متصفحات الويب تشترط أن يتفاعل المستخدم (مثل الضغط على زر) لتشغيل الصوت
+            if (e.key === 'Enter') {
+                const name = document.getElementById('nickname').value;
+                if(name) {
+                    initDarkAudio(); // تشغيل الصوت المخيف فور الضغط
+                    document.getElementById('intro-screen').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('intro-screen').style.display = 'none';
+                        document.getElementById('main-content').style.display = 'block';
+                        document.getElementById('audio-toggle').style.display = 'flex'; // إظهار زر الصوت
+                        document.getElementById('greeting').innerText = `أهلاً بك في الجانب الآخر، ${name}`;
+                        loadQuotes();
+                        startWiseMan();
+                    }, 1500);
+                }
+            }
+        }
+
+        function loadQuotes() {
+            const container = document.getElementById('quotes-container');
+            container.innerHTML = '';
+            quotes.forEach(q => {
+                let likes = Math.floor(Math.random() * 9000) + 500;
+                container.innerHTML += `
+                    <div class="quote-card glass-panel">
+                        <div class="quote-text">"${q}"</div>
+                        <div class="engagement">
+                            <span class="like-btn" onclick="this.innerHTML='🖤 أعجبك (' + (${likes} + 1) + ')'">🤍 إعجاب (${likes})</span>
+                            <span>👁️ شوهد من قبل كيانات مجهولة</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterQuotes() {
+            const term = document.getElementById('search').value.toLowerCase();
+            document.querySelectorAll('.quote-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+            });
+        }
+
+        // --- 3. الحكيم المجنون ---
+        const wiseShapes = ["👽", "👁️‍🗨️", "🎭", "🦇", "🌑"];
+        const wisePhrases = [
+            "لماذا لا تزال هنا؟",
+            "الشاشة التي تنظر إليها... تنظر إليك أيضاً.",
+            "لا تثق بالأزرار التي تضغط عليها.",
+            "أسمع أفكارك، إنها مزعجة.",
+            "الزمن ينفد."
+        ];
+
         function startWiseMan() {
             setInterval(() => {
                 const shape = document.getElementById('wise-shape');
-                const text = document.getElementById('wise-text');
-                
-                // تغيير الشكل والنص عشوائياً
-                shape.innerText = wiseManShapes[Math.floor(Math.random() * wiseManShapes.length)];
-                text.innerText = wiseManPhrases[Math.floor(Math.random() * wiseManPhrases.length)];
-                
-                // تأثير بصري عند التغيير
-                shape.style.transform = `scale(1.2) rotate(${Math.random() * 20 - 10}deg)`;
+                shape.innerText = wiseShapes[Math.floor(Math.random() * wiseShapes.length)];
+                document.getElementById('wise-text').innerText = wisePhrases[Math.floor(Math.random() * wisePhrases.length)];
+                shape.style.transform = `scale(1.5) rotate(${Math.random() * 360}deg)`;
                 setTimeout(() => shape.style.transform = "scale(1) rotate(0)", 500);
-            }, 7000); // يتغير كل 7 ثواني
-        }
-
-        // الصندوق السحري للمطور
-        function openCreatorBox() {
-            window.open('https://www.facebook.com/LONLY8', '_blank');
+            }, 6000);
         }
     </script>
 </body>
