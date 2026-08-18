@@ -3,270 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة العوالم المظلمة - V4</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>السجل الأسود</title>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #bb86fc;
-            --background: #000000;
-            --surface: rgba(20, 20, 20, 0.7);
+            --blood: #8a0303;
+            --dark: #050505;
+            --terminal: #ff3333;
         }
 
-        body {
-            margin: 0;
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--dark);
+            color: var(--terminal);
+            font-family: 'Changa', sans-serif;
             overflow-x: hidden;
-            background-color: var(--background);
-            color: #ffffff;
-            font-family: 'Cairo', sans-serif;
+            height: 100vh;
         }
 
-        #canvas-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
-
-        .glass-panel {
-            background: var(--surface);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(187, 134, 252, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        /* تأثير تشويش التلفاز (Static Noise & Scanlines) */
+        .crt::before {
+            content: " ";
+            display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
-
-        #intro-screen {
-            position: fixed; width: 100%; height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: #000; z-index: 999; transition: opacity 1.5s ease, visibility 1.5s;
-        }
-
-        .glitch-title {
-            font-size: 3rem; font-weight: bold; position: relative;
-            text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75);
-            animation: glitch 500ms infinite;
-        }
-
-        @keyframes glitch {
-            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
-            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
-            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
-            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
-            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
-            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75); }
-        }
-
-        input[type="text"] {
-            background: transparent; border: none; border-bottom: 2px solid var(--primary);
-            color: #fff; padding: 10px; font-size: 1.5rem; text-align: center; outline: none; margin-top: 30px; font-family: inherit; transition: 0.3s;
-        }
-
-        input[type="text"]:focus { box-shadow: 0 10px 10px -10px var(--primary); }
-
-        #main-content { display: none; padding: 40px 20px; max-width: 900px; margin: 0 auto; position: relative; }
-
-        /* أزرار التوليد السحرية */
-        .generators { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; }
-        .gen-btn {
-            background: transparent; border: 1px solid var(--primary); color: var(--primary);
-            padding: 15px 30px; font-size: 1.2rem; cursor: pointer; border-radius: 5px;
-            font-family: inherit; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .gen-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-
-        .quote-card {
-            padding: 30px; margin-bottom: 25px; position: relative; overflow: hidden;
-            transition: transform 0.3s; border-right: 4px solid var(--primary); animation: fadeIn 1s ease-out;
-        }
-        .story-card { border-right: 4px solid #ff4444; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .quote-text { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; color: #e0e0e0; }
-        .story-text { font-size: 1.2rem; color: #ffcccc; font-style: italic; }
         
-        .engagement { display: flex; gap: 20px; color: #888; font-size: 1rem; }
-        .like-btn { cursor: pointer; transition: 0.3s; }
-        .like-btn:hover { color: var(--primary); }
+        @keyframes flicker {
+            0% { opacity: 0.9; } 5% { opacity: 0.5; } 10% { opacity: 0.9; } 15% { opacity: 1; }
+            50% { opacity: 0.8; } 100% { opacity: 1; }
+        }
 
-        #wise-man { position: fixed; bottom: 30px; left: 30px; padding: 20px; text-align: center; border-left: 3px solid var(--primary); animation: float 5s ease-in-out infinite; max-width: 250px; z-index: 100; }
-        #wise-shape { font-size: 50px; margin-bottom: 15px; transition: all 0.5s; filter: drop-shadow(0 0 10px var(--primary)); }
-        #wise-text { font-size: 1rem; color: #ccc; }
+        .container {
+            position: relative; z-index: 10;
+            max-width: 800px; margin: 0 auto; padding: 50px 20px;
+            animation: flicker 0.15s infinite;
+        }
 
-        #magic-box { position: fixed; top: 30px; left: 30px; width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle, var(--primary) 0%, #000 100%); cursor: pointer; box-shadow: 0 0 20px var(--primary); animation: pulse 2s infinite; display: flex; justify-content: center; align-items: center; font-size: 24px; z-index: 100; }
-        #audio-toggle { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; z-index: 100; border: 1px solid var(--primary); color: var(--primary); transition: 0.3s; }
+        h1 {
+            text-align: center; font-size: 3rem; text-shadow: 0 0 10px var(--terminal);
+            margin-bottom: 50px; letter-spacing: 5px;
+        }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(187, 134, 252, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(187, 134, 252, 0); } 100% { box-shadow: 0 0 0 0 rgba(187, 134, 252, 0); } }
+        /* صندوق الاعترافات */
+        .confession-box {
+            background: rgba(10, 0, 0, 0.8);
+            border: 1px solid var(--blood);
+            padding: 30px; border-radius: 5px;
+            box-shadow: 0 0 15px rgba(138, 3, 3, 0.3);
+            text-align: center; margin-bottom: 40px;
+        }
+
+        textarea {
+            width: 90%; background: #000; color: #fff;
+            border: 1px dashed var(--terminal);
+            padding: 15px; font-family: inherit; font-size: 1.2rem;
+            resize: none; outline: none; margin-bottom: 15px;
+        }
+
+        textarea:focus { border-color: #fff; box-shadow: 0 0 10px #fff; }
+
+        button {
+            background: transparent; border: 1px solid var(--terminal);
+            color: var(--terminal); padding: 10px 40px; font-size: 1.2rem;
+            cursor: pointer; font-family: inherit; transition: 0.3s;
+        }
+        
+        button:hover { background: var(--blood); color: #000; box-shadow: 0 0 20px var(--blood); }
+
+        /* البطاقات المعروضة */
+        #feed { display: flex; flex-direction: column; gap: 20px; }
+
+        .post-card {
+            background: rgba(0, 0, 0, 0.9);
+            border-right: 4px solid var(--blood);
+            padding: 20px; font-size: 1.3rem;
+            position: relative; opacity: 0;
+            animation: slideIn 0.5s forwards;
+        }
+        
+        .post-card::before { content: ">_ "; color: #fff; }
+
+        @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* الصندوق السحري للمطور */
+        #magic-box {
+            position: fixed; top: 20px; left: 20px; width: 40px; height: 40px;
+            background: var(--blood); cursor: pointer; z-index: 100;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            box-shadow: 0 0 20px var(--blood); transition: 0.3s;
+        }
+        #magic-box:hover { transform: scale(1.2) rotate(90deg); }
+
+        /* الحكيم (العين المراقبة) */
+        #watcher {
+            position: fixed; bottom: 20px; left: 20px; z-index: 100;
+            font-size: 2rem; cursor: crosshair; transition: 0.2s;
+        }
     </style>
 </head>
-<body>
+<body class="crt">
 
-    <canvas id="canvas-bg"></canvas>
+    <div id="magic-box" onclick="window.open('https://www.facebook.com/LONLY8', '_blank')" title="صانع السجل"></div>
+    <div id="watcher" onclick="alert('لقد رأيت ما فعلته.')">👁️</div>
 
-    <div id="intro-screen">
-        <div class="glitch-title">أدخل إلى العدم</div>
-        <input type="text" id="nickname" placeholder="اكتب لقبك واضغط Enter..." onkeypress="handleEnter(event)" autocomplete="off" />
-    </div>
+    <div class="container">
+        <h1>السجل الأسود</h1>
 
-    <div id="main-content">
-        <h2 id="greeting" style="text-align: center; color: var(--primary); margin-bottom: 30px; font-size: 2rem;"></h2>
-        
-        <!-- أزرار التوليد التلقائي -->
-        <div class="generators">
-            <button class="gen-btn" onclick="injectContent('quote')">👁️ استحضار حكمة</button>
-            <button class="gen-btn" onclick="injectContent('story')" style="border-color: #ff4444; color: #ff4444;">📜 توليد كابوس</button>
+        <div class="confession-box">
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">اهمس للعدم بما تخفيه... وسيتذكره إلى الأبد.</p>
+            <textarea id="whisper-input" rows="3" placeholder="اكتب فكرتك المظلمة هنا..."></textarea><br>
+            <button onclick="saveWhisper()">إرسال إلى الهاوية</button>
         </div>
 
-        <div id="content-container"></div>
-
-        <div id="wise-man" class="glass-panel">
-            <div id="wise-shape">💀</div>
-            <div id="wise-text">أنا أنتظر...</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button onclick="summonThought()">استدعاء الأرواح (عرض اقتباس)</button>
         </div>
 
-        <div id="magic-box" onclick="window.open('https://www.facebook.com/LONLY8', '_blank')" title="صانع العوالم">🌌</div>
+        <div id="feed">
+            <!-- ستظهر الاقتباسات هنا -->
+        </div>
     </div>
-
-    <div id="audio-toggle" class="glass-panel" onclick="toggleAudio()" title="إيقاف/تشغيل الصوت">🔊</div>
 
     <script>
-        // --- محرك التوليد الإجرائي (Procedural Generation Engine) ---
-        
-        // قواميس الاقتباسات
-        const qParts = {
-            subjects: ["الظلام", "العدم", "الصمت", "الوقت", "الموت", "الضوء الكاذب", "العقل البشري", "الظل الذي يرافقك"],
-            actions: ["يراقبنا بصمت", "يلتهم ذكرياتنا", "يعرف أسرارنا المخفية", "ينتظر في زوايا الغرفة", "يكذب علينا كل صباح", "يتغذى على الخوف"],
-            endings: ["بينما نظن أننا أحياء.", "حتى تتلاشى آخر نجمة في السماء.", "وهو يبتسم الآن.", "لأن لا أحد ينجو في النهاية.", "وهذه هي الحقيقة الوحيدة التي نتجاهلها."]
-        };
+        // قاعدة البيانات الثابتة (اكتب هنا أقوى الاقتباسات التي تعجبك)
+        const coreQuotes = [
+            "أكبر كذبة صدقناها، هي أن الغد سيكون أفضل.",
+            "نحن ندفن أجزاءً منا كل يوم لكي نتمكن من العيش مع الآخرين.",
+            "الوحوش لا تعيش في الغابات، إنها تستيقظ عندما تنظر في المرآة.",
+            "الضوء لا يمحو الظلام، بل يجعله يختبئ في الزوايا فقط.",
+            "يأتي وقت تدرك فيه أن الصمت هو الرد الوحيد الذي يفهمه هذا العالم."
+        ];
 
-        // قواميس القصص القصيرة
-        const sParts = {
-            intros: ["في ليلة بلا قمر،", "عندما توقفت الساعات عن الدوران،", "في أعماق الهاوية المنسية،", "بينما كنت تنظر إلى المرآة،"],
-            events: ["همس كيان مجهول باسمك الحقيقي،", "سقطت السماء كزجاج مكسور،", "ظهرت أشباح تبحث عن عيون لترى بها،", "استيقظ شيء كان نائماً منذ الأزل تحت سريرك،", "اختفت ملامح كل من تعرفهم،"],
-            conclusions: ["ومنذ ذلك الحين، لا أحد ينام حقاً.", "وما زال صدى صراخهم يتردد هنا في هذا الموقع.", "ولم يبقَ سوى الرماد والنسيان.", "وأنت الآن تقرأ هذا، بينما هو يقف خلفك تماماً."]
-        };
-
-        // دالة اختيار عشوائي
-        function randomPick(array) {
-            return array[Math.floor(Math.random() * array.length)];
+        // تهيئة الذاكرة المحلية (LocalStorage)
+        if (!localStorage.getItem('user_whispers')) {
+            localStorage.setItem('user_whispers', JSON.stringify([]));
         }
 
-        // توليد اقتباس جديد
-        function generateQuote() {
-            return `${randomPick(qParts.subjects)} ${randomPick(qParts.actions)} ${randomPick(qParts.endings)}`;
+        // دالة حفظ اعتراف الزائر
+        function saveWhisper() {
+            const input = document.getElementById('whisper-input');
+            const text = input.value.trim();
+            if (text === "") return;
+
+            let whispers = JSON.parse(localStorage.getItem('user_whispers'));
+            whispers.push(text);
+            localStorage.setItem('user_whispers', JSON.stringify(whispers));
+            
+            input.value = "";
+            input.placeholder = "لقد تم حفظ سرك... لا مفر الآن.";
+            
+            displayPost(text, true); // عرض ما كتبه فوراً
         }
 
-        // توليد قصة جديدة
-        function generateStory() {
-            return `${randomPick(sParts.intros)} ${randomPick(sParts.events)} ${randomPick(sParts.conclusions)}`;
+        // دالة استدعاء حكمة (إما من الاقتباسات الثابتة أو من أسرار الزائر)
+        function summonThought() {
+            let whispers = JSON.parse(localStorage.getItem('user_whispers'));
+            
+            // دمج الاقتباسات الثابتة مع أسرار الزائر المحفوظة سابقاً
+            let allThoughts = coreQuotes.concat(whispers);
+            
+            // اختيار عشوائي
+            let randomThought = allThoughts[Math.floor(Math.random() * allThoughts.length)];
+            
+            // معرفة ما إذا كان هذا الاقتباس هو من أسرار الزائر لتمييزه
+            let isUserWhisper = whispers.includes(randomThought);
+            
+            displayPost(randomThought, isUserWhisper);
         }
 
-        // إدخال المحتوى إلى الصفحة
-        function injectContent(type) {
-            const container = document.getElementById('content-container');
-            let text = type === 'quote' ? generateQuote() : generateStory();
-            let cardClass = type === 'quote' ? 'quote-card' : 'quote-card story-card';
-            let textClass = type === 'quote' ? 'quote-text' : 'quote-text story-text';
-            let likes = Math.floor(Math.random() * 9000) + 500;
-
-            const html = `
-                <div class="${cardClass} glass-panel">
-                    <div class="${textClass}">"${text}"</div>
-                    <div class="engagement">
-                        <span class="like-btn" onclick="this.innerHTML='🖤 استوعبتها (' + (${likes} + 1) + ')'">🤍 إعجاب (${likes})</span>
-                        <span>👁️ تمت رؤيته بواسطة أرواح ضائعة</span>
-                    </div>
-                </div>
-            `;
-            // إضافة العنصر في بداية القائمة
-            container.insertAdjacentHTML('afterbegin', html);
-        }
-
-        // توليد لا نهائي عند النزول لأسفل الشاشة (Infinite Scroll)
-        window.addEventListener('scroll', () => {
-            if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100) {
-                // يولد إما قصة أو اقتباس عشوائياً عند الوصول للأسفل
-                Math.random() > 0.7 ? injectContent('story') : injectContent('quote');
+        // دالة عرض العنصر في الصفحة
+        function displayPost(text, isWhisper) {
+            const feed = document.getElementById('feed');
+            const post = document.createElement('div');
+            post.className = 'post-card';
+            
+            // إذا كان الاقتباس من أسرار الزائر، نضيف رسالة مرعبة أسفله
+            if (isWhisper) {
+                post.innerHTML = `<span>${text}</span> <br><br><span style="font-size:0.9rem; color:#888;">[رسالة مسترجعة من ذاكرتك...]</span>`;
+                post.style.borderColor = "#fff"; // تمييزه بلون مختلف
+            } else {
+                post.innerHTML = text;
             }
+
+            // إضافة العنصر في أعلى القائمة
+            feed.insertBefore(post, feed.firstChild);
+
+            // تفعيل صوت مرعب قصير جداً (اختياري)
+            playGlitchSound();
+        }
+
+        // صوت تشويش قصير عند الاستدعاء
+        let audioCtx;
+        function playGlitchSound() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(100 + Math.random() * 500, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+        }
+
+        // حركة العين المراقبة (الحكيم)
+        document.addEventListener('mousemove', (e) => {
+            const watcher = document.getElementById('watcher');
+            watcher.style.transform = `translate(${e.clientX / 50}px, ${e.clientY / 50}px)`;
         });
-
-
-        // --- بقية الأكواد (الصوت، الجزيئات، الحكيم، والدخول) تبقى كما هي للحفاظ على الرهبة ---
-        
-        let audioCtx, gainNode, isAudioPlaying = false;
-        function initDarkAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc1 = audioCtx.createOscillator(); osc1.type = 'sine'; osc1.frequency.setValueAtTime(55.0, audioCtx.currentTime);
-                const osc2 = audioCtx.createOscillator(); osc2.type = 'triangle'; osc2.frequency.setValueAtTime(55.5, audioCtx.currentTime); 
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(200, audioCtx.currentTime);
-                gainNode = audioCtx.createGain(); gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 5);
-                osc1.connect(filter); osc2.connect(filter); filter.connect(gainNode); gainNode.connect(audioCtx.destination);
-                osc1.start(); osc2.start(); isAudioPlaying = true;
-            }
-        }
-        function toggleAudio() {
-            if (!audioCtx) return;
-            if (isAudioPlaying) { gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); document.getElementById('audio-toggle').innerText = "🔇"; isAudioPlaying = false; } 
-            else { gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 1); document.getElementById('audio-toggle').innerText = "🔊"; isAudioPlaying = true; }
-        }
-
-        const canvas = document.getElementById('canvas-bg'); const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particlesArray = []; let mouse = { x: null, y: null, radius: 150 };
-        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-        
-        class Particle {
-            constructor(x, y, dx, dy, size, color) { this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size; this.color = color; }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill(); }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx; if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
-                let dist = Math.sqrt(Math.pow(mouse.x - this.x, 2) + Math.pow(mouse.y - this.y, 2));
-                if (dist < mouse.radius + this.size) {
-                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 10;
-                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 10;
-                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 10;
-                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 10;
-                }
-                this.x += this.dx; this.y += this.dy; this.draw();
-            }
-        }
-        function initParticles() {
-            particlesArray = []; let count = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < count; i++) particlesArray.push(new Particle(Math.random() * innerWidth, Math.random() * innerHeight, (Math.random() * 1) - 0.5, (Math.random() * 1) - 0.5, (Math.random() * 2) + 1, '#bb86fc'));
-        }
-        function animateParticles() { requestAnimationFrame(animateParticles); ctx.clearRect(0, 0, innerWidth, innerHeight); particlesArray.forEach(p => p.update()); }
-        initParticles(); animateParticles();
-
-        function handleEnter(e) {
-            if (e.key === 'Enter' && document.getElementById('nickname').value) {
-                initDarkAudio();
-                document.getElementById('intro-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('intro-screen').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    document.getElementById('audio-toggle').style.display = 'flex';
-                    document.getElementById('greeting').innerText = `أهلاً بك في الجانب الآخر، ${document.getElementById('nickname').value}`;
-                    
-                    // توليد محتوى أولي
-                    injectContent('story');
-                    injectContent('quote');
-                    injectContent('quote');
-                    
-                    startWiseMan();
-                }, 1500);
-            }
-        }
-
-        const wiseShapes = ["👽", "👁️‍🗨️", "🎭", "🦇", "🌑"];
-        const wisePhrases = ["لماذا لا تزال هنا؟", "الشاشة التي تنظر إليها... تنظر إليك أيضاً.", "لا تثق بالأزرار التي تضغط عليها.", "أسمع أفكارك، إنها مزعجة.", "الزمن ينفد."];
-        function startWiseMan() {
-            setInterval(() => {
-                const shape = document.getElementById('wise-shape');
-                shape.innerText = wiseShapes[Math.floor(Math.random() * wiseShapes.length)];
-                document.getElementById('wise-text').innerText = wisePhrases[Math.floor(Math.random() * wisePhrases.length)];
-                shape.style.transform = `scale(1.5) rotate(${Math.random() * 360}deg)`;
-                setTimeout(() => shape.style.transform = "scale(1) rotate(0)", 500);
-            }, 6000);
-        }
     </script>
 </body>
 </html>
