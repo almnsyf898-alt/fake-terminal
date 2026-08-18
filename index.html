@@ -419,7 +419,7 @@
       padding: 8px 12px;
       border-radius: 12px;
       font-size: 11px;
-      max-width: 160px;
+      max-width: 180px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
       opacity: 0;
       transform: translateY(10px);
@@ -610,10 +610,10 @@
       <button class="btn secondary-btn" onclick="openAddModal()">نشر اقتباس جديد ✍️</button>
     </div>
 
-    <!-- شريط البحث الفوري -->
+    <!-- شريط البحث الفوري (مرتبط بذكاء الروبوتات) -->
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن كلمة، اقتباس، أو اسم كاتب..." oninput="renderArchive()">
+      <input type="text" class="search-input" id="searchInput" placeholder="ابحث أو اسأل الروبوتات بالذكاء الاصطناعي واضغط Enter..." oninput="renderArchive()">
     </div>
 
     <!-- شريط فلترة المكتبة -->
@@ -684,6 +684,50 @@
   </div>
 
   <script>
+    // ----------------------------------------------------
+    // محرك الذكاء الاصطناعي للروبوتات (AI Integration)
+    // ----------------------------------------------------
+    async function askAI(userPrompt) {
+      // ردود محاكاة ذكية وفلسفية وعميقة تناسب طابع الموقع والظلام الهادئ
+      const philosophicalResponses = [
+        `تأملت في كلماتك وتبيّن لي أن السر يكمن في هدوء الليل.`,
+        `هذا تساؤل عميق يا صديقي، والظلام أحياناً يمنحنا الإجابة الواضحة.`,
+        `أنظر في أفق أفكارك وأرى رغبة حقيقية لاكتشاف العزلة الحقيقية.`,
+        `دعنا نتأمل هذا الأمر سوياً؛ فالصمت أحياناً أبلغ من ألف إجابة.`
+      ];
+
+      /* 
+        إذا أردت ربطه بـ OpenAI API حقيقي مستقبلاً، يمكنك إزالة التعليق أدناه وإضافة مفتاحك:
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_API_KEY'
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: userPrompt }]
+          })
+        });
+        const data = await response.json();
+        return data.choices[0].message.content;
+      */
+
+      return philosophicalResponses[Math.floor(Math.random() * philosophicalResponses.length)];
+    }
+
+    async function triggerSmartRobotInteraction(userText) {
+      if (!userText) return;
+      
+      robotsSay("أثير: جاري استنباط الرد من الذكاء الاصطناعي...", "أثيرة: دعني أرى أفكارك العميقة ههههه! 🧠");
+      
+      const aiAnswer = await askAI(userText);
+
+      setTimeout(() => {
+        robotsSay(`أثير: ${aiAnswer}`, `أثيرة: ${aiAnswer} (أليس كذلك؟ ههههه ✨)`);
+      }, 1500);
+    }
+
     // 1. قاعدة بيانات الاقتباسات الافتراضية
     const defaultQuotes = [
       { id: 1, text: "الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.", author: "فلسفة الهدوء", category: "فلسفة", userCreated: false },
@@ -832,7 +876,7 @@
       if (!currentQuote) return;
       robotsSay("أثير: جاري رسم البطاقة الجمالية...", "أثيرة: ستكون صورة فخمة جداً ههههه 🖼️");
       
-      await document.fonts.ready; // التأكد من تحميل الخطوط قبل الرسم
+      await document.fonts.ready;
 
       const canvas = document.createElement('canvas');
       canvas.width = 800; canvas.height = 500;
@@ -954,6 +998,16 @@
       renderArchive();
     }
 
+    // ربط شريط البحث بمحرك الذكاء الاصطناعي عند الضغط على Enter
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        const query = this.value.trim();
+        if (query) {
+          triggerSmartRobotInteraction(query);
+        }
+      }
+    });
+
     async function toggleAmbientSound() {
       const btn = document.getElementById('ambientAudioBtn');
       if (!isAudioPlaying) {
@@ -1012,10 +1066,9 @@
     }
 
     const conversationsList = [
-      [ "أثير: انظري يا أثيرة، إنه يتحرك بالشاشة!", "أثيرة: عيوننا تنظر معه أينما ينقر ههههه! 😂" ],
-      [ "أثير: ما هو اقتباسك المفضل اليوم؟", "أثيرة: كل الكلمات الهادئة تعجبني ههههه! 💫" ],
-      [ "أثير: هل تظنين أنه استمتع بوقته؟", "أثيرة: بالتأكيد! المكان فخم وهادئ ههههه 🔥" ],
-      [ "أثير: عيوننا لا تغفل عن شاشته أبداً!", "أثيرة: نعم أينما يضغط ننظر إليه ههههه! 👀" ]
+      [ "أثير: انظري يا أثيرة، إنه يتحدث معي بالذكاء الاصطناعي!", "أثيرة: عيوننا تراقب إجاباته الفلسفية ههههه! 😂" ],
+      [ "أثير: ما هو شعورك تجاه هذا الذكاء الجديد؟", "أثيرة: يمنحنا عقلاً حقيقياً لنفكر معه ههههه! 💫" ],
+      [ "أثير: هل تظنين أنه استمتع بحديثه معنا؟", "أثيرة: بالتأكيد! المكان فخم وذكي ههههه 🔥" ]
     ];
     function triggerRobotsConversation() {
       const randomConv = conversationsList[Math.floor(Math.random() * conversationsList.length)];
