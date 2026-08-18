@@ -27,7 +27,6 @@
       position: relative;
     }
 
-    /* خلفية جزيئات تفاعلية */
     #bgCanvas {
       position: fixed;
       top: 0;
@@ -38,7 +37,6 @@
       pointer-events: none;
     }
 
-    /* شاشة تسجيل الدخول والحسابات */
     .login-card {
       background: rgba(18, 18, 26, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -110,7 +108,6 @@
       box-shadow: 0 6px 20px rgba(123, 44, 191, 0.5);
     }
 
-    /* الواجهة الرئيسية */
     .main-app {
       display: none;
       width: 100%;
@@ -140,7 +137,8 @@
 
     .header-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .icon-btn {
@@ -159,7 +157,6 @@
       color: #fff;
     }
 
-    /* صندوق الاقتباس الرئيسي */
     .quote-box {
       background: rgba(18, 18, 26, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -253,7 +250,6 @@
       color: #ccc;
     }
 
-    /* مربع البحث والفلترة */
     .search-box {
       width: 100%;
       position: relative;
@@ -360,7 +356,6 @@
       opacity: 1;
     }
 
-    /* النافذة المنبثقة */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -391,9 +386,6 @@
       font-size: 18px;
     }
 
-    /* ---------------------------------------------------- */
-    /* الروبوتات التفاعلية المزدوجة ("أثير" و "أثيرة")         */
-    /* ---------------------------------------------------- */
     .robots-container {
       position: fixed;
       z-index: 90;
@@ -562,10 +554,8 @@
 </head>
 <body>
 
-  <!-- خلفية تفاعلية -->
   <canvas id="bgCanvas"></canvas>
 
-  <!-- شاشة الدخول والحسابات -->
   <div class="login-card" id="loginCard">
     <h2>عالم الاقتباسات 🌙</h2>
     <p>ادخل بلقبك الخاص وكلمة السر لوصول آمن إلى مساحتك وعزلتك الخاصة (لا يمكن لأحد استخدام لقبك)</p>
@@ -576,7 +566,6 @@
     <button class="btn" style="width:100%" onclick="handleAuth()">دخول / إنشاء حساب</button>
   </div>
 
-  <!-- الواجهة الرئيسية -->
   <div class="main-app" id="mainApp">
     <div class="header-user">
       <div class="user-badge">
@@ -585,11 +574,11 @@
       </div>
       <div class="header-actions">
         <button class="icon-btn" id="ambientAudioBtn" onclick="toggleAmbientSound()">أجواء العزلة 🎧</button>
+        <button class="icon-btn" onclick="openRobotChat()">محادثة الروبوتات 🤖</button>
         <button class="icon-btn" onclick="logout()">خروج</button>
       </div>
     </div>
 
-    <!-- صندوق الاقتباس الرئيسي -->
     <div class="quote-box" id="quoteBox">
       <span class="quote-tag" id="quoteCategory">فلسفة</span>
       <p class="quote-text" id="quoteText">"في الهدوء تجد العقول العظيمة ملجأها."</p>
@@ -610,13 +599,11 @@
       <button class="btn secondary-btn" onclick="openAddModal()">نشر اقتباس جديد ✍️</button>
     </div>
 
-    <!-- شريط البحث الفوري (مرتبط بذكاء الروبوتات) -->
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="ابحث أو اسأل الروبوتات بالذكاء الاصطناعي واضغط Enter..." oninput="renderArchive()">
+      <input type="text" class="search-input" id="searchInput" placeholder="ابحث أو اسأل الروبوتات واضغط Enter..." oninput="renderArchive()">
     </div>
 
-    <!-- شريط فلترة المكتبة -->
     <div class="filter-bar">
       <span style="font-size: 13px; color: #888;" id="resultsCount">المكتبة العامة:</span>
       <div>
@@ -629,7 +616,6 @@
     <div class="quotes-grid" id="quotesGrid"></div>
   </div>
 
-  <!-- زوج الروبوتات التفاعلي ("أثير" و "أثيرة") -->
   <div class="robots-container" id="robotsContainer">
     <div class="robots-bubbles-row">
       <div class="robot-bubble" id="bubbleAthir">مرحباً بك! أنا "أثير" 👁️</div>
@@ -661,7 +647,6 @@
     </div>
   </div>
 
-  <!-- النافذة المنبثقة لنشر اقتباس -->
   <div class="modal-overlay" id="addModal">
     <div class="modal-content">
       <h3>نشر اقتباس في المملكة ✍️</h3>
@@ -683,52 +668,46 @@
     </div>
   </div>
 
+  <!-- نافذة محادثة الروبوتات الخاصة -->
+  <div class="modal-overlay" id="robotChatModal">
+    <div class="modal-content" style="max-width: 500px; height: 450px; display: flex; flex-direction: column;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <h3 style="margin: 0; color: #c77dff; font-size: 16px;">غرفة الدردشة مع أثير وأثيرة 🌙</h3>
+        <button class="icon-btn" onclick="closeRobotChat()">✕</button>
+      </div>
+      
+      <div id="chatMessages" style="flex: 1; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+        <div style="color: #9d4edd; align-self: flex-start; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 8px;">أثير: أهلاً بك في غرفتنا السرية، ماذا تريد أن نتحدث عنه اليوم؟</div>
+        <div style="color: #ffb3c6; align-self: flex-start; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 8px;">أثيرة: اسألنا عن أي شيء وسنجيبك بعمق وهدوء ههههه! ✨</div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="robotChatInput" placeholder="اكتب رسالتك هنا واضغط إرسال..." style="flex: 1; padding: 10px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-family: 'Tajawal', sans-serif; outline: none;" onkeypress="if(event.key==='Enter') sendChatMessage()">
+        <button class="btn" onclick="sendChatMessage()" style="padding: 10px 15px;">إرسال</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ----------------------------------------------------
-    // محرك الذكاء الاصطناعي للروبوتات (AI Integration)
-    // ----------------------------------------------------
     async function askAI(userPrompt) {
-      // ردود محاكاة ذكية وفلسفية وعميقة تناسب طابع الموقع والظلام الهادئ
       const philosophicalResponses = [
         `تأملت في كلماتك وتبيّن لي أن السر يكمن في هدوء الليل.`,
         `هذا تساؤل عميق يا صديقي، والظلام أحياناً يمنحنا الإجابة الواضحة.`,
         `أنظر في أفق أفكارك وأرى رغبة حقيقية لاكتشاف العزلة الحقيقية.`,
         `دعنا نتأمل هذا الأمر سوياً؛ فالصمت أحياناً أبلغ من ألف إجابة.`
       ];
-
-      /* 
-        إذا أردت ربطه بـ OpenAI API حقيقي مستقبلاً، يمكنك إزالة التعليق أدناه وإضافة مفتاحك:
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer YOUR_API_KEY'
-          },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: userPrompt }]
-          })
-        });
-        const data = await response.json();
-        return data.choices[0].message.content;
-      */
-
       return philosophicalResponses[Math.floor(Math.random() * philosophicalResponses.length)];
     }
 
     async function triggerSmartRobotInteraction(userText) {
       if (!userText) return;
-      
-      robotsSay("أثير: جاري استنباط الرد من الذكاء الاصطناعي...", "أثيرة: دعني أرى أفكارك العميقة ههههه! 🧠");
-      
+      robotsSay("أثير: جاري استنباط الرد...", "أثيرة: دعني أرى أفكارك ههههه! 🧠");
       const aiAnswer = await askAI(userText);
-
       setTimeout(() => {
         robotsSay(`أثير: ${aiAnswer}`, `أثيرة: ${aiAnswer} (أليس كذلك؟ ههههه ✨)`);
-      }, 1500);
+      }, 1200);
     }
 
-    // 1. قاعدة بيانات الاقتباسات الافتراضية
     const defaultQuotes = [
       { id: 1, text: "الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.", author: "فلسفة الهدوء", category: "فلسفة", userCreated: false },
       { id: 2, text: "قد تجد في العزلة ما لا تجده في زحمة العابرين.", author: "حكمة قديمة", category: "عزلة", userCreated: false },
@@ -754,11 +733,9 @@
     function handleAuth() {
       const name = document.getElementById('nicknameInput').value.trim();
       const password = document.getElementById('passwordInput').value.trim();
-
       if (!name || !password) return alert('يرجى إدخال اللقب وكلمة السر لتأمين حسابك!');
 
       const usersDB = getUsersDB();
-
       if (usersDB[name]) {
         if (usersDB[name].password === password) {
           localStorage.setItem('aesthetic_current_user', name);
@@ -998,15 +975,46 @@
       renderArchive();
     }
 
-    // ربط شريط البحث بمحرك الذكاء الاصطناعي عند الضغط على Enter
     document.getElementById('searchInput').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         const query = this.value.trim();
-        if (query) {
-          triggerSmartRobotInteraction(query);
-        }
+        if (query) triggerSmartRobotInteraction(query);
       }
     });
+
+    // دوال محادثة الروبوتات المنفصلة
+    function openRobotChat() {
+      document.getElementById('robotChatModal').style.display = 'flex';
+    }
+
+    function closeRobotChat() {
+      document.getElementById('robotChatModal').style.display = 'none';
+    }
+
+    async function sendChatMessage() {
+      const inputField = document.getElementById('robotChatInput');
+      const chatBox = document.getElementById('chatMessages');
+      const userText = inputField.value.trim();
+
+      if (!userText) return;
+
+      chatBox.innerHTML += `<div style="color: #fff; align-self: flex-end; background: rgba(123, 44, 191, 0.3); padding: 6px 12px; border-radius: 8px;">أنت: ${userText}</div>`;
+      inputField.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const typingId = 'typing_' + Date.now();
+      chatBox.innerHTML += `<div id="${typingId}" style="color: #888; align-self: flex-start; font-style: italic;">أثير وأثيرة يكتبان...</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const aiReply = await askAI(userText);
+      document.getElementById(typingId).remove();
+      
+      chatBox.innerHTML += `
+        <div style="color: #9d4edd; align-self: flex-start; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 8px;">أثير: ${aiReply}</div>
+        <div style="color: #ffb3c6; align-self: flex-start; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 8px;">أثيرة: ${aiReply} (هذا رائع حقاً ههههه! 🌸)</div>
+      `;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
     async function toggleAmbientSound() {
       const btn = document.getElementById('ambientAudioBtn');
@@ -1033,7 +1041,6 @@
       }
     }
 
-    // تتبع العينين
     const pupils = document.querySelectorAll('.pupil');
     function updatePupilsPosition(targetX, targetY) {
       pupils.forEach(pupil => {
@@ -1075,7 +1082,6 @@
       robotsSay(randomConv[0], randomConv[1]);
     }
 
-    // حركة الروبوتات والتحكم
     const robotContainer = document.getElementById('robotsContainer');
     const robotsDragArea = document.getElementById('robotsDragArea');
     
@@ -1083,7 +1089,6 @@
     let hasDragged = false;
     let dragStartX, dragStartY;
     let initialLeft, initialTop;
-    
     let posX = 0;
     let posY = 0;
     let velX = -0.5; 
@@ -1102,26 +1107,20 @@
       if (!isDragging) {
         posX += velX;
         posY += velY;
-
         const maxW = window.innerWidth - robotContainer.offsetWidth;
         const maxH = window.innerHeight - robotContainer.offsetHeight;
-
         if (posX <= 0 || posX >= maxW) velX *= -1;
         if (posY <= 0 || posY >= maxH) velY *= -1;
-
         posX = Math.max(0, Math.min(posX, maxW));
         posY = Math.max(0, Math.min(posY, maxH));
       }
-
       robotContainer.style.left = `${posX}px`;
       robotContainer.style.top = `${posY}px`;
-      
       requestAnimationFrame(animateRobotsMovement);
     }
 
     function startDrag(e) {
       if (e.target.closest('.robot-bubble')) return; 
-      
       isDragging = true;
       hasDragged = false;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1136,13 +1135,10 @@
       if (!isDragging) return;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
       const dist = Math.hypot(clientX - dragStartX, clientY - dragStartY);
       if (dist > 5) hasDragged = true;
-
       posX = initialLeft + (clientX - dragStartX);
       posY = initialTop + (clientY - dragStartY);
-
       const maxW = window.innerWidth - robotContainer.offsetWidth;
       const maxH = window.innerHeight - robotContainer.offsetHeight;
       posX = Math.max(0, Math.min(posX, maxW));
@@ -1163,7 +1159,6 @@
     robotsDragArea.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', stopDrag);
-
     robotsDragArea.addEventListener('touchstart', startDrag, {passive: true});
     window.addEventListener('touchmove', drag, {passive: true});
     window.addEventListener('touchend', stopDrag);
@@ -1177,7 +1172,6 @@
 
     animateRobotsMovement();
 
-    // خلفية النجوم والتأثيرات
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -1210,7 +1204,6 @@
     }
     animateParticles();
 
-    // بوت النشر التلقائي للاقتباسات
     const autoBotQuotes = [
       "الوقت كفيل بإظهار الحقائق مهما طال الصمت.",
       "لا تقاس العظمة بما تملك، بل بما تتركه من أثر هادئ.",
