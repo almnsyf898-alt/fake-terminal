@@ -396,14 +396,12 @@
     /* ---------------------------------------------------- */
     .robots-container {
       position: fixed;
-      bottom: 15px;
-      right: 15px;
       z-index: 90;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       gap: 6px;
-      pointer-events: none;
+      pointer-events: none; /* لتجنب حجب الشاشة، سنفعل الـ pointer على الأبناء */
     }
 
     .robots-bubbles-row {
@@ -442,6 +440,11 @@
       display: flex;
       gap: 12px;
       pointer-events: auto;
+      cursor: grab; /* مؤشر السحب */
+    }
+
+    .robots-avatars-row:active {
+      cursor: grabbing;
     }
 
     .robot-card {
@@ -457,24 +460,24 @@
       background: radial-gradient(circle, #1a1a28 0%, #0a0a12 100%);
       border: 2px solid rgba(157, 78, 221, 0.5);
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(123, 44, 191, 0.4);
+      box-shadow: 0 0 15px rgba(123, 44, 191, 0.6);
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
       position: relative;
       transition: transform 0.2s ease;
     }
 
     .robot-avatar.female {
       border-color: rgba(255, 42, 109, 0.6);
-      box-shadow: 0 0 15px rgba(255, 42, 109, 0.4);
+      box-shadow: 0 0 15px rgba(255, 42, 109, 0.6);
     }
 
     .robot-avatar:hover {
       transform: scale(1.08);
     }
 
+    /* تعديلات توهج العيون */
     .robot-eyes {
       display: flex;
       gap: 8px;
@@ -492,10 +495,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      box-shadow: inset 0 0 8px rgba(123, 44, 191, 0.6); /* توهج داخلي */
     }
 
     .eye.female-eye {
       border-color: #ff2a6d;
+      box-shadow: inset 0 0 8px rgba(255, 42, 109, 0.6); /* توهج داخلي */
     }
 
     .pupil {
@@ -503,13 +508,15 @@
       height: 5px;
       background: #00f0ff;
       border-radius: 50%;
-      box-shadow: 0 0 6px #00f0ff;
+      /* مضاعفة إضاءة البؤبؤ لجعله مشعاً جداً */
+      box-shadow: 0 0 10px 2px #00f0ff, 0 0 20px #00f0ff, 0 0 30px #00f0ff;
       transition: transform 0.05s ease-out;
     }
 
     .pupil.female-pupil {
       background: #ff2a6d;
-      box-shadow: 0 0 6px #ff2a6d;
+      /* مضاعفة إضاءة البؤبؤ الأنثوي */
+      box-shadow: 0 0 10px 2px #ff2a6d, 0 0 20px #ff2a6d, 0 0 30px #ff2a6d;
     }
 
     .robot-antenna {
@@ -529,6 +536,7 @@
       height: 6px;
       background: #00f0ff;
       border-radius: 50%;
+      box-shadow: 0 0 8px #00f0ff;
     }
 
     .robot-antenna.female-antenna {
@@ -537,6 +545,7 @@
 
     .robot-antenna.female-antenna::after {
       background: #ff2a6d;
+      box-shadow: 0 0 8px #ff2a6d;
     }
 
     .robot-bow {
@@ -622,12 +631,12 @@
   </div>
 
   <!-- زوج الروبوتات التفاعلي ("أثير" و "أثيرة") -->
-  <div class="robots-container">
+  <div class="robots-container" id="robotsContainer">
     <div class="robots-bubbles-row">
       <div class="robot-bubble" id="bubbleAthir">مرحباً بك! أنا "أثير" 👁️</div>
       <div class="robot-bubble female" id="bubbleAthira">وأنا "أثيرة"، ننظر معك ههههه! 🌸</div>
     </div>
-    <div class="robots-avatars-row">
+    <div class="robots-avatars-row" id="robotsDragArea">
       <div class="robot-card">
         <div class="robot-avatar" id="avatarAthir" onclick="triggerRobotsConversation()">
           <div class="robot-antenna"></div>
@@ -696,22 +705,14 @@
     let audioCtx = null;
     let noiseNode = null;
 
-    // 2. إدارة الحسابات الحصرية (المستخدم وكلمة السر)
-    function getUsersDB() {
-      return JSON.parse(localStorage.getItem('aesthetic_users_db')) || {};
-    }
-
-    function saveUsersDB(db) {
-      localStorage.setItem('aesthetic_users_db', JSON.stringify(db));
-    }
+    function getUsersDB() { return JSON.parse(localStorage.getItem('aesthetic_users_db')) || {}; }
+    function saveUsersDB(db) { localStorage.setItem('aesthetic_users_db', JSON.stringify(db)); }
 
     function handleAuth() {
       const name = document.getElementById('nicknameInput').value.trim();
       const password = document.getElementById('passwordInput').value.trim();
 
-      if (!name || !password) {
-        return alert('يرجى إدخال اللقب وكلمة السر لتأمين حسابك!');
-      }
+      if (!name || !password) return alert('يرجى إدخال اللقب وكلمة السر لتأمين حسابك!');
 
       const usersDB = getUsersDB();
 
@@ -748,7 +749,6 @@
       document.getElementById('passwordInput').value = '';
     }
 
-    // 3. إدارة الاقتباسات
     function loadQuotesData() {
       const stored = localStorage.getItem('aesthetic_custom_quotes');
       const customQuotes = stored ? JSON.parse(stored) : [];
@@ -766,11 +766,9 @@
       setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * quotes.length);
         currentQuote = quotes[randomIndex];
-        
         document.getElementById('quoteText').innerText = `"${currentQuote.text}"`;
         document.getElementById('quoteAuthor').innerText = `— ${currentQuote.author}`;
         document.getElementById('quoteCategory').innerText = currentQuote.category || "عام";
-        
         updateMainLikeUI();
         box.style.opacity = 1;
         box.style.transform = 'scale(1)';
@@ -782,7 +780,6 @@
       const userLiked = getUserLikedIds();
       const count = likesMap[currentQuote.id] || 0;
       const isLiked = userLiked.includes(currentQuote.id);
-
       document.getElementById('mainLikeCount').innerText = count;
       const btn = document.getElementById('mainLikeBtn');
       if (isLiked) btn.classList.add('liked');
@@ -799,7 +796,6 @@
     function toggleLike(id) {
       let likesMap = getLikesData();
       let userLiked = getUserLikedIds();
-
       if (userLiked.includes(id)) {
         userLiked = userLiked.filter(itemId => itemId !== id);
         likesMap[id] = Math.max(0, (likesMap[id] || 1) - 1);
@@ -807,7 +803,6 @@
         userLiked.push(id);
         likesMap[id] = (likesMap[id] || 0) + 1;
       }
-
       localStorage.setItem('quote_likes_map', JSON.stringify(likesMap));
       localStorage.setItem('user_liked_ids', JSON.stringify(userLiked));
     }
@@ -826,60 +821,40 @@
         utterance.rate = 0.85;
         window.speechSynthesis.speak(utterance);
         robotsSay("أثير: صوت الكلمات يبعث السكون.", "أثيرة: استمع بهدوء ههههه 🎙️");
-      } else {
-        alert("متصفحك لا يدعم القارئ الصوتي.");
-      }
+      } else alert("متصفحك لا يدعم القارئ الصوتي.");
     }
 
     function downloadQuoteImage() {
       robotsSay("أثير: جاري رسم البطاقة الجمالية...", "أثيرة: ستكون صورة فخمة جداً ههههه 🖼️");
       const canvas = document.createElement('canvas');
-      canvas.width = 800;
-      canvas.height = 500;
+      canvas.width = 800; canvas.height = 500;
       const ctx = canvas.getContext('2d');
-
       const grad = ctx.createLinearGradient(0, 0, 800, 500);
-      grad.addColorStop(0, '#0a0a14');
-      grad.addColorStop(1, '#020205');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 800, 500);
-
-      ctx.strokeStyle = 'rgba(157, 78, 221, 0.4)';
-      ctx.lineWidth = 4;
+      grad.addColorStop(0, '#0a0a14'); grad.addColorStop(1, '#020205');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 800, 500);
+      ctx.strokeStyle = 'rgba(157, 78, 221, 0.4)'; ctx.lineWidth = 4;
       ctx.strokeRect(30, 30, 740, 440);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '28px Amiri, serif';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffffff'; ctx.font = '28px Amiri, serif'; ctx.textAlign = 'center';
 
       const words = currentQuote.text.split(' ');
-      let line = '';
-      let y = 200;
+      let line = ''; let y = 200;
       for (let n = 0; n < words.length; n++) {
         let testLine = line + words[n] + ' ';
         let metrics = ctx.measureText(testLine);
         if (metrics.width > 650 && n > 0) {
           ctx.fillText(line, 400, y);
-          line = words[n] + ' ';
-          y += 45;
-        } else {
-          line = testLine;
-        }
+          line = words[n] + ' '; y += 45;
+        } else line = testLine;
       }
       ctx.fillText(line, 400, y);
-
-      ctx.fillStyle = '#9d4edd';
-      ctx.font = '20px Tajawal, sans-serif';
+      ctx.fillStyle = '#9d4edd'; ctx.font = '20px Tajawal, sans-serif';
       ctx.fillText(`— ${currentQuote.author}`, 400, y + 60);
-
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.font = '14px Tajawal, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; ctx.font = '14px Tajawal, sans-serif';
       ctx.fillText('مملكة الاقتباسات | Dark Aesthetic', 400, 440);
 
       const link = document.createElement('a');
       link.download = `quote-${currentQuote.id}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      link.href = canvas.toDataURL('image/png'); link.click();
     }
 
     function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
@@ -892,15 +867,7 @@
       const category = document.getElementById('customQuoteCategory').value;
 
       if (!text) return alert("يرجى كتابة نص الاقتباس!");
-
-      const newQuote = {
-        id: Date.now(),
-        text: text,
-        author: author,
-        category: category,
-        userCreated: true,
-        createdBy: currentUser
-      };
+      const newQuote = { id: Date.now(), text, author, category, userCreated: true, createdBy: currentUser };
 
       const stored = localStorage.getItem('aesthetic_custom_quotes');
       const customQuotes = stored ? JSON.parse(stored) : [];
@@ -908,9 +875,7 @@
       localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
 
       document.getElementById('customQuoteText').value = '';
-      closeAddModal();
-      loadQuotesData();
-      renderArchive();
+      closeAddModal(); loadQuotesData(); renderArchive();
       robotsSay("أثير: تم نشر كلماتك الحصرية!", "أثيرة: أصبحت محفوظة بلقبك ههههه ✨");
     }
 
@@ -920,8 +885,7 @@
         let customQuotes = JSON.parse(stored);
         customQuotes = customQuotes.filter(q => q.id !== id);
         localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
-        loadQuotesData();
-        renderArchive();
+        loadQuotesData(); renderArchive();
       }
     }
 
@@ -936,20 +900,15 @@
     function renderArchive() {
       const grid = document.getElementById('quotesGrid');
       grid.innerHTML = '';
-
       const likesMap = getLikesData();
       const userLiked = getUserLikedIds();
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
       const currentUser = localStorage.getItem('aesthetic_current_user');
-
       let list = quotes;
 
       if (currentFilter === 'liked') list = list.filter(q => userLiked.includes(q.id));
       if (currentFilter === 'mine') list = list.filter(q => q.userCreated && q.createdBy === currentUser);
-
-      if (query !== '') {
-        list = list.filter(q => q.text.toLowerCase().includes(query) || q.author.toLowerCase().includes(query));
-      }
+      if (query !== '') list = list.filter(q => q.text.toLowerCase().includes(query) || q.author.toLowerCase().includes(query));
 
       document.getElementById('resultsCount').innerText = `المكتبة المتاحة (${list.length}):`;
 
@@ -987,7 +946,6 @@
       renderArchive();
     }
 
-    // 4. أجواء صوت المطر
     function toggleAmbientSound() {
       const btn = document.getElementById('ambientAudioBtn');
       if (!isAudioPlaying) {
@@ -995,57 +953,37 @@
         const bufferSize = audioCtx.sampleRate * 2;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
-
         for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
         noiseNode = audioCtx.createBufferSource();
-        noiseNode.buffer = buffer;
-        noiseNode.loop = true;
-
+        noiseNode.buffer = buffer; noiseNode.loop = true;
         const filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 400;
-
-        const gainNode = audioCtx.createGain();
-        gainNode.gain.value = 0.15;
-
-        noiseNode.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        noiseNode.start();
-        isAudioPlaying = true;
+        filter.type = 'lowpass'; filter.frequency.value = 400;
+        const gainNode = audioCtx.createGain(); gainNode.gain.value = 0.15;
+        noiseNode.connect(filter); filter.connect(gainNode); gainNode.connect(audioCtx.destination);
+        noiseNode.start(); isAudioPlaying = true;
         btn.innerText = "إيقاف الأجواء 🔊";
         robotsSay("أثير: صوت المطر بدأ ينهمر...", "أثيرة: ياه، ما أروع العزلة! ههههه 🎧");
       } else {
         if (noiseNode) noiseNode.stop();
-        isAudioPlaying = false;
-        btn.innerText = "أجواء العزلة 🎧";
+        isAudioPlaying = false; btn.innerText = "أجواء العزلة 🎧";
       }
     }
 
-    // 5. تتبع العينين والحوارات للروبوتين "أثير" و "أثيرة"
+    // تتبع العينين
     const pupils = document.querySelectorAll('.pupil');
-
     function updatePupilsPosition(targetX, targetY) {
       pupils.forEach(pupil => {
         const eye = pupil.parentElement;
         const rect = eye.getBoundingClientRect();
         const eyeCenterX = rect.left + rect.width / 2;
         const eyeCenterY = rect.top + rect.height / 2;
-
         const dx = targetX - eyeCenterX;
         const dy = targetY - eyeCenterY;
         const angle = Math.atan2(dy, dx);
         const distance = Math.min(3.5, Math.hypot(dx, dy) / 30);
-
-        const pupilX = Math.cos(angle) * distance;
-        const pupilY = Math.sin(angle) * distance;
-
-        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+        pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
       });
     }
-
     window.addEventListener('mousemove', (e) => updatePupilsPosition(e.clientX, e.clientY));
     window.addEventListener('click', (e) => updatePupilsPosition(e.clientX, e.clientY));
 
@@ -1053,18 +991,10 @@
     function robotsSay(textAthir, textAthira) {
       const bAthir = document.getElementById('bubbleAthir');
       const bAthira = document.getElementById('bubbleAthira');
-
-      bAthir.innerText = textAthir;
-      bAthira.innerText = textAthira;
-
-      bAthir.classList.add('active');
-      bAthira.classList.add('active');
-
+      bAthir.innerText = textAthir; bAthira.innerText = textAthira;
+      bAthir.classList.add('active'); bAthira.classList.add('active');
       clearTimeout(bubbleTimeout);
-      bubbleTimeout = setTimeout(() => {
-        bAthir.classList.remove('active');
-        bAthira.classList.remove('active');
-      }, 5000);
+      bubbleTimeout = setTimeout(() => { bAthir.classList.remove('active'); bAthira.classList.remove('active'); }, 5000);
     }
 
     function startRobotsIntro(name) {
@@ -1077,60 +1007,127 @@
       [ "أثير: هل تظنين أنه استمتع بوقته؟", "أثيرة: بالتأكيد! المكان فخم وهادئ ههههه 🔥" ],
       [ "أثير: عيوننا لا تغفل عن شاشته أبداً!", "أثيرة: نعم أينما يضغط ننظر إليه ههههه! 👀" ]
     ];
-
     function triggerRobotsConversation() {
       const randomConv = conversationsList[Math.floor(Math.random() * conversationsList.length)];
       robotsSay(randomConv[0], randomConv[1]);
     }
 
-    // 6. خلفية النجوم والتأثيرات
+    // حركة الروبوتات التلقائية والتحكم اليدوي (الجديد)
+    const robotContainer = document.getElementById('robotsContainer');
+    const robotsDragArea = document.getElementById('robotsDragArea');
+    
+    let isDragging = false;
+    let dragStartX, dragStartY;
+    let initialLeft, initialTop;
+    
+    // موضع البداية أسفل اليمين
+    let posX = window.innerWidth - 180; 
+    let posY = window.innerHeight - 150;
+    
+    // سرعة واتجاه الحركة التلقائية
+    let velX = -0.5; 
+    let velY = -0.4;
+
+    function animateRobotsMovement() {
+      if (!isDragging) {
+        posX += velX;
+        posY += velY;
+
+        // حدود الشاشة لارتداد الروبوتات
+        const maxW = window.innerWidth - robotContainer.offsetWidth;
+        const maxH = window.innerHeight - robotContainer.offsetHeight;
+
+        if (posX <= 0 || posX >= maxW) velX *= -1;
+        if (posY <= 0 || posY >= maxH) velY *= -1;
+
+        posX = Math.max(0, Math.min(posX, maxW));
+        posY = Math.max(0, Math.min(posY, maxH));
+      }
+
+      robotContainer.style.left = `${posX}px`;
+      robotContainer.style.top = `${posY}px`;
+      
+      requestAnimationFrame(animateRobotsMovement);
+    }
+
+    // دوال السحب والإفلات
+    function startDrag(e) {
+      // تجاهل إذا كان النقر على الأزرار/الفقاعات
+      if(e.target.closest('.robot-bubble')) return; 
+      
+      isDragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      dragStartX = clientX;
+      dragStartY = clientY;
+      initialLeft = posX;
+      initialTop = posY;
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+      e.preventDefault(); 
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      posX = initialLeft + (clientX - dragStartX);
+      posY = initialTop + (clientY - dragStartY);
+
+      const maxW = window.innerWidth - robotContainer.offsetWidth;
+      const maxH = window.innerHeight - robotContainer.offsetHeight;
+      posX = Math.max(0, Math.min(posX, maxW));
+      posY = Math.max(0, Math.min(posY, maxH));
+    }
+
+    function stopDrag() { isDragging = false; }
+
+    // ربط الأحداث بمنطقة الروبوتات
+    robotsDragArea.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('mouseup', stopDrag);
+
+    robotsDragArea.addEventListener('touchstart', startDrag, {passive: false});
+    window.addEventListener('touchmove', drag, {passive: false});
+    window.addEventListener('touchend', stopDrag);
+
+    // بدء الحركة التلقائية
+    animateRobotsMovement();
+
+
+    // خلفية النجوم والتأثيرات
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 0.5;
-        this.speedX = Math.random() * 0.4 - 0.2;
-        this.speedY = Math.random() * 0.4 - 0.2;
+        this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2;
         this.alpha = Math.random() * 0.5 + 0.2;
       }
       update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x += this.speedX; this.y += this.speedY;
         if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
         if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
       draw() {
         ctx.fillStyle = `rgba(157, 78, 221, ${this.alpha})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
       }
     }
-
     for (let i = 0; i < 65; i++) particles.push(new Particle());
-
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      particles.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
 
-    // 7. بوت النشر التلقائي للاقتباسات
+    // بوت النشر التلقائي للاقتباسات
     const autoBotQuotes = [
       "الوقت كفيل بإظهار الحقائق مهما طال الصمت.",
       "لا تقاس العظمة بما تملك، بل بما تتركه من أثر هادئ.",
@@ -1138,45 +1135,22 @@
       "من يتقن الصمت، يتقن الاستماع للكون.",
       "لا تتوقف عندما تتعب، توقف عندما تنتهي."
     ];
-
     function runAutoQuoteBot() {
-      const randomIndex = Math.floor(Math.random() * autoBotQuotes.length);
-      const selectedText = autoBotQuotes[randomIndex];
-
-      const botQuote = {
-        id: Date.now(),
-        text: selectedText,
-        author: "بوت الحكمة 🤖",
-        category: "آلي",
-        userCreated: true,
-        createdBy: "AutoBot"
-      };
-
+      const selectedText = autoBotQuotes[Math.floor(Math.random() * autoBotQuotes.length)];
       const stored = localStorage.getItem('aesthetic_custom_quotes');
       const customQuotes = stored ? JSON.parse(stored) : [];
-      
-      const exists = customQuotes.some(q => q.text === selectedText);
-      if (!exists) {
-        customQuotes.push(botQuote);
+      if (!customQuotes.some(q => q.text === selectedText)) {
+        customQuotes.push({ id: Date.now(), text: selectedText, author: "بوت الحكمة 🤖", category: "آلي", userCreated: true, createdBy: "AutoBot" });
         localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
-        
-        loadQuotesData();
-        renderArchive();
-        if (typeof robotsSay === "function") {
-          robotsSay("أثير: البوت نشر اقتباساً جديداً تلقائياً!", "أثيرة: تفقد المكتبة لقد أضاف حكمة جديدة ههههه 🤖");
-        }
+        loadQuotesData(); renderArchive();
+        if (typeof robotsSay === "function") robotsSay("أثير: البوت نشر اقتباساً جديداً تلقائياً!", "أثيرة: تفقد المكتبة لقد أضاف حكمة جديدة ههههه 🤖");
       }
     }
+    setTimeout(runAutoQuoteBot, 3000); setInterval(runAutoQuoteBot, 300000);
 
-    setTimeout(runAutoQuoteBot, 3000);
-    setInterval(runAutoQuoteBot, 300000);
-
-    // 8. الفحص التلقائي للجلسة عند تحميل الصفحة
     window.onload = () => {
       const currentUser = localStorage.getItem('aesthetic_current_user');
-      if (currentUser) {
-        showApp(currentUser);
-      }
+      if (currentUser) showApp(currentUser);
     };
   </script>
 </body>
