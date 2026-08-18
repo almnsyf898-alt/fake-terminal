@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عالم الاقتباسات | Dark Aesthetic</title>
+  <title>مملكة الاقتباسات | Dark Aesthetic</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -13,17 +13,17 @@
     }
 
     body {
-      background-color: #08080c;
+      background-color: #07070a;
       color: #e0e0e0;
       font-family: 'Tajawal', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      justify-content: flex-start;
+      padding: 20px 15px;
       overflow-x: hidden;
-      background: radial-gradient(circle at center, #12121a 0%, #050508 100%);
+      background: radial-gradient(circle at top, #14121e 0%, #050508 100%);
     }
 
     /* شاشة تسجيل الدخول */
@@ -36,7 +36,8 @@
       width: 100%;
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      margin-top: 10vh;
     }
 
     .login-card h2 {
@@ -55,7 +56,7 @@
     .input-group input {
       width: 100%;
       padding: 12px 15px;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       border: 1px solid #2a2a35;
       border-radius: 8px;
       color: #fff;
@@ -68,7 +69,7 @@
 
     .input-group input:focus {
       border-color: #7b2cbf;
-      box-shadow: 0 0 10px rgba(123, 44, 191, 0.3);
+      box-shadow: 0 0 10px rgba(123, 44, 191, 0.4);
     }
 
     .btn {
@@ -82,6 +83,10 @@
       font-weight: 500;
       cursor: pointer;
       transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn:hover {
@@ -89,7 +94,7 @@
       transform: translateY(-2px);
     }
 
-    /* واجهة الاقتباسات الرئيسية */
+    /* الواجهة الرئيسية */
     .main-app {
       display: none;
       width: 100%;
@@ -103,7 +108,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       padding-bottom: 15px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -123,21 +128,23 @@
       font-size: 12px;
     }
 
+    /* صندوق الاقتباس الرئيسي */
     .quote-box {
-      background: rgba(20, 20, 28, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(20, 20, 28, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 40px 30px;
+      padding: 35px 25px;
       text-align: center;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      margin-bottom: 25px;
-      min-height: 200px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+      min-height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
+      position: relative;
     }
 
     .quote-text {
@@ -152,13 +159,40 @@
       font-size: 13px;
       color: #9d4edd;
       font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .quote-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .like-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .like-btn.liked {
+      background: rgba(224, 30, 90, 0.2);
+      border-color: #ff2a6d;
+      color: #ff2a6d;
     }
 
     .controls {
       display: flex;
       gap: 12px;
       width: 100%;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .secondary-btn {
@@ -167,30 +201,94 @@
       color: #ddd;
     }
 
-    /* قائمة الأرشيف الكامل */
+    /* مربع تقنيات البحث */
+    .search-box {
+      width: 100%;
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 40px 12px 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: #7b2cbf;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* شريط التصفية والبحث */
+    .filter-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: #777;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    .filter-btn.active {
+      color: #c77dff;
+      background: rgba(199, 125, 255, 0.1);
+    }
+
+    /* الأرشيف */
     .quotes-grid {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-    }
-
-    .grid-title {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-      text-align: right;
-      width: 100%;
+      gap: 12px;
     }
 
     .mini-quote-card {
       background: rgba(255, 255, 255, 0.02);
       border-right: 3px solid #7b2cbf;
       padding: 15px;
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 10px 10px 0;
       font-size: 14px;
       color: #bbb;
-      line-height: 1.6;
+      line-height: 1.7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-quote-content {
+      flex: 1;
+    }
+
+    .mini-quote-author {
+      font-size: 11px;
+      color: #777;
+      margin-top: 4px;
+      display: block;
     }
   </style>
 </head>
@@ -198,12 +296,12 @@
 
   <!-- شاشة الدخول -->
   <div class="login-card" id="loginCard">
-    <h2>عالم الأسرار 🌙</h2>
-    <p>أدخل لقبك الخاص للانضمام للرحلة</p>
+    <h2>عالم الاقتباسات 🌙</h2>
+    <p>أدخل لقبك الخاص لفتح المكتبة الكاملة</p>
     <div class="input-group">
       <input type="text" id="nicknameInput" placeholder="اكتب لقبك هنا..." maxlength="20">
     </div>
-    <button class="btn" onclick="login()">دخول</button>
+    <button class="btn" onclick="login()">دخول إلى المكتبة</button>
   </div>
 
   <!-- الواجهة الرئيسية -->
@@ -213,32 +311,73 @@
       <button class="logout-btn" onclick="logout()">تغيير اللقب</button>
     </div>
 
+    <!-- صندوق الاقتباس الرئيسي -->
     <div class="quote-box" id="quoteBox">
       <p class="quote-text" id="quoteText">"في الهدوء تجد العقول العظيمة ملجأها."</p>
       <span class="quote-author" id="quoteAuthor">— مجهول</span>
+      <div class="quote-actions">
+        <button class="like-btn" id="mainLikeBtn" onclick="toggleMainLike()">
+          <span id="heartIcon">❤️</span> <span id="mainLikeCount">0</span>
+        </button>
+      </div>
     </div>
 
     <div class="controls">
       <button class="btn" onclick="getRandomQuote()">اقتباس عشوائي 🎲</button>
-      <button class="btn secondary-btn" onclick="copyQuote()">نسخ 📋</button>
+      <button class="btn secondary-btn" onclick="copyQuote()">نسخ الاقتباس 📋</button>
     </div>
 
-    <div class="grid-title">مكتبة الاقتباسات المختارة:</div>
+    <!-- شريط البحث الفوري -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن كلمة، اقتباس، أو اسم كاتب..." oninput="renderArchive()">
+    </div>
+
+    <!-- شريط تصفية المكتبة -->
+    <div class="filter-bar">
+      <span style="font-size: 13px; color: #888;" id="resultsCount">المكتبة الكاملة:</span>
+      <div>
+        <button class="filter-btn active" id="filterAll" onclick="setFilter('all')">الكل</button>
+        <button class="filter-btn" id="filterLiked" onclick="setFilter('liked')">المفضلة ❤️</button>
+      </div>
+    </div>
+
     <div class="quotes-grid" id="quotesGrid"></div>
   </div>
 
   <script>
+    // قاعدة بيانات للاقتباسات
     const quotes = [
-      { text: "الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.", author: "فلسفة الهدوء" },
-      { text: "قد تجد في العزلة ما لا تجده في زحمة العابرين.", author: "حكمة قديمة" },
-      { text: "سيكون كل شيء جميلاً، ربما ليس اليوم ولكن حتماً في يوم ما.", author: "أمل" },
-      { text: "لا تزن نفسك بمقياس غيرك، لكل نجم في السماء بريقه الخاص.", author: "تأملات" },
-      { text: "الهدوء فن، لا يتقنه إلا من تعلم كيف يصمت وفي قلبه عاصفة.", author: "أدب الشوارع" },
-      { text: "نحن نعيش في عالم يمتلئ بالضجيج، ابحث دائماً عن بقعة سلامك الخاص.", author: "مجهول" },
-      { text: "الذين يسيرون في الطرقات المظلمة هم أول من يلمح النجوم.", author: "عالم الأسرار" },
-      { text: "كل نهاية هي مجرد بداية لقصة جديدة لم تُكتب بعد.", author: "مسارات الحياة" },
-      { text: "أحياناً تكون القوة في عدم الرد، وفي الابتعاد بتكتم.", author: "نفسيات" }
+      { id: 1, text: "الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.", author: "فلسفة الهدوء" },
+      { id: 2, text: "قد تجد في العزلة ما لا تجده في زحمة العابرين.", author: "حكمة قديمة" },
+      { id: 3, text: "سيكون كل شيء جميلاً، ربما ليس اليوم ولكن حتماً في يوم ما.", author: "أمل" },
+      { id: 4, text: "لا تزن نفسك بمقياس غيرك، لكل نجم في السماء بريقه الخاص.", author: "تأملات" },
+      { id: 5, text: "الهدوء فن، لا يتقنه إلا من تعلم كيف يصمت وفي قلبه عاصفة.", author: "أدب الشوارع" },
+      { id: 6, text: "نحن نعيش في عالم يمتلئ بالضجيج، ابحث دائماً عن بقعة سلامك الخاص.", author: "مجهول" },
+      { id: 7, text: "الذين يسيرون في الطرقات المظلمة هم أول من يلمح النجوم.", author: "عالم الأسرار" },
+      { id: 8, text: "كل نهاية هي مجرد بداية لقصة جديدة لم تُكتب بعد.", author: "مسارات الحياة" },
+      { id: 9, text: "أحياناً تكون القوة في عدم الرد، وفي الابتعاد بتكتم.", author: "نفسيات" },
+      { id: 10, text: "العقول القوية تتحدث عن الأفكار، والعقول العادية تتحدث عن الأحداث.", author: "فلسفة" },
+      { id: 11, text: "لا تخف من المشي ببطء، خف فقط من الوقوف في مكانك.", author: "حكمة صينية" },
+      { id: 12, text: "أعظم المعارك هي تلك التي تخوضها بينك وبين نفسك في صمت.", author: "تأملات سوداوية" },
+      { id: 13, text: "ليس كل من يبتسم سعيداً، فبعض الابتسامات أقنعة لحماية الكبرياء.", author: "مشاعر" },
+      { id: 14, text: "السعادة تجدها عندما تتوقف عن المقارنة وتبدأ بالامتنان.", author: "وعي" },
+      { id: 15, text: "من يمتلك سبباً يعيش لأجله، يمكنه تحمّل أي طريقة يعيش بها.", author: "فريدريك نيتشه" },
+      { id: 16, text: "البحر الهادئ لا يصنع بحاراً ماهراً.", author: "مثل قديم" },
+      { id: 17, text: "لا تتوقع شيئاً من أحد، وستجد أن كل يوم يحمل لك مفاجأة جميلة.", author: "راحة بال" },
+      { id: 18, text: "القوة لا تأتي من الفوز، بل من الصمود عند السقوط.", author: "عزيمة" }
     ];
+
+    let currentQuote = quotes[0];
+    let currentFilter = 'all';
+
+    function getLikesData() {
+      return JSON.parse(localStorage.getItem('quote_likes_map')) || {};
+    }
+
+    function getUserLikedIds() {
+      return JSON.parse(localStorage.getItem('user_liked_ids')) || [];
+    }
 
     function login() {
       const name = document.getElementById('nicknameInput').value.trim();
@@ -253,8 +392,8 @@
       document.getElementById('mainApp').style.display = 'flex';
       document.getElementById('userNickname').innerText = name;
       
-      renderArchive();
       getRandomQuote();
+      renderArchive();
     }
 
     function logout() {
@@ -269,30 +408,124 @@
       
       setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * quotes.length);
-        document.getElementById('quoteText').innerText = `"${quotes[randomIndex].text}"`;
-        document.getElementById('quoteAuthor').innerText = `— ${quotes[randomIndex].author}`;
+        currentQuote = quotes[randomIndex];
+        
+        document.getElementById('quoteText').innerText = `"${currentQuote.text}"`;
+        document.getElementById('quoteAuthor').innerText = `— ${currentQuote.author}`;
+        
+        updateMainLikeUI();
         box.style.opacity = 1;
-      }, 300);
+      }, 250);
+    }
+
+    function updateMainLikeUI() {
+      const likesMap = getLikesData();
+      const userLiked = getUserLikedIds();
+      
+      const count = likesMap[currentQuote.id] || 0;
+      const isLiked = userLiked.includes(currentQuote.id);
+
+      document.getElementById('mainLikeCount').innerText = count;
+      const btn = document.getElementById('mainLikeBtn');
+      if (isLiked) {
+        btn.classList.add('liked');
+      } else {
+        btn.classList.remove('liked');
+      }
+    }
+
+    function toggleMainLike() {
+      toggleLike(currentQuote.id);
+      updateMainLikeUI();
+      renderArchive();
+    }
+
+    function toggleLike(id) {
+      let likesMap = getLikesData();
+      let userLiked = getUserLikedIds();
+
+      if (userLiked.includes(id)) {
+        userLiked = userLiked.filter(itemId => itemId !== id);
+        likesMap[id] = Math.max(0, (likesMap[id] || 1) - 1);
+      } else {
+        userLiked.push(id);
+        likesMap[id] = (likesMap[id] || 0) + 1;
+      }
+
+      localStorage.setItem('quote_likes_map', JSON.stringify(likesMap));
+      localStorage.setItem('user_liked_ids', JSON.stringify(userLiked));
     }
 
     function copyQuote() {
-      const text = document.getElementById('quoteText').innerText;
+      const text = `${document.getElementById('quoteText').innerText} ${document.getElementById('quoteAuthor').innerText}`;
       navigator.clipboard.writeText(text);
-      alert('تم نسخ الاقتباس بنجاح!');
+      alert('تم نسخ الاقتباس إلى الحافظة! 📋');
     }
 
+    function setFilter(type) {
+      currentFilter = type;
+      document.getElementById('filterAll').classList.toggle('active', type === 'all');
+      document.getElementById('filterLiked').classList.toggle('active', type === 'liked');
+      renderArchive();
+    }
+
+    // تقنية البحث والفلترة المباشرة
     function renderArchive() {
       const grid = document.getElementById('quotesGrid');
       grid.innerHTML = '';
-      quotes.forEach(q => {
+
+      const likesMap = getLikesData();
+      const userLiked = getUserLikedIds();
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+      let list = quotes;
+
+      // 1. فلترة المفضلة
+      if (currentFilter === 'liked') {
+        list = list.filter(q => userLiked.includes(q.id));
+      }
+
+      // 2. تطبيق البحث بالنص والكاتب
+      if (query !== '') {
+        list = list.filter(q => 
+          q.text.toLowerCase().includes(query) || 
+          q.author.toLowerCase().includes(query)
+        );
+      }
+
+      // تحديث عداد النتائج
+      document.getElementById('resultsCount').innerText = `النتائج المتاحة: (${list.length})`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '<div style="text-align:center; color:#666; padding:20px; font-size:13px;">لا توجد اقتباسات تطابق بحثك 🔍</div>';
+        return;
+      }
+
+      list.forEach(q => {
+        const count = likesMap[q.id] || 0;
+        const isLiked = userLiked.includes(q.id);
+
         const card = document.createElement('div');
         card.className = 'mini-quote-card';
-        card.innerText = `"${q.text}"`;
+        card.innerHTML = `
+          <div class="mini-quote-content">
+            <div>"${q.text}"</div>
+            <span class="mini-quote-author">— ${q.author}</span>
+          </div>
+          <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikeFromGrid(${q.id})">
+            ❤️ ${count}
+          </button>
+        `;
         grid.appendChild(card);
       });
     }
 
-    // الفحص التلقائي إذا كان مسجلاً من قبل
+    function toggleLikeFromGrid(id) {
+      toggleLike(id);
+      if (currentQuote.id === id) updateMainLikeUI();
+      renderArchive();
+    }
+
     window.onload = () => {
       const savedUser = localStorage.getItem('aesthetic_user');
       if (savedUser) {
