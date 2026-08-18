@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مملكة الاقتباسات 🌙</title>
 
@@ -16,113 +16,156 @@
     user-select:none;
 }
 
+html,body{
+    min-height:100%;
+}
+
 body{
     background:#050508;
-    color:#eee;
-    font-family:Tajawal,sans-serif;
+    color:#e0e0e0;
+    font-family:'Tajawal',sans-serif;
     min-height:100vh;
     padding:20px 15px 120px;
     overflow-x:hidden;
 }
 
+button,
+input,
+textarea,
+select{
+    font-family:'Tajawal',sans-serif;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
 #bgCanvas{
     position:fixed;
     inset:0;
-    width:100%;
-    height:100%;
+    width:100vw;
+    height:100vh;
     z-index:-1;
     pointer-events:none;
 }
 
-button,input,textarea,select{
-    font-family:Tajawal,sans-serif;
-}
-
-.login-card,
-.quote-box,
-.modal-content{
-    background:rgba(15,15,24,.88);
-    border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(15px);
-    -webkit-backdrop-filter:blur(15px);
-}
+/* =========================
+   WELCOME
+========================= */
 
 .login-card{
-    width:100%;
-    max-width:430px;
-    margin:10vh auto 0;
-    padding:35px 25px;
+    background:rgba(18,18,26,.88);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    padding:40px 28px;
     border-radius:22px;
+    width:100%;
+    max-width:420px;
     text-align:center;
-    box-shadow:0 20px 60px #000;
+    box-shadow:0 20px 60px rgba(0,0,0,.8);
+    margin:10vh auto 0;
 }
 
 .login-card h2{
-    color:#fff;
+    font-size:27px;
     margin-bottom:10px;
+    color:#fff;
 }
 
 .login-card p{
-    color:#888;
     font-size:13px;
-    line-height:1.7;
+    color:#888;
     margin-bottom:25px;
+    line-height:1.7;
 }
 
-.input-group{
-    width:100%;
-}
+/* =========================
+   INPUTS
+========================= */
 
 .input-group input,
 .input-group textarea,
 .input-group select{
     width:100%;
-    padding:13px 15px;
-    margin-bottom:12px;
+    padding:13px 16px;
     background:rgba(0,0,0,.5);
     border:1px solid rgba(255,255,255,.12);
     border-radius:10px;
     color:#fff;
+    font-size:14px;
     outline:none;
+    text-align:center;
+    margin-bottom:15px;
+    transition:.3s;
 }
 
 .input-group textarea{
     resize:vertical;
-    user-select:text;
+    text-align:right;
+    line-height:1.7;
+}
+
+.input-group select option{
+    background:#11111a;
+    color:#fff;
 }
 
 .input-group input:focus,
 .input-group textarea:focus,
 .input-group select:focus{
     border-color:#9d4edd;
-    box-shadow:0 0 15px rgba(157,78,221,.25);
+    box-shadow:0 0 15px rgba(157,78,221,.3);
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 .btn{
-    border:0;
-    border-radius:11px;
-    padding:12px 18px;
-    color:white;
-    cursor:pointer;
+    padding:12px 20px;
     background:linear-gradient(135deg,#4a127a,#7b2cbf);
-    box-shadow:0 5px 18px rgba(123,44,191,.3);
+    border:none;
+    border-radius:10px;
+    color:#fff;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
     transition:.25s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    box-shadow:0 4px 15px rgba(123,44,191,.3);
 }
 
 .btn:hover{
     transform:translateY(-2px);
+    box-shadow:0 7px 22px rgba(123,44,191,.5);
+}
+
+.btn:active{
+    transform:scale(.97);
 }
 
 .secondary-btn{
-    background:rgba(255,255,255,.05);
+    background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.1);
+    box-shadow:none;
 }
+
+/* =========================
+   MAIN
+========================= */
 
 .main-app{
     display:none;
     width:100%;
-    max-width:700px;
+    max-width:680px;
     margin:auto;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    z-index:5;
 }
 
 .header-user{
@@ -130,143 +173,206 @@ button,input,textarea,select{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:10px;
+    gap:15px;
     margin-bottom:20px;
     padding-bottom:15px;
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .user-badge{
-    color:#c77dff;
     font-size:14px;
+    color:#c77dff;
+}
+
+.user-badge strong{
+    color:#fff;
 }
 
 .header-actions{
     display:flex;
     gap:7px;
     flex-wrap:wrap;
+    justify-content:flex-end;
 }
 
 .icon-btn{
-    border:1px solid rgba(255,255,255,.1);
     background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
     color:#ccc;
+    padding:7px 11px;
     border-radius:8px;
-    padding:7px 10px;
     cursor:pointer;
     font-size:11px;
+    transition:.25s;
 }
 
+.icon-btn:hover{
+    background:rgba(255,255,255,.13);
+    color:#fff;
+}
+
+/* =========================
+   QUOTE
+========================= */
+
 .quote-box{
-    position:relative;
-    width:100%;
-    min-height:280px;
+    background:rgba(18,18,26,.82);
+    border:1px solid rgba(255,255,255,.1);
     border-radius:22px;
-    padding:45px 25px 30px;
+    padding:40px 30px;
     text-align:center;
+    width:100%;
+    box-shadow:0 20px 45px rgba(0,0,0,.6);
+    margin-bottom:20px;
+    min-height:260px;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    box-shadow:0 20px 50px #000;
     transition:.3s;
+    position:relative;
+    backdrop-filter:blur(12px);
 }
 
 .quote-tag{
     position:absolute;
     top:15px;
-    right:18px;
-    color:#c77dff;
-    background:rgba(157,78,221,.13);
-    border:1px solid rgba(157,78,221,.3);
-    border-radius:15px;
-    padding:4px 10px;
+    right:20px;
     font-size:11px;
+    padding:4px 10px;
+    background:rgba(157,78,221,.15);
+    border:1px solid rgba(157,78,221,.3);
+    color:#c77dff;
+    border-radius:12px;
 }
 
 .quote-text{
-    font-family:Amiri,serif;
+    font-family:'Amiri',serif;
     font-size:25px;
     line-height:1.9;
-    margin-bottom:12px;
-    color:#fff;
+    color:#f8f8f8;
+    margin:10px 0 15px;
 }
 
 .quote-author{
+    font-size:14px;
     color:#9d4edd;
-    font-size:13px;
-    margin-bottom:25px;
+    font-style:italic;
+    margin-bottom:24px;
 }
 
 .quote-actions-bar{
     display:flex;
-    justify-content:center;
-    gap:8px;
+    gap:9px;
     flex-wrap:wrap;
+    justify-content:center;
 }
 
 .action-pill{
-    border:1px solid rgba(255,255,255,.1);
     background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
     color:#ddd;
-    border-radius:20px;
     padding:8px 13px;
+    border-radius:20px;
     cursor:pointer;
     font-size:12px;
+    transition:.25s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.action-pill:hover{
+    background:rgba(255,255,255,.12);
+    color:#fff;
+}
+
+.action-pill:active{
+    transform:scale(.95);
 }
 
 .action-pill.liked{
-    color:#ff2a6d;
+    background:rgba(224,30,90,.2);
     border-color:#ff2a6d;
-    background:rgba(255,42,109,.12);
+    color:#ff2a6d;
 }
+
+/* =========================
+   CONTROLS
+========================= */
 
 .controls-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin:15px 0;
+    gap:12px;
+    width:100%;
+    margin-bottom:20px;
 }
 
+.controls-grid .btn{
+    width:100%;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
 .search-box{
+    width:100%;
     position:relative;
-    margin-bottom:12px;
+    margin-bottom:15px;
 }
 
 .search-input{
     width:100%;
-    padding:12px 42px 12px 15px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.1);
+    padding:13px 42px 13px 15px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
     border-radius:12px;
     color:#fff;
+    font-size:14px;
     outline:none;
-    user-select:text;
+}
+
+.search-input:focus{
+    border-color:#7b2cbf;
 }
 
 .search-icon{
     position:absolute;
-    right:14px;
+    right:15px;
     top:50%;
     transform:translateY(-50%);
-    color:#777;
+    color:#666;
 }
 
+/* =========================
+   FILTER
+========================= */
+
 .filter-bar{
+    width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:12px;
+    margin-bottom:15px;
+    gap:10px;
+}
+
+.filter-buttons{
+    display:flex;
+    gap:3px;
 }
 
 .filter-btn{
-    border:0;
     background:transparent;
+    border:none;
     color:#777;
-    padding:6px 9px;
-    cursor:pointer;
-    border-radius:7px;
     font-size:12px;
+    cursor:pointer;
+    padding:6px 9px;
+    border-radius:7px;
 }
 
 .filter-btn.active{
@@ -274,48 +380,77 @@ button,input,textarea,select{
     background:rgba(199,125,255,.1);
 }
 
+/* =========================
+   QUOTES LIST
+========================= */
+
 .quotes-grid{
+    width:100%;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:12px;
 }
 
 .mini-quote-card{
     background:rgba(255,255,255,.025);
     border-right:3px solid #7b2cbf;
-    border-radius:0 12px 12px 0;
-    padding:15px;
+    padding:16px;
+    border-radius:0 13px 13px 0;
+    font-size:14px;
+    color:#bbb;
+    line-height:1.7;
     display:flex;
     justify-content:space-between;
-    gap:10px;
-    color:#ccc;
-    line-height:1.7;
+    align-items:flex-start;
+    gap:12px;
+    transition:.25s;
+}
+
+.mini-quote-card:hover{
+    background:rgba(255,255,255,.05);
 }
 
 .mini-quote-content{
     flex:1;
+    min-width:0;
 }
 
 .mini-quote-author{
-    display:block;
-    margin-top:5px;
+    font-size:11px;
     color:#777;
-    font-size:10px;
+    margin-top:6px;
+    display:block;
+}
+
+.card-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
 }
 
 .delete-btn{
-    border:0;
-    background:none;
+    background:transparent;
+    border:none;
     color:#ff4757;
     cursor:pointer;
     font-size:11px;
+    opacity:.7;
 }
+
+.delete-btn:hover{
+    opacity:1;
+}
+
+/* =========================
+   MODALS
+========================= */
 
 .modal-overlay{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.82);
-    backdrop-filter:blur(8px);
+    backdrop-filter:blur(9px);
     display:none;
     justify-content:center;
     align-items:center;
@@ -324,16 +459,18 @@ button,input,textarea,select{
 }
 
 .modal-content{
-    width:100%;
-    max-width:480px;
+    background:#0f0f17;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:17px;
     padding:25px;
-    border-radius:18px;
+    width:100%;
+    max-width:450px;
+    box-shadow:0 15px 45px rgba(0,0,0,.8);
 }
 
-.modal-content h3{
-    color:#fff;
-    margin-bottom:15px;
-}
+/* =========================
+   ROBOTS
+========================= */
 
 .robots-container{
     position:fixed;
@@ -341,26 +478,30 @@ button,input,textarea,select{
     display:flex;
     flex-direction:column;
     align-items:flex-end;
-    gap:5px;
+    gap:6px;
+    pointer-events:none;
     touch-action:none;
 }
 
 .robots-bubbles-row{
     display:flex;
-    gap:8px;
+    gap:10px;
+    justify-content:flex-end;
+    pointer-events:none;
 }
 
 .robot-bubble{
+    background:rgba(18,18,26,.95);
+    border:1px solid rgba(157,78,221,.4);
+    color:#e0e0e0;
+    padding:8px 11px;
+    border-radius:12px;
+    font-size:10px;
+    max-width:180px;
+    box-shadow:0 8px 20px rgba(0,0,0,.6);
     opacity:0;
     transform:translateY(10px);
     transition:.3s;
-    background:rgba(15,15,25,.95);
-    border:1px solid rgba(157,78,221,.4);
-    color:#ddd;
-    padding:8px 10px;
-    border-radius:12px;
-    max-width:170px;
-    font-size:10px;
     line-height:1.5;
 }
 
@@ -370,35 +511,50 @@ button,input,textarea,select{
 }
 
 .robot-bubble.female{
-    color:#ffb3c6;
     border-color:rgba(255,42,109,.5);
+    color:#ffb3c6;
 }
 
 .robots-avatars-row{
     display:flex;
-    gap:10px;
+    gap:12px;
+    pointer-events:auto;
     cursor:grab;
 }
 
+.robots-avatars-row:active{
+    cursor:grabbing;
+}
+
 .robot-card{
-    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
 }
 
 .robot-avatar{
-    width:56px;
-    height:56px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:radial-gradient(circle,#1a1a28,#08080d);
+    width:58px;
+    height:58px;
+    background:radial-gradient(circle,#1a1a28,#0a0a12);
     border:2px solid rgba(157,78,221,.5);
-    box-shadow:0 0 18px rgba(123,44,191,.5);
+    border-radius:50%;
+    box-shadow:0 0 15px rgba(123,44,191,.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
     position:relative;
+    transition:.2s;
+    cursor:pointer;
 }
 
 .robot-avatar.female{
-    border-color:#ff2a6d;
+    border-color:rgba(255,42,109,.6);
+    box-shadow:0 0 15px rgba(255,42,109,.6);
+}
+
+.robot-avatar:hover{
+    transform:scale(1.08);
 }
 
 .robot-eyes{
@@ -409,8 +565,11 @@ button,input,textarea,select{
 .eye{
     width:13px;
     height:16px;
+    background:#05050a;
     border:1px solid #7b2cbf;
     border-radius:50%;
+    position:relative;
+    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -423,55 +582,166 @@ button,input,textarea,select{
 .pupil{
     width:5px;
     height:5px;
-    border-radius:50%;
     background:#00f0ff;
-    box-shadow:0 0 10px #00f0ff;
+    border-radius:50%;
+    box-shadow:0 0 10px 2px #00f0ff;
+    transition:.05s;
 }
 
-.female-pupil{
+.pupil.female-pupil{
     background:#ff2a6d;
-    box-shadow:0 0 10px #ff2a6d;
+    box-shadow:0 0 10px 2px #ff2a6d;
 }
 
 .robot-antenna{
     position:absolute;
-    top:-9px;
+    top:-8px;
     width:2px;
     height:8px;
     background:#7b2cbf;
 }
 
 .robot-antenna::after{
-    content:"";
+    content:'';
     position:absolute;
     top:-4px;
     left:-2px;
     width:6px;
     height:6px;
-    border-radius:50%;
     background:#00f0ff;
+    border-radius:50%;
+    box-shadow:0 0 8px #00f0ff;
 }
 
-.female-antenna{
+.robot-antenna.female-antenna{
     background:#ff2a6d;
 }
 
-.female-antenna::after{
+.robot-antenna.female-antenna::after{
     background:#ff2a6d;
+    box-shadow:0 0 8px #ff2a6d;
 }
 
 .robot-bow{
     position:absolute;
-    top:-7px;
+    top:-6px;
     right:2px;
+    font-size:11px;
 }
 
 .robot-label{
+    font-size:10px;
     color:#aaa;
-    font-size:9px;
 }
 
+/* =========================
+   CHAT
+========================= */
+
+.chat-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:10px;
+}
+
+.chat-messages{
+    flex:1;
+    overflow-y:auto;
+    background:rgba(0,0,0,.3);
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    font-size:13px;
+}
+
+.chat-message{
+    padding:7px 11px;
+    border-radius:8px;
+    max-width:90%;
+    line-height:1.6;
+    word-break:break-word;
+}
+
+.chat-athir{
+    color:#c77dff;
+    background:rgba(255,255,255,.03);
+    align-self:flex-start;
+}
+
+.chat-athira{
+    color:#ffb3c6;
+    background:rgba(255,255,255,.03);
+    align-self:flex-start;
+}
+
+.chat-user{
+    color:#fff;
+    background:rgba(123,44,191,.3);
+    align-self:flex-end;
+}
+
+.chat-input-row{
+    display:flex;
+    gap:8px;
+}
+
+.chat-input{
+    flex:1;
+    padding:10px;
+    background:rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:8px;
+    color:#fff;
+    outline:none;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:rgba(20,20,28,.95);
+    border:1px solid rgba(157,78,221,.4);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:20px;
+    font-size:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:300;
+}
+
+#toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:600px){
+
+    body{
+        padding:15px 10px 120px;
+    }
+
+    .login-card{
+        margin-top:7vh;
+        padding:32px 20px;
+    }
+
     .header-user{
         align-items:flex-start;
         flex-direction:column;
@@ -479,22 +749,32 @@ button,input,textarea,select{
 
     .header-actions{
         width:100%;
+        justify-content:flex-start;
     }
 
-    .icon-btn{
-        flex:1;
+    .quote-box{
+        padding:38px 18px;
     }
 
     .quote-text{
-        font-size:21px;
+        font-size:22px;
     }
 
     .controls-grid{
         grid-template-columns:1fr;
     }
 
+    .filter-bar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .mini-quote-card{
+        padding:13px;
+    }
+
     .robots-container{
-        transform:scale(.85);
+        transform:scale(.9);
         transform-origin:bottom right;
     }
 }
@@ -505,14 +785,17 @@ button,input,textarea,select{
 
 <canvas id="bgCanvas"></canvas>
 
-<!-- تسجيل الدخول -->
+<!-- =========================
+     شاشة اللقب فقط
+========================= -->
+
 <div class="login-card" id="loginCard">
 
     <h2>مملكة الاقتباسات 🌙</h2>
 
     <p>
-        اصنع مساحتك الخاصة، احفظ اقتباساتك،
-        واكتشف كلمات جديدة كل يوم.
+        أهلاً بك في مساحتك الخاصة.<br>
+        اكتب لقبك فقط وادخل إلى عالمك.
     </p>
 
     <div class="input-group">
@@ -520,40 +803,35 @@ button,input,textarea,select{
         <input
             type="text"
             id="nicknameInput"
-            maxlength="20"
             placeholder="اكتب لقبك..."
-        >
-
-        <input
-            type="password"
-            id="passwordInput"
-            maxlength="30"
-            placeholder="كلمة السر..."
+            maxlength="20"
+            autocomplete="off"
         >
 
     </div>
 
     <button
         class="btn"
-        style="width:100%"
-        onclick="handleAuth()"
+        style="width:100%;"
+        onclick="enterWorld()"
     >
-        دخول / إنشاء حساب
+        دخول إلى المملكة ✨
     </button>
 
 </div>
 
 
-<!-- التطبيق -->
+<!-- =========================
+     التطبيق
+========================= -->
+
 <div class="main-app" id="mainApp">
 
     <div class="header-user">
 
         <div class="user-badge">
-            ✨ أهلاً بك:
-            <strong id="userNickname" style="color:#fff">
-                الزائر
-            </strong>
+            <span>✨ أهلاً بك:</span>
+            <strong id="userNickname">الزائر</strong>
         </div>
 
         <div class="header-actions">
@@ -563,21 +841,21 @@ button,input,textarea,select{
                 id="ambientAudioBtn"
                 onclick="toggleAmbientSound()"
             >
-                أجواء 🎧
+                أجواء العزلة 🎧
             </button>
 
             <button
                 class="icon-btn"
                 onclick="openRobotChat()"
             >
-                الروبوتات 🤖
+                محادثة الروبوتات 🤖
             </button>
 
             <button
                 class="icon-btn"
-                onclick="logout()"
+                onclick="changeNickname()"
             >
-                خروج
+                تغيير اللقب ✏️
             </button>
 
         </div>
@@ -586,17 +864,27 @@ button,input,textarea,select{
 
 
     <!-- الاقتباس الرئيسي -->
+
     <div class="quote-box" id="quoteBox">
 
-        <span class="quote-tag" id="quoteCategory">
+        <span
+            class="quote-tag"
+            id="quoteCategory"
+        >
             فلسفة
         </span>
 
-        <p class="quote-text" id="quoteText">
+        <p
+            class="quote-text"
+            id="quoteText"
+        >
             "في الهدوء تجد العقول العظيمة ملجأها."
         </p>
 
-        <span class="quote-author" id="quoteAuthor">
+        <span
+            class="quote-author"
+            id="quoteAuthor"
+        >
             — مجهول
         </span>
 
@@ -607,35 +895,29 @@ button,input,textarea,select{
                 id="mainLikeBtn"
                 onclick="toggleMainLike()"
             >
-                ❤️ <span id="mainLikeCount">0</span>
+                ❤️
+                <span id="mainLikeCount">0</span>
             </button>
 
             <button
                 class="action-pill"
                 onclick="speakQuote()"
             >
-                🎙️ استماع
-            </button>
-
-            <button
-                class="action-pill"
-                onclick="copyQuote()"
-            >
-                📋 نسخ
-            </button>
-
-            <button
-                class="action-pill"
-                onclick="shareQuote()"
-            >
-                📤 مشاركة
+                استماع 🎙️
             </button>
 
             <button
                 class="action-pill"
                 onclick="downloadQuoteImage()"
             >
-                🖼️ صورة
+                صورة 🖼️
+            </button>
+
+            <button
+                class="action-pill"
+                onclick="copyQuote()"
+            >
+                نسخ 📋
             </button>
 
         </div>
@@ -643,50 +925,56 @@ button,input,textarea,select{
     </div>
 
 
+    <!-- الأزرار -->
+
     <div class="controls-grid">
 
         <button
             class="btn"
             onclick="getRandomQuote()"
         >
-            🎲 اقتباس عشوائي
+            اقتباس عشوائي 🎲
         </button>
 
         <button
             class="btn secondary-btn"
             onclick="openAddModal()"
         >
-            ✍️ نشر اقتباس
+            نشر اقتباس جديد ✍️
         </button>
 
     </div>
 
 
     <!-- البحث -->
+
     <div class="search-box">
 
         <span class="search-icon">🔍</span>
 
         <input
+            type="text"
             class="search-input"
             id="searchInput"
             placeholder="ابحث في المملكة..."
-            oninput="renderArchive()"
+            autocomplete="off"
         >
 
     </div>
 
 
+    <!-- الفلاتر -->
+
     <div class="filter-bar">
 
         <span
+            style="font-size:13px;color:#888;"
             id="resultsCount"
-            style="color:#888;font-size:12px"
         >
             المكتبة
         </span>
 
-        <div>
+        <div class="filter-buttons">
 
             <button
                 class="filter-btn active"
@@ -701,7 +989,7 @@ button,input,textarea,select{
                 id="filterLiked"
                 onclick="setFilter('liked')"
             >
-                ❤️ المفضلة
+                المفضلة ❤️
             </button>
 
             <button
@@ -709,7 +997,7 @@ button,input,textarea,select{
                 id="filterMine"
                 onclick="setFilter('mine')"
             >
-                ✍️ اقتباساتي
+                اقتباساتي ✍️
             </button>
 
         </div>
@@ -725,7 +1013,10 @@ button,input,textarea,select{
 </div>
 
 
-<!-- الروبوتات -->
+<!-- =========================
+     الروبوتات
+========================= -->
+
 <div
     class="robots-container"
     id="robotsContainer"
@@ -737,14 +1028,14 @@ button,input,textarea,select{
             class="robot-bubble"
             id="bubbleAthir"
         >
-            أثير: مرحباً 👁️
+            أثير: مرحباً بك 👁️
         </div>
 
         <div
             class="robot-bubble female"
             id="bubbleAthira"
         >
-            أثيرة: أهلاً 🌸
+            أثيرة: أهلاً بك 🌸
         </div>
 
     </div>
@@ -759,4 +1050,322 @@ button,input,textarea,select{
 
             <div
                 class="robot-avatar"
-                onclick
+                id="avatarAthir"
+            >
+
+                <div class="robot-antenna"></div>
+
+                <div class="robot-eyes">
+
+                    <div class="eye">
+                        <div class="pupil"></div>
+                    </div>
+
+                    <div class="eye">
+                        <div class="pupil"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <span class="robot-label">
+                أثير 🤖
+            </span>
+
+        </div>
+
+
+        <div class="robot-card">
+
+            <div
+                class="robot-avatar female"
+                id="avatarAthira"
+            >
+
+                <div class="robot-antenna female-antenna"></div>
+
+                <span class="robot-bow">🎀</span>
+
+                <div class="robot-eyes">
+
+                    <div class="eye female-eye">
+                        <div class="pupil female-pupil"></div>
+                    </div>
+
+                    <div class="eye female-eye">
+                        <div class="pupil female-pupil"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <span
+                class="robot-label"
+                style="color:#ffb3c6;"
+            >
+                أثيرة 🌸
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     إضافة اقتباس
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="addModal"
+>
+
+    <div class="modal-content">
+
+        <h3 style="margin-bottom:15px;">
+            نشر اقتباس ✍️
+        </h3>
+
+        <div class="input-group">
+
+            <textarea
+                id="customQuoteText"
+                rows="4"
+                placeholder="اكتب اقتباسك..."
+                maxlength="500"
+            ></textarea>
+
+            <input
+                type="text"
+                id="customQuoteAuthor"
+                placeholder="اسم القائل أو لقبك"
+                maxlength="50"
+            >
+
+            <select id="customQuoteCategory">
+
+                <option value="فلسفة">فلسفة</option>
+                <option value="عزلة">عزلة</option>
+                <option value="حكمة">حكمة</option>
+                <option value="مشاعر">مشاعر</option>
+                <option value="ظلام">ظلام هادئ</option>
+                <option value="أمل">أمل</option>
+
+            </select>
+
+        </div>
+
+        <div style="display:flex;gap:10px;">
+
+            <button
+                class="btn"
+                style="flex:1;"
+                onclick="saveCustomQuote()"
+            >
+                نشر الآن
+            </button>
+
+            <button
+                class="btn secondary-btn"
+                style="flex:1;"
+                onclick="closeAddModal()"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     محادثة الروبوتات
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="robotChatModal"
+>
+
+    <div
+        class="modal-content"
+        style="
+        max-width:500px;
+        height:450px;
+        display:flex;
+        flex-direction:column;
+        "
+    >
+
+        <div class="chat-header">
+
+            <h3
+                style="
+                margin:0;
+                color:#c77dff;
+                font-size:16px;
+                "
+            >
+                غرفة أثير وأثيرة 🌙
+            </h3>
+
+            <button
+                class="icon-btn"
+                onclick="closeRobotChat()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        >
+
+            <div class="chat-message chat-athir">
+                أثير: أهلاً بك في غرفتنا السرية 🌙
+            </div>
+
+            <div class="chat-message chat-athira">
+                أثيرة: اكتب أي شيء وسأحاول مساعدتك ✨
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-row">
+
+            <input
+                type="text"
+                id="robotChatInput"
+                class="chat-input"
+                placeholder="اكتب رسالتك..."
+                maxlength="500"
+                autocomplete="off"
+            >
+
+            <button
+                class="btn"
+                onclick="sendChatMessage()"
+            >
+                إرسال
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   الإعدادات
+========================================================= */
+
+/*
+   إذا كان لديك Backend حقيقي للذكاء الاصطناعي:
+   ضع رابطه هنا.
+
+   مثال:
+   const AI_API_URL = "https://example.com/api/chat";
+
+   اتركه فارغاً إذا لم يكن لديك Backend.
+*/
+
+const AI_API_URL = "";
+
+
+/* =========================================================
+   الاقتباسات الأساسية
+========================================================= */
+
+const defaultQuotes = [
+
+    {
+        id:1,
+        text:"الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.",
+        author:"فلسفة الهدوء",
+        category:"فلسفة",
+        userCreated:false
+    },
+
+    {
+        id:2,
+        text:"قد تجد في العزلة ما لا تجده في زحمة العابرين.",
+        author:"حكمة قديمة",
+        category:"عزلة",
+        userCreated:false
+    },
+
+    {
+        id:3,
+        text:"سيكون كل شيء جميلاً، ربما ليس اليوم ولكن حتماً في يوم ما.",
+        author:"أمل",
+        category:"مشاعر",
+        userCreated:false
+    },
+
+    {
+        id:4,
+        text:"لا تزن نفسك بمقياس غيرك، لكل نجم في السماء بريقه الخاص.",
+        author:"تأملات",
+        category:"حكمة",
+        userCreated:false
+    },
+
+    {
+        id:5,
+        text:"الهدوء فن، لا يتقنه إلا من تعلم كيف يصمت وفي قلبه عاصفة.",
+        author:"أدب الشوارع",
+        category:"عزلة",
+        userCreated:false
+    },
+
+    {
+        id:6,
+        text:"نحن نعيش في عالم يمتلئ بالضجيج، ابحث دائماً عن بقعة سلامك الخاص.",
+        author:"مجهول",
+        category:"فلسفة",
+        userCreated:false
+    },
+
+    {
+        id:7,
+        text:"الذين يسيرون في الطرقات المظلمة هم أول من يلمح النجوم.",
+        author:"عالم الأسرار",
+        category:"ظلام",
+        userCreated:false
+    },
+
+    {
+        id:8,
+        text:"أعظم المعارك هي تلك التي تخوضها بينك وبين نفسك في صمت.",
+        author:"تأملات",
+        category:"فلسفة",
+        userCreated:false
+    },
+
+    {
+        id:9,
+        text:"من يمتلك سبباً يعيش لأجله، يمكنه تحمّل أي طريقة يعيش بها.",
+        author:"فريدريك نيتشه",
+        category:"فلسفة",
+        userCreated:false
+    },
+
+    {
+        id:10,
+        text:"أحياناً لا تحتاج إلى إجابة، بل إلى لح
