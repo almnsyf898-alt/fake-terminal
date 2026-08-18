@@ -391,9 +391,7 @@
       font-size: 18px;
     }
 
-    /* ---------------------------------------------------- */
-    /* الروبوتات التفاعلية المزدوجة ("أثير" و "أثيرة")         */
-    /* ---------------------------------------------------- */
+    /* الروبوتات التفاعلية المزدوجة */
     .robots-container {
       position: fixed;
       bottom: 15px;
@@ -550,6 +548,35 @@
       font-size: 10px;
       color: #aaa;
     }
+
+    /* --- حركة الطفو والرمش للروبوتين --- */
+    @keyframes robotFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    @keyframes robotFloatFemale {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(-3deg); }
+    }
+
+    @keyframes eyeBlink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    #avatarAthir {
+      animation: robotFloat 3s ease-in-out infinite !important;
+    }
+
+    #avatarAthira {
+      animation: robotFloatFemale 3.5s ease-in-out infinite 0.5s !important;
+    }
+
+    .eye {
+      animation: eyeBlink 4s infinite !important;
+      transform-origin: center;
+    }
   </style>
 </head>
 <body>
@@ -696,7 +723,7 @@
     let audioCtx = null;
     let noiseNode = null;
 
-    // 2. إدارة الحسابات الحصرية (المستخدم وكلمة السر)
+    // 2. إدارة الحسابات الحصرية
     function getUsersDB() {
       return JSON.parse(localStorage.getItem('aesthetic_users_db')) || {};
     }
@@ -1024,7 +1051,7 @@
       }
     }
 
-    // 5. تتبع العينين والحوارات للروبوتين "أثير" و "أثيرة"
+    // 5. تتبع العينين والحوارات
     const pupils = document.querySelectorAll('.pupil');
 
     function updatePupilsPosition(targetX, targetY) {
@@ -1083,7 +1110,8 @@
       robotsSay(randomConv[0], randomConv[1]);
     }
 
-    // 6. خلفية النجوم ولورد const canvas = document.getElementById('bgCanvas');
+    // 6. خلفية النجوم
+    const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
 
@@ -1129,7 +1157,7 @@
     }
     animateParticles();
 
-    // 7. بوت النشر التلقائي للاقتباسات
+    // 7. بوت النشر التلقائي
     const autoBotQuotes = [
       "الوقت كفيل بإظهار الحقائق مهما طال الصمت.",
       "لا تقاس العظمة بما تملك، بل بما تتركه من أثر هادئ.",
@@ -1170,7 +1198,7 @@
     setTimeout(runAutoQuoteBot, 3000);
     setInterval(runAutoQuoteBot, 300000);
 
-    // 8. الفحص التلقائي للجلسة عند تحميل الصفحة
+    // 8. الفحص التلقائي للجلسة
     window.onload = () => {
       const currentUser = localStorage.getItem('aesthetic_current_user');
       if (currentUser) {
