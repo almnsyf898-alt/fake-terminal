@@ -632,8 +632,8 @@
         <div class="robot-avatar" id="avatarAthir" onclick="triggerRobotsConversation()">
           <div class="robot-antenna"></div>
           <div class="robot-eyes">
-            <div class="eye"><div class="pupil" class="pupil-elem"></div></div>
-            <div class="eye"><div class="pupil" class="pupil-elem"></div></div>
+            <div class="eye"><div class="pupil"></div></div>
+            <div class="eye"><div class="pupil"></div></div>
           </div>
         </div>
         <span class="robot-label">أثير 🤖</span>
@@ -644,8 +644,8 @@
           <div class="robot-antenna female-antenna"></div>
           <span class="robot-bow">🎀</span>
           <div class="robot-eyes">
-            <div class="eye female-eye"><div class="pupil female-pupil" class="pupil-elem"></div></div>
-            <div class="eye female-eye"><div class="pupil female-pupil" class="pupil-elem"></div></div>
+            <div class="eye female-eye"><div class="pupil female-pupil"></div></div>
+            <div class="eye female-eye"><div class="pupil female-pupil"></div></div>
           </div>
         </div>
         <span class="robot-label" style="color:#ffb3c6;">أثيرة 🌸</span>
@@ -716,7 +716,6 @@
       const usersDB = getUsersDB();
 
       if (usersDB[name]) {
-        // حساب موجود مسبقاً -> فحص كلمة السر
         if (usersDB[name].password === password) {
           localStorage.setItem('aesthetic_current_user', name);
           showApp(name);
@@ -724,7 +723,6 @@
           alert('عذراً! هذا اللقب مأخوذ مسبقاً، وكلمة السر غير صحيحة!');
         }
       } else {
-        // حساب جديد -> إنشاء وتسجيل
         usersDB[name] = { password: password, createdAt: Date.now() };
         saveUsersDB(usersDB);
         localStorage.setItem('aesthetic_current_user', name);
@@ -1085,8 +1083,7 @@
       robotsSay(randomConv[0], randomConv[1]);
     }
 
-    // 6. خلفية النجوم والتأثيرات
-    const canvas = document.getElementById('bgCanvas');
+    // 6. خلفية النجوم ولورد const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
 
@@ -1132,7 +1129,48 @@
     }
     animateParticles();
 
-    // الفحص التلقائي للجلسة
+    // 7. بوت النشر التلقائي للاقتباسات
+    const autoBotQuotes = [
+      "الوقت كفيل بإظهار الحقائق مهما طال الصمت.",
+      "لا تقاس العظمة بما تملك، بل بما تتركه من أثر هادئ.",
+      "الهدوء هو أعلى درجات القوة في هذا العالم المزدحم.",
+      "من يتقن الصمت، يتقن الاستماع للكون.",
+      "لا تتوقف عندما تتعب، توقف عندما تنتهي."
+    ];
+
+    function runAutoQuoteBot() {
+      const randomIndex = Math.floor(Math.random() * autoBotQuotes.length);
+      const selectedText = autoBotQuotes[randomIndex];
+
+      const botQuote = {
+        id: Date.now(),
+        text: selectedText,
+        author: "بوت الحكمة 🤖",
+        category: "آلي",
+        userCreated: true,
+        createdBy: "AutoBot"
+      };
+
+      const stored = localStorage.getItem('aesthetic_custom_quotes');
+      const customQuotes = stored ? JSON.parse(stored) : [];
+      
+      const exists = customQuotes.some(q => q.text === selectedText);
+      if (!exists) {
+        customQuotes.push(botQuote);
+        localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
+        
+        loadQuotesData();
+        renderArchive();
+        if (typeof robotsSay === "function") {
+          robotsSay("أثير: البوت نشر اقتباساً جديداً تلقائياً!", "أثيرة: تفقد المكتبة لقد أضاف حكمة جديدة ههههه 🤖");
+        }
+      }
+    }
+
+    setTimeout(runAutoQuoteBot, 3000);
+    setInterval(runAutoQuoteBot, 300000);
+
+    // 8. الفحص التلقائي للجلسة عند تحميل الصفحة
     window.onload = () => {
       const currentUser = localStorage.getItem('aesthetic_current_user');
       if (currentUser) {
