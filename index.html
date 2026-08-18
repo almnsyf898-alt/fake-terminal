@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Terminal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #00ff66;
+            font-family: monospace;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        #terminal {
+            max-width: 700px;
+            margin: 30px auto;
+            font-size: 16px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        .cursor {
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>⚠ SYSTEM TERMINAL ⚠</h1>
+
+    <div id="terminal"></div>
+
+    <script>
+        const messages = [
+            "[+] Initializing system...",
+            "[+] Connecting to secure server...",
+            "[+] Checking network...",
+            "[+] Encrypting connection...",
+            "[+] Bypassing firewall...",
+            "[+] Access granted...",
+            "[+] Running security scan...",
+            "[+] 100% COMPLETE",
+            "",
+            ">>> DEMO MODE <<<",
+            "This is only a simulation."
+        ];
+
+        const terminal = document.getElementById("terminal");
+        let index = 0;
+
+        function showMessage() {
+            if (index < messages.length) {
+                terminal.textContent += messages[index] + "\n";
+                index++;
+                setTimeout(showMessage, 700);
+            }
+        }
+
+        showMessage();
+    </script>
+
+</body>
+</html>
