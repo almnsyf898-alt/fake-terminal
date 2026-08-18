@@ -1,1033 +1,357 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة العوالم المظلمة</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --accent-color: #8a2be2;
+            --glow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+        }
 
-<title>عالم الظلال</title>
+        body.theme-blood {
+            --bg-color: #0a0000;
+            --text-color: #ffcccc;
+            --accent-color: #cc0000;
+        }
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        body.theme-abyss {
+            --bg-color: #00050a;
+            --text-color: #ccffff;
+            --accent-color: #0066cc;
+        }
 
-body {
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 50% 20%, #202033 0%, #0b0b12 45%, #050508 100%);
-    color: #e8e4dc;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
 
-/* الخلفية */
+        /* شاشة الدخول */
+        #intro-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            z-index: 100;
+            position: absolute;
+            width: 100%;
+        }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.35;
-    background-image:
-        radial-gradient(circle, #ffffff 1px, transparent 1px);
-    background-size: 95px 95px;
-    animation: stars 18s linear infinite;
-}
+        h1 {
+            text-shadow: var(--glow);
+            letter-spacing: 2px;
+        }
 
-@keyframes stars {
-    from {
-        transform: translateY(0);
-    }
+        input {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            box-shadow: var(--glow);
+            margin: 20px;
+            transition: 0.3s;
+        }
 
-    to {
-        transform: translateY(95px);
-    }
-}
+        input:focus {
+            box-shadow: 0 0 30px var(--accent-color);
+        }
 
-/* الغلاف */
+        button {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            text-shadow: var(--glow);
+            box-shadow: var(--glow);
+            transition: 0.3s;
+        }
 
-.hero {
-    min-height: 92vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 30px 20px;
-    position: relative;
-}
+        button:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
 
-.symbol {
-    width: 90px;
-    height: 90px;
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    margin-bottom: 30px;
-    box-shadow:
-        0 0 25px rgba(150,130,255,.15),
-        inset 0 0 20px rgba(255,255,255,.04);
+        /* المحتوى الرئيسي */
+        #main-content {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    animation: float 4s ease-in-out infinite;
-}
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
 
-@keyframes float {
-    0%,100% {
-        transform: translateY(0);
-    }
+        select {
+            background: #000;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 5px;
+            outline: none;
+        }
 
-    50% {
-        transform: translateY(-10px);
-    }
-}
+        /* الاقتباسات */
+        .quote-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-right: 4px solid var(--accent-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+        }
 
-.hero h1 {
-    font-size: clamp(38px, 10vw, 75px);
-    letter-spacing: 4px;
-    margin-bottom: 18px;
-    text-shadow: 0 0 25px rgba(180,170,255,.25);
-}
+        .quote-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
 
-.hero p {
-    max-width: 650px;
-    line-height: 2;
-    color: #aaa7b4;
-    font-size: 17px;
-}
+        .engagement {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #888;
+        }
 
-.enter-btn {
-    margin-top: 35px;
-    padding: 14px 34px;
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 30px;
-    background: rgba(255,255,255,.04);
-    color: #eee;
-    font-size: 16px;
-    cursor: pointer;
-    transition: .3s;
-}
+        .like-btn {
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-.enter-btn:hover {
-    background: rgba(255,255,255,.1);
-    transform: translateY(-3px);
-}
+        .like-btn:hover {
+            color: var(--accent-color);
+        }
 
-/* الأقسام */
+        /* الحكيم / الروبوت */
+        #wise-man {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: var(--glow);
+            max-width: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: float 4s ease-in-out infinite;
+        }
 
-.section {
-    max-width: 1050px;
-    margin: auto;
-    padding: 80px 20px;
-}
+        #wise-shape {
+            font-size: 40px;
+            margin-bottom: 10px;
+            transition: 0.5s;
+        }
 
-.section-title {
-    text-align: center;
-    margin-bottom: 45px;
-}
+        #wise-text {
+            font-size: 0.9rem;
+        }
 
-.section-title h2 {
-    font-size: 32px;
-    margin-bottom: 12px;
-}
+        /* الصندوق السحري */
+        #magic-box {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            cursor: pointer;
+            animation: spin 6s linear infinite, pulseGlow 2s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
 
-.section-title p {
-    color: #777582;
-}
-
-/* بطاقة الاقتباس */
-
-.quote-box {
-    position: relative;
-    padding: 45px 30px;
-    border: 1px solid rgba(255,255,255,.09);
-    border-radius: 24px;
-    background: rgba(255,255,255,.025);
-    box-shadow: 0 20px 60px rgba(0,0,0,.35);
-    text-align: center;
-    overflow: hidden;
-}
-
-.quote-box::before {
-    content: "“";
-    position: absolute;
-    top: -30px;
-    right: 20px;
-    font-size: 150px;
-    color: rgba(255,255,255,.035);
-}
-
-.quote {
-    position: relative;
-    font-size: clamp(22px, 5vw, 34px);
-    line-height: 1.9;
-    color: #eeeae3;
-}
-
-.author {
-    margin-top: 25px;
-    color: #777582;
-}
-
-/* بطاقات العالم */
-
-.world-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.world-card {
-    min-height: 170px;
-    padding: 25px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.025);
-    transition: .35s;
-}
-
-.world-card:hover {
-    transform: translateY(-7px);
-    border-color: rgba(190,180,255,.3);
-    background: rgba(255,255,255,.05);
-}
-
-.world-card .icon {
-    font-size: 30px;
-    margin-bottom: 15px;
-}
-
-.world-card h3 {
-    margin-bottom: 10px;
-}
-
-.world-card p {
-    color: #888692;
-    line-height: 1.8;
-    font-size: 14px;
-}
-
-/* الروبوتات - ميزة جانبية */
-
-.robot-area {
-    margin-top: 40px;
-    padding: 25px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.02);
-    border: 1px solid rgba(255,255,255,.06);
-    text-align: center;
-}
-
-.robot {
-    display: inline-block;
-    font-size: 45px;
-    margin: 10px 20px;
-    animation: robotFloat 3s ease-in-out infinite;
-}
-
-.robot:nth-child(2) {
-    animation-delay: 1s;
-}
-
-@keyframes robotFloat {
-    0%,100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-}
-
-/* الفوتر */
-
-footer {
-    padding: 50px 20px;
-    text-align: center;
-    color: #55535f;
-    border-top: 1px solid rgba(255,255,255,.05);
-}
-
-/* الهاتف */
-
-@media (max-width: 700px) {
-
-    .world-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .hero {
-        min-height: 85vh;
-    }
-
-    .section {
-        padding: 60px 15px;
-    }
-
-    .quote-box {
-        padding: 35px 20px;
-    }
-}
-</style>
+        /* التأثيرات الحركية */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: var(--glow); } 50% { box-shadow: 0 0 40px var(--accent-color); } }
+    </style>
 </head>
-
 <body>
 
-<!-- العالم الرئيسي -->
-
-<header class="hero">
-
-    <div class="symbol">☾</div>
-
-    <h1>عالم الظلال</h1>
-
-    <p>
-        ليس كل ما تبحث عنه يريد أن يُكتشف...
-        بعض الأشياء تنتظر أن تجدها بنفسك.
-    </p>
-
-    <button class="enter-btn" onclick="enterWorld()">
-        ادخل إلى العالم
-    </button>
-
-</header>
-
-
-<!-- الاقتباسات -->
-
-<section class="section" id="quotes">
-
-    <div class="section-title">
-        <h2>📜 همسات</h2>
-        <p>اقتباسات تركها أشخاص مروا من هنا</p>
+    <!-- شاشة الدخول -->
+    <div id="intro-screen">
+        <h1 id="welcome-text">مرحباً بك في البعد المظلم</h1>
+        <input type="text" id="nickname" placeholder="أدخل لقبك للعبور..." autocomplete="off" />
+        <button onclick="enterSite()">دخول</button>
     </div>
 
-    <div class="quote-box">
+    <!-- المحتوى الرئيسي -->
+    <div id="main-content">
+        <header>
+            <h2 id="user-greeting">الظلام يرحب بك</h2>
+            <div>
+                <input type="text" id="search-bar" placeholder="ابحث في أروقة العدم..." onkeyup="filterQuotes()" />
+                <select id="theme-switcher" onchange="changeTheme()">
+                    <option value="default">الفراغ الأرجواني</option>
+                    <option value="blood">النزيف القرمزي</option>
+                    <option value="abyss">الهاوية الزرقاء</option>
+                </select>
+            </div>
+        </header>
 
-        <div class="quote" id="quote">
-            "أحيانًا، يكون الصمت هو الشيء الوحيد
-            الذي يخبرك بالحقيقة."
+        <main id="quotes-container">
+            <!-- سيتم توليد الاقتباسات هنا عبر جافاسكربت -->
+        </main>
+
+        <!-- الحكيم المتحرك -->
+        <div id="wise-man">
+            <div id="wise-shape">👁️</div>
+            <div id="wise-text">أنا أراقبك...</div>
         </div>
 
-        <div class="author" id="author">
-            — مجهول
-        </div>
-
+        <!-- الصندوق السحري -->
+        <div id="magic-box" onclick="openCreatorBox()" title="بوابة المطور">✥</div>
     </div>
 
-</section>
-
-
-<!-- العالم الغامض -->
-
-<section class="section">
-
-    <div class="section-title">
-        <h2>🌑 داخل العالم</h2>
-        <p>هناك أشياء أكثر مما تراه عيناك</p>
-    </div>
-
-    <div class="world-grid">
-
-        <div class="world-card">
-            <div class="icon">🗝️</div>
-            <h3>الأبواب</h3>
-            <p>
-                بعض الأبواب لا تُفتح بالمفاتيح،
-                بل بالفضول.
-            </p>
-        </div>
-
-        <div class="world-card">
-            <div class="icon">🔮</div>
-            <h3>الأسرار</h3>
-            <p>
-                كل سر له قصة، وكل قصة تخفي
-                سرًا آخر.
-            </p>
-        </div>
-
-        <div class="world-card">
-            <div class="icon">📖</div>
-            <h3>الحكايات</h3>
-            <p>
-                اقرأ ما تركه الذين مروا
-                قبل أن تصل أنت.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- الروبوتات مجرد تسلية -->
-
-<section class="section">
-
-    <div class="section-title">
-        <h2>🤖 ركن التسلية</h2>
-        <p>حتى في العالم المظلم... هناك من يراقب بصمت.</p>
-    </div>
-
-    <div class="robot-area">
-
-        <div class="robot">🤖</div>
-        <div class="robot">👾</div>
-
-    </div>
-
-</section>
-
-
-<footer>
-    🌘 بعض الأبواب لا تظهر إلا لمن يبحث عنها.
-</footer>
-
-
-<script>
-
-function enterWorld() {
-
-    document.getElementById("quotes").scrollIntoView({
-        behavior: "smooth"
-    });
-
-}
-
-</script>
-
-</body>
-</html><script>
-/* =================================
-   🌑 نظام الاقتباسات الغامضة
-================================= */
-
-const quotes = [
-    {
-        text: "أحيانًا، الطريق الذي تخشاه هو الطريق الذي يقودك إلى نفسك.",
-        author: "— من دفتر مجهول"
-    },
-    {
-        text: "ليست كل الظلال مخيفة... بعضها يخفي شيئًا يستحق الاكتشاف.",
-        author: "— الحارس"
-    },
-    {
-        text: "حين يصمت العالم، تبدأ الأشياء التي لم تكن تراها بالكلام.",
-        author: "— رسالة قديمة"
-    },
-    {
-        text: "لا تبحث عن الحقيقة بسرعة، فبعض الحقائق تحتاج إلى أن تكون مستعدًا لها.",
-        author: "— مجهول"
-    },
-    {
-        text: "كل باب مغلق يحمل سؤالًا أكثر مما يحمل إجابة.",
-        author: "— المسافر"
-    },
-    {
-        text: "ربما لم تصل إلى هذا المكان بالصدفة.",
-        author: "— ؟؟؟"
-    }
-];
-
-let quoteIndex = 0;
-
-function nextQuote() {
-
-    const quote = document.getElementById("quote");
-    const author = document.getElementById("author");
-
-    if (!quote || !author) return;
-
-    quote.style.opacity = "0";
-    author.style.opacity = "0";
-
-    setTimeout(() => {
-
-        quoteIndex++;
-
-        if (quoteIndex >= quotes.length) {
-            quoteIndex = 0;
-        }
-
-        quote.textContent = "“" + quotes[quoteIndex].text + "”";
-        author.textContent = quotes[quoteIndex].author;
-
-        quote.style.opacity = "1";
-        author.style.opacity = "1";
-
-    }, 400);
-}
-
-
-/* =================================
-   🔮 زر اكتشاف اقتباس جديد
-================================= */
-
-const quoteBox = document.querySelector(".quote-box");
-
-if (quoteBox) {
-
-    const button = document.createElement("button");
-
-    button.textContent = "اكتشف همسة أخرى";
-
-    button.style.marginTop = "30px";
-    button.style.padding = "12px 25px";
-    button.style.borderRadius = "25px";
-    button.style.border = "1px solid rgba(255,255,255,.18)";
-    button.style.background = "rgba(255,255,255,.04)";
-    button.style.color = "#ddd";
-    button.style.cursor = "pointer";
-
-    button.onclick = nextQuote;
-
-    quoteBox.appendChild(button);
-}
-
-
-/* =================================
-   🗝️ نظام الأسرار
-================================= */
-
-const secretMessages = [
-    "هناك شيء ما يراقب من خلف الستار...",
-    "لقد وجدت أثرًا لم يلاحظه أحد.",
-    "ليس كل شيء في هذا العالم ظاهرًا.",
-    "اقتربت من السر... لكن ليس بما يكفي.",
-    "ربما كان هذا المكان ينتظرك."
-];
-
-let secretIndex = 0;
-
-function revealSecret() {
-
-    let message = document.getElementById("secretMessage");
-
-    if (!message) {
-
-        message = document.createElement("div");
-
-        message.id = "secretMessage";
-
-        message.style.marginTop = "25px";
-        message.style.padding = "20px";
-        message.style.borderRadius = "15px";
-        message.style.background = "rgba(255,255,255,.035)";
-        message.style.border = "1px solid rgba(255,255,255,.08)";
-        message.style.color = "#aaa";
-
-        document.querySelector(".world-grid").after(message);
-    }
-
-    message.textContent = secretMessages[secretIndex];
-
-    secretIndex++;
-
-    if (secretIndex >= secretMessages.length) {
-        secretIndex = 0;
-    }
-}
-
-
-/* =================================
-   🕯️ إضافة زر الأسرار
-================================= */
-
-const worldGrid = document.querySelector(".world-grid");
-
-if (worldGrid) {
-
-    const secretButton = document.createElement("button");
-
-    secretButton.textContent = "🕯️ ابحث عن سر";
-
-    secretButton.style.display = "block";
-    secretButton.style.margin = "30px auto 0";
-    secretButton.style.padding = "13px 28px";
-    secretButton.style.borderRadius = "30px";
-    secretButton.style.border = "1px solid rgba(255,255,255,.15)";
-    secretButton.style.background = "rgba(255,255,255,.03)";
-    secretButton.style.color = "#ddd";
-    secretButton.style.cursor = "pointer";
-
-    secretButton.onclick = revealSecret;
-
-    worldGrid.parentElement.appendChild(secretButton);
-}
-
-
-/* =================================
-   🌘 تأثير ظهور العناصر
-================================= */
-
-const cards = document.querySelectorAll(
-    ".world-card, .quote-box, .section-title"
-);
-
-const observer = new IntersectionObserver(
-    entries => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-
-            }
-
-        });
-
-    },
-    {
-        threshold: 0.15
-    }
-);
-
-cards.forEach(card => {
-
-    card.style.opacity = "0";
-    card.style.transform = "translateY(25px)";
-    card.style.transition = "opacity .8s ease, transform .8s ease";
-
-    observer.observe(card);
-
-});
-
-
-/* =================================
-   ✨ نجمة عشوائية عند الضغط
-================================= */
-
-document.addEventListener("click", event => {
-
-    const star = document.createElement("span");
-
-    star.textContent = "✦";
-
-    star.style.position = "fixed";
-    star.style.left = event.clientX + "px";
-    star.style.top = event.clientY + "px";
-    star.style.pointerEvents = "none";
-    star.style.color = "rgba(220,215,255,.8)";
-    star.style.fontSize = "14px";
-    star.style.zIndex = "9999";
-    star.style.transition = "all .8s ease";
-
-    document.body.appendChild(star);
-
-    requestAnimationFrame(() => {
-
-        star.style.transform = "translateY(-25px) scale(1.8)";
-        star.style.opacity = "0";
-
-    });
-
-    setTimeout(() => {
-        star.remove();
-    }, 800);
-
-});
-
-
-/* =================================
-   🔐 رسالة مخفية
-================================= */
-
-let secretClicks = 0;
-
-document.querySelector(".symbol")?.addEventListener("click", () => {
-
-    secretClicks++;
-
-    if (secretClicks >= 5) {
-
-        alert("🌑 لقد وجدت شيئًا لم يكن من المفترض أن تجده...");
-
-        secretClicks = 0;
-    }
-
-});
-</script><style>
-
-/* =================================
-   🌘 لوحة العالم الخفي
-================================= */
-
-#hiddenWorld {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background:
-        radial-gradient(circle at center,
-        rgba(45,42,70,.95),
-        rgba(3,3,8,.98) 70%);
-    backdrop-filter: blur(10px);
-}
-
-.hidden-box {
-    width: min(600px, 100%);
-    padding: 40px 25px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 25px;
-    background: rgba(255,255,255,.035);
-    box-shadow: 0 25px 80px rgba(0,0,0,.6);
-}
-
-.hidden-box h2 {
-    font-size: 30px;
-    margin-bottom: 20px;
-}
-
-.hidden-box p {
-    color: #aaa7b4;
-    line-height: 2;
-}
-
-.close-hidden {
-    margin-top: 25px;
-    padding: 11px 25px;
-    border-radius: 25px;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.04);
-    color: #ddd;
-    cursor: pointer;
-}
-
-
-/* =================================
-   🕯️ رسالة اليوم
-================================= */
-
-.daily-message {
-    margin-top: 35px;
-    padding: 30px 20px;
-    border-radius: 20px;
-    text-align: center;
-    background: rgba(255,255,255,.025);
-    border: 1px solid rgba(255,255,255,.07);
-}
-
-.daily-message span {
-    display: block;
-    color: #777582;
-    margin-bottom: 15px;
-}
-
-.daily-message strong {
-    font-size: 20px;
-    line-height: 1.9;
-}
-
-
-/* =================================
-   🤖 ركن الروبوتات الصغير
-================================= */
-
-.robot-area {
-    transition: .4s;
-}
-
-.robot-area:hover {
-    border-color: rgba(255,255,255,.15);
-}
-
-.robot {
-    cursor: pointer;
-    transition: .3s;
-}
-
-.robot:hover {
-    transform: scale(1.15);
-}
-
-
-/* =================================
-   🌌 وضع الغموض
-================================= */
-
-body.mystery-mode {
-    background:
-        radial-gradient(circle at 50% 10%,
-        #151126 0%,
-        #050509 55%,
-        #000 100%);
-}
-
-body.mystery-mode .hero h1 {
-    letter-spacing: 8px;
-    text-shadow:
-        0 0 15px rgba(180,160,255,.3),
-        0 0 45px rgba(120,100,255,.15);
-}
-
-
-/* =================================
-   📱 تحسين الهاتف
-================================= */
-
-@media (max-width: 600px) {
-
-    .hidden-box {
-        padding: 30px 18px;
-    }
-
-    .hidden-box h2 {
-        font-size: 25px;
-    }
-
-    .daily-message strong {
-        font-size: 17px;
-    }
-}
-
-</style>
-
-
-<!-- =================================
-     🔮 العالم المخفي
-================================= -->
-
-<div id="hiddenWorld">
-
-    <div class="hidden-box">
-
-        <div style="font-size:50px;margin-bottom:20px;">
-            🌑
-        </div>
-
-        <h2>لقد وصلت إلى المكان المخفي</h2>
-
-        <p id="hiddenText">
-            بعض الأشياء لا تظهر لمن يبحث عنها...
-            بل تظهر لمن يعرف أين ينظر.
-        </p>
-
-        <button class="close-hidden"
-                onclick="closeHiddenWorld()">
-            العودة إلى العالم
-        </button>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =================================
-   🌑 فتح العالم المخفي
-================================= */
-
-function openHiddenWorld() {
-
-    const hidden = document.getElementById("hiddenWorld");
-
-    if (!hidden) return;
-
-    hidden.style.display = "flex";
-
-    document.body.classList.add("mystery-mode");
-
-}
-
-
-/* =================================
-   🌘 إغلاق العالم المخفي
-================================= */
-
-function closeHiddenWorld() {
-
-    const hidden = document.getElementById("hiddenWorld");
-
-    if (!hidden) return;
-
-    hidden.style.display = "none";
-
-    document.body.classList.remove("mystery-mode");
-
-}
-
-
-/* =================================
-   🗝️ زر سري في عنوان الموقع
-================================= */
-
-const title = document.querySelector(".hero h1");
-
-if (title) {
-
-    let titleClicks = 0;
-
-    title.addEventListener("click", () => {
-
-        titleClicks++;
-
-        if (titleClicks >= 3) {
-
-            openHiddenWorld();
-
-            titleClicks = 0;
-
-        }
-
-    });
-
-}
-
-
-/* =================================
-   📜 رسائل العالم المخفي
-================================= */
-
-const hiddenMessages = [
-
-    "ربما لم تكن أنت من وجد هذا المكان... ربما هو من وجدك.",
-
-    "هناك أشياء لا تحتاج إلى تفسير، يكفي أن تشعر بوجودها.",
-
-    "كلما تعمقت أكثر، أصبحت الإجابات أقل وضوحًا.",
-
-    "السر الحقيقي ليس ما وجدته... بل لماذا وجدته.",
-
-    "إذا وصلت إلى هنا، فربما حان الوقت لتعود وتنظر من جديد."
-
-];
-
-let hiddenMessageIndex = 0;
-
-const hiddenText = document.getElementById("hiddenText");
-
-if (hiddenText) {
-
-    hiddenText.addEventListener("click", () => {
-
-        hiddenMessageIndex++;
-
-        if (hiddenMessageIndex >= hiddenMessages.length) {
-            hiddenMessageIndex = 0;
-        }
-
-        hiddenText.textContent =
-            hiddenMessages[hiddenMessageIndex];
-
-    });
-
-}
-
-
-/* =================================
-   🕯️ رسالة اليوم
-================================= */
-
-const dailyMessages = [
-
-    "لا تستعجل الوصول... بعض الطرق أجمل من نهاياتها.",
-
-    "ما تبحث عنه قد يكون أقرب مما تعتقد.",
-
-    "ليس كل صمت فراغًا.",
-
-    "اتبع الفضول، لكن لا تثق بكل ما تجده.",
-
-    "هناك دائمًا قصة خلف الباب المغلق.",
-
-    "أحيانًا تكون الإجابة سؤالًا جديدًا."
-
-];
-
-const dayNumber =
-    Math.floor(Date.now() / 86400000);
-
-const dailyIndex =
-    dayNumber % dailyMessages.length;
-
-const dailySection = document.createElement("div");
-
-dailySection.className = "section";
-
-dailySection.innerHTML = `
-    <div class="daily-message">
-        <span>🌙 رسالة اليوم</span>
-        <strong>${dailyMessages[dailyIndex]}</strong>
-    </div>
-`;
-
-const footer = document.querySelector("footer");
-
-if (footer) {
-    footer.before(dailySection);
-}
-
-
-/* =================================
-   🤖 الروبوتات تتفاعل عند الضغط
-================================= */
-
-document.querySelectorAll(".robot").forEach(robot => {
-
-    robot.addEventListener("click", () => {
-
-        const messages = [
-            "🤖 لا تقلق... أنا فقط أراقب.",
-            "👾 هل وجدت السر؟",
-            "🤖 ربما يجب أن تبحث في مكان آخر...",
-            "👾 هذا العالم أغرب مما يبدو.",
-            "🤖 لا تخبر أحدًا بما رأيته."
+    <script>
+        // قاعدة بيانات الاقتباسات السوداوية
+        const quotes = [
+            "نحن نولد في الظلام، وكل ما نفعله طوال حياتنا هو محاولة إيجاد شرارة.",
+            "الوحوش الحقيقية لا تختبئ تحت سريرك، بل تسكن في صدى أفكارك.",
+            "العدم ليس فارغاً كما تظن، بل هو ممتلئ بكل الأشياء التي فقدناها.",
+            "ابتسم، فالنهاية تقترب بخطوات أهدأ من دقات قلبك.",
+            "المأساة ليست في الموت، بل في الأشياء التي تموت بداخلنا ونحن ما زلنا نتنفس.",
+            "نحن مجرد أشباح مؤقتة، تعتقد أنها تمتلك العالم.",
+            "الضوء كذبة اخترعها الخائفون لكي يناموا."
         ];
 
-        const message =
-            messages[Math.floor(Math.random() * messages.length)];
+        // أسئلة وأشكال الحكيم
+        const wiseManPhrases = [
+            "هل أنت متأكد أنك مستيقظ الآن؟",
+            "الزمن يتآكل، ماذا فعلت اليوم؟",
+            "إذا نظرت طويلاً في الهاوية، فإن الهاوية تنظر إليك أيضاً.",
+            "لماذا تتمسك بأشياء ستزول؟",
+            "هل الصمت الذي تسمعه الآن هو حقاً صمت؟"
+        ];
+        const wiseManShapes = ["👁️", "🦉", "🕸️", "🤖", "🌑", "⚕️"];
 
-        alert(message);
+        function enterSite() {
+            const nickname = document.getElementById('nickname').value.trim();
+            if (nickname === "") return;
 
-    });
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('user-greeting').innerText = `الظلام يرحب بك، ${nickname}`;
+            
+            renderQuotes();
+            startFakeEngagement();
+            startWiseMan();
+        }
 
-});
+        function renderQuotes() {
+            const container = document.getElementById('quotes-container');
+            container.innerHTML = '';
+            
+            quotes.forEach((quote, index) => {
+                // توليد أرقام تفاعل وهمية عالية لتبدو مشهورة
+                const fakeLikes = Math.floor(Math.random() * 5000) + 1000;
+                const fakeShares = Math.floor(Math.random() * 500) + 50;
 
+                const quoteHTML = `
+                    <div class="quote-card">
+                        <div class="quote-text">"${quote}"</div>
+                        <div class="engagement">
+                            <span class="like-btn" onclick="addLike(this)">👁️ إعجاب (<span class="like-count">${fakeLikes}</span>)</span>
+                            <span>🔗 مشاركة (${fakeShares})</span>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += quoteHTML;
+            });
+        }
 
-/* =================================
-   🌌 ضغط زر ESC يغلق العالم المخفي
-================================= */
+        // تفاعل تفاعلي مباشر
+        function addLike(element) {
+            const countSpan = element.querySelector('.like-count');
+            let count = parseInt(countSpan.innerText);
+            countSpan.innerText = count + 1;
+            element.style.color = "var(--accent-color)";
+        }
 
-document.addEventListener("keydown", event => {
+        // تفاعل تلقائي وهمي (العدادات تزيد من تلقاء نفسها لتبدو حية)
+        function startFakeEngagement() {
+            setInterval(() => {
+                const likeCounts = document.querySelectorAll('.like-count');
+                if (likeCounts.length > 0) {
+                    const randomQuote = likeCounts[Math.floor(Math.random() * likeCounts.length)];
+                    let currentLikes = parseInt(randomQuote.innerText);
+                    randomQuote.innerText = currentLikes + Math.floor(Math.random() * 3) + 1;
+                }
+            }, 3000);
+        }
 
-    if (event.key === "Escape") {
+        // محرك البحث عن الاقتباسات
+        function filterQuotes() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const cards = document.querySelectorAll('.quote-card');
+            
+            cards.forEach(card => {
+                const text = card.querySelector('.quote-text').innerText.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
 
-        closeHiddenWorld();
+        // تغيير مظهر الموقع
+        function changeTheme() {
+            const theme = document.getElementById('theme-switcher').value;
+            document.body.className = '';
+            if (theme !== 'default') {
+                document.body.classList.add(`theme-${theme}`);
+            }
+        }
 
-    }
+        // منطق الحكيم/الروبوت المتحرك
+        function startWiseMan() {
+            setInterval(() => {
+                const shape = document.getElementById('wise-shape');
+                const text = document.getElementById('wise-text');
+                
+                // تغيير الشكل والنص عشوائياً
+                shape.innerText = wiseManShapes[Math.floor(Math.random() * wiseManShapes.length)];
+                text.innerText = wiseManPhrases[Math.floor(Math.random() * wiseManPhrases.length)];
+                
+                // تأثير بصري عند التغيير
+                shape.style.transform = `scale(1.2) rotate(${Math.random() * 20 - 10}deg)`;
+                setTimeout(() => shape.style.transform = "scale(1) rotate(0)", 500);
+            }, 7000); // يتغير كل 7 ثواني
+        }
 
-});
-
-
-/* =================================
-   ✨ ظهور تدريجي للصفحة
-================================= */
-
-window.addEventListener("load", () => {
-
-    document.body.style.opacity = "0";
-
-    setTimeout(() => {
-
-        document.body.style.transition =
-            "opacity 1.2s ease";
-
-        document.body.style.opacity = "1";
-
-    }, 100);
-
-});
-
-          </script>
+        // الصندوق السحري للمطور
+        function openCreatorBox() {
+            window.open('https://www.facebook.com/LONLY8', '_blank');
+        }
+    </script>
+</body>
+</html>
