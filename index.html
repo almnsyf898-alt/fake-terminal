@@ -3,9 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مملكة الاقتباسات | Dark Aesthetic & Cosmic Companions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <title>مملكة الفراعنة السوداء | Dark Pharaohs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@450;700&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg-dark: #050508;
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --pharaoh-black: #111116;
+      --glass-bg: rgba(15, 15, 22, 0.85);
+      --border-gold: rgba(212, 175, 55, 0.3);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,1103 +24,456 @@
     }
 
     body {
-      background-color: #050508;
-      color: #e0e0e0;
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
       font-family: 'Tajawal', sans-serif;
       min-height: 100vh;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 20px 15px 120px 15px;
-      overflow-x: hidden;
-      position: relative;
+      padding-bottom: 80px;
     }
 
-    /* خلفية جزيئات تفاعلية */
+    /* خلفية الفضاء والنجوم */
     #bgCanvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       z-index: -1;
       pointer-events: none;
     }
 
-    /* شاشة تسجيل الدخول والحسابات */
-    .login-card {
-      background: rgba(18, 18, 26, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
-      padding: 40px 28px;
+    /* ⚰️ التابوت المضيء (رابط الفيسبوك للمصمم) */
+    .coffin-widget {
+      position: fixed;
+      left: 20px;
+      bottom: 25px;
+      z-index: 999;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .coffin-widget:hover {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    .coffin-icon {
+      width: 50px;
+      height: 70px;
+      background: linear-gradient(145deg, #1f1a24, #08060c);
+      border: 2px solid var(--gold);
+      clip-path: polygon(25% 0%, 75% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .coffin-label {
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--gold);
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    /* نافذة التابوت المنبثقة */
+    .coffin-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .coffin-modal-card {
+      background: linear-gradient(135deg, #12091f, #05030a);
+      border: 2px solid var(--gold);
       border-radius: 20px;
-      width: 100%;
-      max-width: 420px;
+      padding: 35px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-      margin-top: 10vh;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.25);
+    }
+
+    .fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #1877f2, #0056b3);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 15px;
+      margin-top: 20px;
+      box-shadow: 0 4px 20px rgba(24, 119, 242, 0.4);
+    }
+
+    /* هيكل التطبيق */
+    .app-container {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 40px;
+      padding: 0 15px;
       z-index: 10;
     }
 
-    .login-card h2 {
-      font-size: 26px;
-      margin-bottom: 8px;
-      color: #ffffff;
-      letter-spacing: 1px;
-    }
-
-    .login-card p {
-      font-size: 13px;
-      color: #888;
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-gold);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
       margin-bottom: 25px;
-      line-height: 1.5;
     }
 
-    .input-group input, .input-group textarea, .input-group select {
-      width: 100%;
-      padding: 13px 16px;
+    .quote-display {
+      text-align: center;
+      padding: 35px 20px;
       background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-      text-align: center;
-      margin-bottom: 15px;
-      transition: 0.3s;
-      font-family: 'Tajawal', sans-serif;
-    }
-
-    .input-group input:focus, .input-group textarea:focus {
-      border-color: #9d4edd;
-      box-shadow: 0 0 12px rgba(157, 78, 221, 0.3);
-    }
-
-    .btn {
-      padding: 12px 20px;
-      background: linear-gradient(135deg, #4a127a, #7b2cbf);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3);
-    }
-
-    .btn:hover {
-      opacity: 0.95;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(123, 44, 191, 0.5);
-    }
-
-    /* الواجهة الرئيسية */
-    .main-app {
-      display: none;
-      width: 100%;
-      max-width: 680px;
-      flex-direction: column;
-      align-items: center;
-      z-index: 5;
-    }
-
-    .header-user {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
       margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .user-badge {
-      font-size: 15px;
-      color: #c77dff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ccc;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: 0.3s;
-    }
-
-    .icon-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-    }
-
-    /* صندوق الاقتباس الرئيسي */
-    .quote-box {
-      background: rgba(18, 18, 26, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 40px 30px;
-      text-align: center;
-      width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      margin-bottom: 20px;
-      min-height: 240px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      position: relative;
-      backdrop-filter: blur(10px);
-    }
-
-    .quote-tag {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 11px;
-      padding: 3px 10px;
-      background: rgba(157, 78, 221, 0.15);
-      border: 1px solid rgba(157, 78, 221, 0.3);
-      color: #c77dff;
-      border-radius: 12px;
     }
 
     .quote-text {
       font-family: 'Amiri', serif;
       font-size: 24px;
       line-height: 1.8;
-      color: #f8f8f8;
-      margin-bottom: 18px;
-      margin-top: 10px;
-    }
-
-    .quote-author {
-      font-size: 14px;
-      color: #9d4edd;
-      font-style: italic;
-      margin-bottom: 25px;
-    }
-
-    .quote-actions-bar {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .action-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ddd;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .action-pill:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-    }
-
-    .action-pill.liked {
-      background: rgba(224, 30, 90, 0.2);
-      border-color: #ff2a6d;
-      color: #ff2a6d;
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .secondary-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ccc;
-    }
-
-    /* مربع البحث والفلترة */
-    .search-box {
-      width: 100%;
-      position: relative;
+      color: var(--gold-light);
       margin-bottom: 15px;
     }
 
-    .search-input {
+    .btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #222, #111);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      color: #000;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+
+    .input-field {
       width: 100%;
-      padding: 12px 42px 12px 15px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-gold);
       border-radius: 12px;
       color: #fff;
       font-size: 14px;
       outline: none;
-      transition: 0.3s;
+      margin-bottom: 12px;
+      font-family: inherit;
     }
 
-    .search-input:focus {
-      border-color: #7b2cbf;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #666;
-      font-size: 14px;
-    }
-
-    .filter-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .filter-btn {
-      background: transparent;
-      border: none;
-      color: #777;
-      font-size: 13px;
-      cursor: pointer;
-      padding: 5px 10px;
-      border-radius: 6px;
-    }
-
-    .filter-btn.active {
-      color: #c77dff;
-      background: rgba(199, 125, 255, 0.1);
-    }
-
-    .quotes-grid {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .mini-quote-card {
-      background: rgba(255, 255, 255, 0.02);
-      border-right: 3px solid #7b2cbf;
-      padding: 16px;
-      border-radius: 0 12px 12px 0;
-      font-size: 14px;
-      color: #bbb;
-      line-height: 1.7;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      transition: 0.3s;
-    }
-
-    .mini-quote-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .mini-quote-content {
-      flex: 1;
-    }
-
-    .mini-quote-author {
-      font-size: 11px;
-      color: #777;
-      margin-top: 6px;
-      display: block;
-    }
-
-    .delete-btn {
-      background: transparent;
-      border: none;
-      color: #ff4757;
-      cursor: pointer;
-      font-size: 12px;
-      opacity: 0.6;
-      transition: 0.2s;
-    }
-
-    .delete-btn:hover {
-      opacity: 1;
-    }
-
-    /* النافذة المنبثقة */
-    .modal-overlay {
+    /* 🤖 الروبوتات الفرعونية المتجولة والقابلة للسحب باليد */
+    .pharaoh-robot {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
+      width: 75px;
+      height: 85px;
+      z-index: 900;
+      cursor: grab;
+      touch-action: none;
+      transition: transform 0.1s ease;
     }
 
-    .modal-content {
-      background: #0f0f17;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 30px;
-      width: 90%;
-      max-width: 450px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    .pharaoh-robot:active {
+      cursor: grabbing;
     }
 
-    .modal-content h3 {
-      margin-bottom: 15px;
-      color: #fff;
-      font-size: 18px;
-    }
-
-    /* الروبوتات التفاعلية المزدوجة */
-    .robots-container {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      z-index: 90;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      pointer-events: none;
-    }
-
-    .robots-bubbles-row {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-      pointer-events: auto;
-    }
-
-    .robot-bubble {
-      background: rgba(18, 18, 26, 0.95);
-      border: 1px solid rgba(157, 78, 221, 0.4);
-      color: #e0e0e0;
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 11px;
-      max-width: 160px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-      line-height: 1.4;
-    }
-
-    .robot-bubble.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .robot-bubble.female {
-      border-color: rgba(255, 42, 109, 0.5);
-      color: #ffb3c6;
-    }
-
-    .robots-avatars-row {
-      display: flex;
-      gap: 12px;
-      pointer-events: auto;
-    }
-
-    .robot-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .robot-avatar {
-      width: 58px;
-      height: 58px;
-      background: radial-gradient(circle, #1a1a28 0%, #0a0a12 100%);
-      border: 2px solid rgba(157, 78, 221, 0.5);
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(123, 44, 191, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
+    .pharaoh-wrapper {
       position: relative;
-      transition: transform 0.2s ease;
-    }
-
-    .robot-avatar.female {
-      border-color: rgba(255, 42, 109, 0.6);
-      box-shadow: 0 0 15px rgba(255, 42, 109, 0.4);
-    }
-
-    .robot-avatar:hover {
-      transform: scale(1.08);
-    }
-
-    .robot-eyes {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .eye {
-      width: 13px;
-      height: 16px;
-      background: #05050a;
-      border: 1px solid #7b2cbf;
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, var(--pharaoh-black), #000);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .eye.female-eye {
-      border-color: #ff2a6d;
-    }
-
-    .pupil {
-      width: 5px;
-      height: 5px;
-      background: #00f0ff;
-      border-radius: 50%;
-      box-shadow: 0 0 6px #00f0ff;
-      transition: transform 0.05s ease-out;
-    }
-
-    .pupil.female-pupil {
-      background: #ff2a6d;
-      box-shadow: 0 0 6px #ff2a6d;
-    }
-
-    .robot-antenna {
+    /* القبعة الفرعونية (النمس الأسود والذهبي) */
+    .pharaoh-hat {
       position: absolute;
-      top: -8px;
-      width: 2px;
-      height: 8px;
-      background: #7b2cbf;
+      top: -16px;
+      width: 85px;
+      height: 25px;
+      background: linear-gradient(90deg, #111, var(--gold), #111);
+      border-radius: 10px 10px 5px 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.8);
     }
-
-    .robot-antenna::after {
+    .pharaoh-hat::after {
       content: '';
       position: absolute;
-      top: -4px;
-      left: -2px;
-      width: 6px;
+      bottom: -6px;
+      left: 10px; right: 10px;
       height: 6px;
-      background: #00f0ff;
+      background: var(--gold);
+      border-radius: 3px;
+    }
+
+    /* الأيدي الصغيرة المزحة */
+    .p-hand {
+      position: absolute;
+      width: 10px;
+      height: 18px;
+      background: var(--gold);
+      border-radius: 5px;
+      top: 45px;
+      transition: transform 0.2s;
+    }
+    .p-hand-l { left: -12px; }
+    .p-hand-r { right: -12px; }
+    .p-hand.moving {
+      transform: translateY(-8px) rotate(15deg);
+    }
+
+    /* عيون الروبوت الفرعوني */
+    .p-eyes {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .p-eye {
+      width: 10px;
+      height: 12px;
+      background: var(--gold);
       border-radius: 50%;
     }
 
-    .robot-antenna.female-antenna {
-      background: #ff2a6d;
-    }
-
-    .robot-antenna.female-antenna::after {
-      background: #ff2a6d;
-    }
-
-    .robot-bow {
+    /* فقاعة الكلام التلقائي */
+    .pharaoh-bubble {
       position: absolute;
-      top: -6px;
-      right: 2px;
+      bottom: 95px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 15, 0.95);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 6px 12px;
+      border-radius: 12px;
       font-size: 11px;
+      white-space: nowrap;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 950;
     }
-
-    .robot-label {
-      font-size: 10px;
-      color: #aaa;
-    }
-
-    /* --- حركة الطفو والرمش للروبوتين --- */
-    @keyframes robotFloat {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(3deg); }
-    }
-
-    @keyframes robotFloatFemale {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(-3deg); }
-    }
-
-    @keyframes eyeBlink {
-      0%, 90%, 100% { transform: scaleY(1); }
-      95% { transform: scaleY(0.1); }
-    }
-
-    #avatarAthir {
-      animation: robotFloat 3s ease-in-out infinite !important;
-    }
-
-    #avatarAthira {
-      animation: robotFloatFemale 3.5s ease-in-out infinite 0.5s !important;
-    }
-
-    .eye {
-      animation: eyeBlink 4s infinite !important;
-      transform-origin: center;
+    .pharaoh-bubble.visible {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 
-  <!-- خلفية تفاعلية -->
+  <!-- خلفية الفضاء -->
   <canvas id="bgCanvas"></canvas>
 
-  <!-- شاشة الدخول والحسابات -->
-  <div class="login-card" id="loginCard">
-    <h2>عالم الاقتباسات 🌙</h2>
-    <p>ادخل بلقبك الخاص وكلمة السر لوصول آمن إلى مساحتك وعزلتك الخاصة (لا يمكن لأحد استخدام لقبك)</p>
-    <div class="input-group">
-      <input type="text" id="nicknameInput" placeholder="اكتب لقبك الفريد..." maxlength="20">
-      <input type="password" id="passwordInput" placeholder="كلمة السر الخاصة بك..." maxlength="25">
-    </div>
-    <button class="btn" style="width:100%" onclick="handleAuth()">دخول / إنشاء حساب</button>
+  <!-- ⚰️ التابوت الأسطوري - رابط الفيسبوك للمصمم -->
+  <div class="coffin-widget" onclick="openCoffinModal()">
+    <div class="coffin-icon">⚰️</div>
+    <div class="coffin-label">المصمم</div>
   </div>
 
-  <!-- الواجهة الرئيسية -->
-  <div class="main-app" id="mainApp">
-    <div class="header-user">
-      <div class="user-badge">
-        <span>✨ أهلاً بك في عزلتك:</span>
-        <strong id="userNickname" style="color:#fff;">الزائر</strong>
-      </div>
-      <div class="header-actions">
-        <button class="icon-btn" id="ambientAudioBtn" onclick="toggleAmbientSound()">أجواء العزلة 🎧</button>
-        <button class="icon-btn" onclick="logout()">خروج</button>
-      </div>
-    </div>
-
-    <!-- صندوق الاقتباس الرئيسي -->
-    <div class="quote-box" id="quoteBox">
-      <span class="quote-tag" id="quoteCategory">فلسفة</span>
-      <p class="quote-text" id="quoteText">"في الهدوء تجد العقول العظيمة ملجأها."</p>
-      <span class="quote-author" id="quoteAuthor">— مجهول</span>
-
-      <div class="quote-actions-bar">
-        <button class="action-pill" id="mainLikeBtn" onclick="toggleMainLike()">
-          <span id="heartIcon">❤️</span> <span id="mainLikeCount">0</span>
-        </button>
-        <button class="action-pill" onclick="speakQuote()">استماع 🎙️</button>
-        <button class="action-pill" onclick="downloadQuoteImage()">تحميل كصورة 🖼️</button>
-        <button class="action-pill" onclick="copyQuote()">نسخ 📋</button>
-      </div>
-    </div>
-
-    <div class="controls-grid">
-      <button class="btn" onclick="getRandomQuote()">اقتباس عشوائي 🎲</button>
-      <button class="btn secondary-btn" onclick="openAddModal()">نشر اقتباس جديد ✍️</button>
-    </div>
-
-    <!-- شريط البحث الفوري -->
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن كلمة، اقتباس، أو اسم كاتب..." oninput="renderArchive()">
-    </div>
-
-    <!-- شريط فلترة المكتبة -->
-    <div class="filter-bar">
-      <span style="font-size: 13px; color: #888;" id="resultsCount">المكتبة العامة:</span>
-      <div>
-        <button class="filter-btn active" id="filterAll" onclick="setFilter('all')">الكل</button>
-        <button class="filter-btn" id="filterLiked" onclick="setFilter('liked')">المفضلة ❤️</button>
-        <button class="filter-btn" id="filterMine" onclick="setFilter('mine')">اقتباساتي ✍️</button>
-      </div>
-    </div>
-
-    <div class="quotes-grid" id="quotesGrid"></div>
-  </div>
-
-  <!-- زوج الروبوتات التفاعلي ("أثير" و "أثيرة") -->
-  <div class="robots-container">
-    <div class="robots-bubbles-row">
-      <div class="robot-bubble" id="bubbleAthir">مرحباً بك! أنا "أثير" 👁️</div>
-      <div class="robot-bubble female" id="bubbleAthira">وأنا "أثيرة"، ننظر معك ههههه! 🌸</div>
-    </div>
-    <div class="robots-avatars-row">
-      <div class="robot-card">
-        <div class="robot-avatar" id="avatarAthir" onclick="triggerRobotsConversation()">
-          <div class="robot-antenna"></div>
-          <div class="robot-eyes">
-            <div class="eye"><div class="pupil"></div></div>
-            <div class="eye"><div class="pupil"></div></div>
-          </div>
-        </div>
-        <span class="robot-label">أثير 🤖</span>
-      </div>
-
-      <div class="robot-card">
-        <div class="robot-avatar female" id="avatarAthira" onclick="triggerRobotsConversation()">
-          <div class="robot-antenna female-antenna"></div>
-          <span class="robot-bow">🎀</span>
-          <div class="robot-eyes">
-            <div class="eye female-eye"><div class="pupil female-pupil"></div></div>
-            <div class="eye female-eye"><div class="pupil female-pupil"></div></div>
-          </div>
-        </div>
-        <span class="robot-label" style="color:#ffb3c6;">أثيرة 🌸</span>
+  <!-- نافذة التابوت المنبثقة -->
+  <div class="coffin-modal-overlay" id="coffinModal">
+    <div class="coffin-modal-card">
+      <div style="font-size: 40px; margin-bottom: 10px;">⚰️✨</div>
+      <h3 style="color: var(--gold); margin-bottom: 8px;">لمسة المصمم الإبداعية</h3>
+      <p style="font-size: 13px; color: #aaa; line-height: 1.6;">
+        تم تطوير وتصميم هذه الصفحة بواسطة <strong>السفاح</strong>. انقر للتواصل والمتابعة على الفيسبوك.
+      </p>
+      <a href="https://www.facebook.com/LONLY8" target="_blank" class="fb-btn">
+        زيارة حساب الفيسبوك
+      </a>
+      <div style="margin-top: 15px;">
+        <button class="btn" style="padding: 6px 15px; font-size: 12px;" onclick="closeCoffinModal()">إغلاق</button>
       </div>
     </div>
   </div>
 
-  <!-- النافذة المنبثقة لنشر اقتباس -->
-  <div class="modal-overlay" id="addModal">
-    <div class="modal-content">
-      <h3>نشر اقتباس في المملكة ✍️</h3>
-      <div class="input-group">
-        <textarea id="customQuoteText" rows="4" placeholder="اكتب نص الاقتباس العميق هنا..."></textarea>
-        <input type="text" id="customQuoteAuthor" placeholder="اسم القائل (أو اكتب لقبك الخاص)">
-        <select id="customQuoteCategory">
-          <option value="فلسفة">فلسفة</option>
-          <option value="عزلة">عزلة</option>
-          <option value="حكمة">حكمة</option>
-          <option value="مشاعر">مشاعر</option>
-          <option value="ظلام">ظلام هادئ</option>
-        </select>
+  <!-- المحتوى الرئيسي -->
+  <div class="app-container">
+    <div class="card">
+      <h2 style="text-align: center; color: var(--gold); margin-bottom: 15px;">مملكة الحكماء الفراعنة 🏛️</h2>
+      
+      <div class="quote-display">
+        <p class="quote-text" id="quoteText">"الحكمة تبدأ من الهدوء، وتستمر بالتأمل الصامت."</p>
+        <span style="font-size: 13px; color: var(--gold);" id="quoteAuthor">— إرث الأجداد</span>
       </div>
-      <div style="display:flex; gap:10px;">
-        <button class="btn" style="flex:1;" onclick="saveCustomQuote()">نشر الآن</button>
-        <button class="btn secondary-btn" style="flex:1;" onclick="closeAddModal()">إلغاء</button>
+
+      <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+        <button class="btn" onclick="changeQuote()">حكمة جديدة 📜</button>
+      </div>
+
+      <input type="text" class="input-field" placeholder="اكتب شيئاً هنا لتراقب تعليقات الروبوتات الفراعنة..." id="userInput" oninput="userIsTyping()">
+    </div>
+  </div>
+
+  <!-- 🤖 الروبوت الفرعوني الأول (حورس الأسود) -->
+  <div class="pharaoh-robot" id="pharaoh1" style="top: 150px; left: 50px;">
+    <div class="pharaoh-bubble" id="bubble1">أنا حورس الحكيم!</div>
+    <div class="pharaoh-wrapper">
+      <div class="pharaoh-hat"></div>
+      <div class="p-hand p-hand-l" id="hand1L"></div>
+      <div class="p-hand p-hand-r" id="hand1R"></div>
+      <div class="p-eyes">
+        <div class="p-eye"></div>
+        <div class="p-eye"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🤖 الروبوت الفرعوني الثاني (أنوبيس الأسود) -->
+  <div class="pharaoh-robot" id="pharaoh2" style="top: 250px; right: 50px;">
+    <div class="pharaoh-bubble" id="bubble2">وأنا أنوبيس!</div>
+    <div class="pharaoh-wrapper">
+      <div class="pharaoh-hat"></div>
+      <div class="p-hand p-hand-l" id="hand2L"></div>
+      <div class="p-hand p-hand-r" id="hand2R"></div>
+      <div class="p-eyes">
+        <div class="p-eye"></div>
+        <div class="p-eye"></div>
       </div>
     </div>
   </div>
 
   <script>
-    // 1. قاعدة بيانات الاقتباسات الافتراضية
-    const defaultQuotes = [
-      { id: 1, text: "الظلام ليس سوى غياب للنور، والصمت ليس سوى مساحة للتفكير العميق.", author: "فلسفة الهدوء", category: "فلسفة", userCreated: false },
-      { id: 2, text: "قد تجد في العزلة ما لا تجده في زحمة العابرين.", author: "حكمة قديمة", category: "عزلة", userCreated: false },
-      { id: 3, text: "سيكون كل شيء جميلاً، ربما ليس اليوم ولكن حتماً في يوم ما.", author: "أمل", category: "مشاعر", userCreated: false },
-      { id: 4, text: "لا تزن نفسك بمقياس غيرك، لكل نجم في السماء بريقه الخاص.", author: "تأملات", category: "حكمة", userCreated: false },
-      { id: 5, text: "الهدوء فن، لا يتقنه إلا من تعلم كيف يصمت وفي قلبه عاصفة.", author: "أدب الشوارع", category: "عزلة", userCreated: false },
-      { id: 6, text: "نحن نعيش في عالم يمتلئ بالضجيج، ابحث دائماً عن بقعة سلامك الخاص.", author: "مجهول", category: "فلسفة", userCreated: false },
-      { id: 7, text: "الذين يسيرون في الطرقات المظلمة هم أول من يلمح النجوم.", author: "عالم الأسرار", category: "ظلام", userCreated: false },
-      { id: 8, text: "أعظم المعارك هي تلك التي تخوضها بينك وبين نفسك في صمت.", author: "تأملات سوداوية", category: "فلسفة", userCreated: false },
-      { id: 9, text: "من يمتلك سبباً يعيش لأجله، يمكنه تحمّل أي طريقة يعيش بها.", author: "فريدريك نيتشه", category: "فلسفة", userCreated: false }
+    // نافذة التابوت
+    function openCoffinModal() { document.getElementById('coffinModal').style.display = 'flex'; }
+    function closeCoffinModal() { document.getElementById('coffinModal').style.display = 'none'; }
+
+    // الحكم والاقتباسات
+    const quotes = [
+      { text: "الحكمة تبدأ من الهدوء، وتستمر بالتأمل الصامت.", author: "إرث الأجداد" },
+      { text: "الزمن لا ينتظر أحداً، اجعل خطواتك ثابتة كالأهرامات.", author: "فلسفة فرعونية" },
+      { text: "في القلوب النقية تكمن أسرار الملوك.", author: "حكمة العظماء" }
+    ];
+    function changeQuote() {
+      const q = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quoteText').innerText = `"${q.text}"`;
+      document.getElementById('quoteAuthor').innerText = `— ${q.author}`;
+    }
+
+    // 🤖 محادثات الروبوتات التلقائية والتعليق على المستخدم
+    const comments = [
+      "يا لها من خطوة ذكية يا صديقي!",
+      "هل تبحث عن كنز مفقود في الشاشة؟",
+      "أعجبني ما تكتبه، تابع الإبداع!",
+      "نحن نراقب كل حركاتك يا بطل ههههه!",
+      "التصميم الأسود والذهبي يليق بك حقاً!"
     ];
 
-    let quotes = [];
-    let currentQuote = null;
-    let currentFilter = 'all';
-    let isAudioPlaying = false;
-    let audioCtx = null;
-    let noiseNode = null;
-
-    // 2. إدارة الحسابات الحصرية
-    function getUsersDB() {
-      return JSON.parse(localStorage.getItem('aesthetic_users_db')) || {};
-    }
-
-    function saveUsersDB(db) {
-      localStorage.setItem('aesthetic_users_db', JSON.stringify(db));
-    }
-
-    function handleAuth() {
-      const name = document.getElementById('nicknameInput').value.trim();
-      const password = document.getElementById('passwordInput').value.trim();
-
-      if (!name || !password) {
-        return alert('يرجى إدخال اللقب وكلمة السر لتأمين حسابك!');
-      }
-
-      const usersDB = getUsersDB();
-
-      if (usersDB[name]) {
-        if (usersDB[name].password === password) {
-          localStorage.setItem('aesthetic_current_user', name);
-          showApp(name);
-        } else {
-          alert('عذراً! هذا اللقب مأخوذ مسبقاً، وكلمة السر غير صحيحة!');
-        }
-      } else {
-        usersDB[name] = { password: password, createdAt: Date.now() };
-        saveUsersDB(usersDB);
-        localStorage.setItem('aesthetic_current_user', name);
-        showApp(name);
-      }
-    }
-
-    function showApp(name) {
-      document.getElementById('loginCard').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'flex';
-      document.getElementById('userNickname').innerText = name;
-      loadQuotesData();
-      getRandomQuote();
-      renderArchive();
-      startRobotsIntro(name);
-    }
-
-    function logout() {
-      localStorage.removeItem('aesthetic_current_user');
-      document.getElementById('loginCard').style.display = 'block';
-      document.getElementById('mainApp').style.display = 'none';
-      document.getElementById('nicknameInput').value = '';
-      document.getElementById('passwordInput').value = '';
-    }
-
-    // 3. إدارة الاقتباسات
-    function loadQuotesData() {
-      const stored = localStorage.getItem('aesthetic_custom_quotes');
-      const customQuotes = stored ? JSON.parse(stored) : [];
-      quotes = [...defaultQuotes, ...customQuotes];
-    }
-
-    function getLikesData() { return JSON.parse(localStorage.getItem('quote_likes_map')) || {}; }
-    function getUserLikedIds() { return JSON.parse(localStorage.getItem('user_liked_ids')) || []; }
-
-    function getRandomQuote() {
-      const box = document.getElementById('quoteBox');
-      box.style.opacity = 0;
-      box.style.transform = 'scale(0.98)';
+    function showRandomComment() {
+      const c1 = comments[Math.floor(Math.random() * comments.length)];
+      const c2 = comments[Math.floor(Math.random() * comments.length)];
       
+      triggerBubble('bubble1', c1);
+      setTimeout(() => triggerBubble('bubble2', c2), 3000);
+      
+      // تحريك الأيدي المزحة
+      document.getElementById('hand1L').classList.add('moving');
+      document.getElementById('hand2R').classList.add('moving');
       setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        currentQuote = quotes[randomIndex];
-        
-        document.getElementById('quoteText').innerText = `"${currentQuote.text}"`;
-        document.getElementById('quoteAuthor').innerText = `— ${currentQuote.author}`;
-        document.getElementById('quoteCategory').innerText = currentQuote.category || "عام";
-        
-        updateMainLikeUI();
-        box.style.opacity = 1;
-        box.style.transform = 'scale(1)';
-      }, 200);
+        document.getElementById('hand1L').classList.remove('moving');
+        document.getElementById('hand2R').classList.remove('moving');
+      }, 600);
     }
 
-    function updateMainLikeUI() {
-      const likesMap = getLikesData();
-      const userLiked = getUserLikedIds();
-      const count = likesMap[currentQuote.id] || 0;
-      const isLiked = userLiked.includes(currentQuote.id);
-
-      document.getElementById('mainLikeCount').innerText = count;
-      const btn = document.getElementById('mainLikeBtn');
-      if (isLiked) btn.classList.add('liked');
-      else btn.classList.remove('liked');
+    function userIsTyping() {
+      triggerBubble('bubble1', "أنت تكتب شيئاً مثيراً للاهتمام!");
     }
 
-    function toggleMainLike() {
-      toggleLike(currentQuote.id);
-      updateMainLikeUI();
-      renderArchive();
-      robotsSay("أثير: نال هذا الاقتباس إعجابه!", "أثيرة: أذواقكما راقية جداً ههههه! ❤️");
+    function triggerBubble(id, text) {
+      const b = document.getElementById(id);
+      b.innerText = text;
+      b.classList.add('visible');
+      setTimeout(() => b.classList.remove('visible'), 4000);
     }
 
-    function toggleLike(id) {
-      let likesMap = getLikesData();
-      let userLiked = getUserLikedIds();
+    setInterval(showRandomComment, 10000);
 
-      if (userLiked.includes(id)) {
-        userLiked = userLiked.filter(itemId => itemId !== id);
-        likesMap[id] = Math.max(0, (likesMap[id] || 1) - 1);
-      } else {
-        userLiked.push(id);
-        likesMap[id] = (likesMap[id] || 0) + 1;
+    // 🖐️ نظام تحريك الروبوتات باليد (Drag & Drop / Touch)
+    function makeDraggable(elm) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      elm.onmousedown = dragMouseDown;
+      elm.ontouchstart = dragTouchDown;
+
+      function dragMouseDown(e) {
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
       }
 
-      localStorage.setItem('quote_likes_map', JSON.stringify(likesMap));
-      localStorage.setItem('user_liked_ids', JSON.stringify(userLiked));
-    }
-
-    function copyQuote() {
-      const text = `${document.getElementById('quoteText').innerText} ${document.getElementById('quoteAuthor').innerText}`;
-      navigator.clipboard.writeText(text);
-      robotsSay("أثير: تم النسخ بنجاح 📋", "أثيرة: يمكنك مشاركتها الآن ههههه ✨");
-    }
-
-    function speakQuote() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(currentQuote.text);
-        utterance.lang = 'ar-SA';
-        utterance.rate = 0.85;
-        window.speechSynthesis.speak(utterance);
-        robotsSay("أثير: صوت الكلمات يبعث السكون.", "أثيرة: استمع بهدوء ههههه 🎙️");
-      } else {
-        alert("متصفحك لا يدعم القارئ الصوتي.");
+      function elementDrag(e) {
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elm.style.top = (elm.offsetTop - pos2) + "px";
+        elm.style.left = (elm.offsetLeft - pos1) + "px";
       }
-    }
 
-    function downloadQuoteImage() {
-      robotsSay("أثير: جاري رسم البطاقة الجمالية...", "أثيرة: ستكون صورة فخمة جداً ههههه 🖼️");
-      const canvas = document.createElement('canvas');
-      canvas.width = 800;
-      canvas.height = 500;
-      const ctx = canvas.getContext('2d');
-
-      const grad = ctx.createLinearGradient(0, 0, 800, 500);
-      grad.addColorStop(0, '#0a0a14');
-      grad.addColorStop(1, '#020205');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 800, 500);
-
-      ctx.strokeStyle = 'rgba(157, 78, 221, 0.4)';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(30, 30, 740, 440);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '28px Amiri, serif';
-      ctx.textAlign = 'center';
-
-      const words = currentQuote.text.split(' ');
-      let line = '';
-      let y = 200;
-      for (let n = 0; n < words.length; n++) {
-        let testLine = line + words[n] + ' ';
-        let metrics = ctx.measureText(testLine);
-        if (metrics.width > 650 && n > 0) {
-          ctx.fillText(line, 400, y);
-          line = words[n] + ' ';
-          y += 45;
-        } else {
-          line = testLine;
-        }
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
       }
-      ctx.fillText(line, 400, y);
 
-      ctx.fillStyle = '#9d4edd';
-      ctx.font = '20px Tajawal, sans-serif';
-      ctx.fillText(`— ${currentQuote.author}`, 400, y + 60);
+      function dragTouchDown(e) {
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        document.ontouchend = closeTouchElement;
+        document.ontouchmove = elementTouchDrag;
+      }
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.font = '14px Tajawal, sans-serif';
-      ctx.fillText('مملكة الاقتباسات | Dark Aesthetic', 400, 440);
+      function elementTouchDrag(e) {
+        pos1 = pos3 - e.touches[0].clientX;
+        pos2 = pos4 - e.touches[0].clientY;
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        elm.style.top = (elm.offsetTop - pos2) + "px";
+        elm.style.left = (elm.offsetLeft - pos1) + "px";
+      }
 
-      const link = document.createElement('a');
-      link.download = `quote-${currentQuote.id}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-
-    function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
-    function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
-
-    function saveCustomQuote() {
-      const text = document.getElementById('customQuoteText').value.trim();
-      const currentUser = localStorage.getItem('aesthetic_current_user');
-      const author = document.getElementById('customQuoteAuthor').value.trim() || currentUser;
-      const category = document.getElementById('customQuoteCategory').value;
-
-      if (!text) return alert("يرجى كتابة نص الاقتباس!");
-
-      const newQuote = {
-        id: Date.now(),
-        text: text,
-        author: author,
-        category: category,
-        userCreated: true,
-        createdBy: currentUser
-      };
-
-      const stored = localStorage.getItem('aesthetic_custom_quotes');
-      const customQuotes = stored ? JSON.parse(stored) : [];
-      customQuotes.push(newQuote);
-      localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
-
-      document.getElementById('customQuoteText').value = '';
-      closeAddModal();
-      loadQuotesData();
-      renderArchive();
-      robotsSay("أثير: تم نشر كلماتك الحصرية!", "أثيرة: أصبحت محفوظة بلقبك ههههه ✨");
-    }
-
-    function deleteCustomQuote(id) {
-      let stored = localStorage.getItem('aesthetic_custom_quotes');
-      if (stored) {
-        let customQuotes = JSON.parse(stored);
-        customQuotes = customQuotes.filter(q => q.id !== id);
-        localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
-        loadQuotesData();
-        renderArchive();
+      function closeTouchElement() {
+        document.ontouchend = null;
+        document.ontouchmove = null;
       }
     }
 
-    function setFilter(type) {
-      currentFilter = type;
-      document.getElementById('filterAll').classList.toggle('active', type === 'all');
-      document.getElementById('filterLiked').classList.toggle('active', type === 'liked');
-      document.getElementById('filterMine').classList.toggle('active', type === 'mine');
-      renderArchive();
-    }
+    makeDraggable(document.getElementById('pharaoh1'));
+    makeDraggable(document.getElementById('pharaoh2'));
 
-    function renderArchive() {
-      const grid = document.getElementById('quotesGrid');
-      grid.innerHTML = '';
-
-      const likesMap = getLikesData();
-      const userLiked = getUserLikedIds();
-      const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      const currentUser = localStorage.getItem('aesthetic_current_user');
-
-      let list = quotes;
-
-      if (currentFilter === 'liked') list = list.filter(q => userLiked.includes(q.id));
-      if (currentFilter === 'mine') list = list.filter(q => q.userCreated && q.createdBy === currentUser);
-
-      if (query !== '') {
-        list = list.filter(q => q.text.toLowerCase().includes(query) || q.author.toLowerCase().includes(query));
-      }
-
-      document.getElementById('resultsCount').innerText = `المكتبة المتاحة (${list.length}):`;
-
-      if (list.length === 0) {
-        grid.innerHTML = '<div style="text-align:center; color:#666; padding:20px; font-size:13px;">لا توجد اقتباسات تطابق خياراتك 🔍</div>';
-        return;
-      }
-
-      list.forEach(q => {
-        const count = likesMap[q.id] || 0;
-        const isLiked = userLiked.includes(q.id);
-        const isMyQuote = q.userCreated && q.createdBy === currentUser;
-
-        const card = document.createElement('div');
-        card.className = 'mini-quote-card';
-        card.innerHTML = `
-          <div class="mini-quote-content">
-            <div>"${q.text}"</div>
-            <span class="mini-quote-author">— ${q.author} (${q.category || 'عام'})</span>
-          </div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
-            <button class="action-pill ${isLiked ? 'liked' : ''}" style="padding:4px 10px; font-size:11px;" onclick="toggleLikeFromGrid(${q.id})">
-              ❤️ ${count}
-            </button>
-            ${isMyQuote ? `<button class="delete-btn" onclick="deleteCustomQuote(${q.id})">حذف 🗑️</button>` : ''}
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function toggleLikeFromGrid(id) {
-      toggleLike(id);
-      if (currentQuote && currentQuote.id === id) updateMainLikeUI();
-      renderArchive();
-    }
-
-    // 4. أجواء صوت المطر
-    function toggleAmbientSound() {
-      const btn = document.getElementById('ambientAudioBtn');
-      if (!isAudioPlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const bufferSize = audioCtx.sampleRate * 2;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-        noiseNode = audioCtx.createBufferSource();
-        noiseNode.buffer = buffer;
-        noiseNode.loop = true;
-
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 400;
-
-        const gainNode = audioCtx.createGain();
-        gainNode.gain.value = 0.15;
-
-        noiseNode.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        noiseNode.start();
-        isAudioPlaying = true;
-        btn.innerText = "إيقاف الأجواء 🔊";
-        robotsSay("أثير: صوت المطر بدأ ينهمر...", "أثيرة: ياه، ما أروع العزلة! ههههه 🎧");
-      } else {
-        if (noiseNode) noiseNode.stop();
-        isAudioPlaying = false;
-        btn.innerText = "أجواء العزلة 🎧";
-      }
-    }
-
-    // 5. تتبع العينين والحوارات
-    const pupils = document.querySelectorAll('.pupil');
-
-    function updatePupilsPosition(targetX, targetY) {
-      pupils.forEach(pupil => {
-        const eye = pupil.parentElement;
-        const rect = eye.getBoundingClientRect();
-        const eyeCenterX = rect.left + rect.width / 2;
-        const eyeCenterY = rect.top + rect.height / 2;
-
-        const dx = targetX - eyeCenterX;
-        const dy = targetY - eyeCenterY;
-        const angle = Math.atan2(dy, dx);
-        const distance = Math.min(3.5, Math.hypot(dx, dy) / 30);
-
-        const pupilX = Math.cos(angle) * distance;
-        const pupilY = Math.sin(angle) * distance;
-
-        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
-      });
-    }
-
-    window.addEventListener('mousemove', (e) => updatePupilsPosition(e.clientX, e.clientY));
-    window.addEventListener('click', (e) => updatePupilsPosition(e.clientX, e.clientY));
-
-    let bubbleTimeout;
-    function robotsSay(textAthir, textAthira) {
-      const bAthir = document.getElementById('bubbleAthir');
-      const bAthira = document.getElementById('bubbleAthira');
-
-      bAthir.innerText = textAthir;
-      bAthira.innerText = textAthira;
-
-      bAthir.classList.add('active');
-      bAthira.classList.add('active');
-
-      clearTimeout(bubbleTimeout);
-      bubbleTimeout = setTimeout(() => {
-        bAthir.classList.remove('active');
-        bAthira.classList.remove('active');
-      }, 5000);
-    }
-
-    function startRobotsIntro(name) {
-      robotsSay(`أثير: أهلاً بك يا ${name}! 👁️`, `أثيرة: يسعدنا وجودك في عزلتك ههههه! 🌸`);
-    }
-
-    const conversationsList = [
-      [ "أثير: انظري يا أثيرة، إنه يتحرك بالشاشة!", "أثيرة: عيوننا تنظر معه أينما ينقر ههههه! 😂" ],
-      [ "أثير: ما هو اقتباسك المفضل اليوم؟", "أثيرة: كل الكلمات الهادئة تعجبني ههههه! 💫" ],
-      [ "أثير: هل تظنين أنه استمتع بوقته؟", "أثيرة: بالتأكيد! المكان فخم وهادئ ههههه 🔥" ],
-      [ "أثير: عيوننا لا تغفل عن شاشته أبداً!", "أثيرة: نعم أينما يضغط ننظر إليه ههههه! 👀" ]
-    ];
-
-    function triggerRobotsConversation() {
-      const randomConv = conversationsList[Math.floor(Math.random() * conversationsList.length)];
-      robotsSay(randomConv[0], randomConv[1]);
-    }
-
-    // 6. خلفية النجوم
+    // 🌌 خلفية النجوم Canvas
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -1122,89 +485,29 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    class Particle {
-      constructor() {
+    class Star {
+      constructor() { this.reset(); }
+      reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = Math.random() * 0.4 - 0.2;
-        this.speedY = Math.random() * 0.4 - 0.2;
-        this.alpha = Math.random() * 0.5 + 0.2;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        this.size = Math.random() * 1.5;
+        this.alpha = Math.random();
       }
       draw() {
-        ctx.fillStyle = `rgba(157, 78, 221, ${this.alpha})`;
+        ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    for (let i = 0; i < 65; i++) particles.push(new Particle());
-
-    function animateParticles() {
+    for (let i = 0; i < 50; i++) particles.push(new Star());
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
+      particles.forEach(p => p.draw());
+      requestAnimationFrame(animate);
     }
-    animateParticles();
-
-    // 7. بوت النشر التلقائي
-    const autoBotQuotes = [
-      "الوقت كفيل بإظهار الحقائق مهما طال الصمت.",
-      "لا تقاس العظمة بما تملك، بل بما تتركه من أثر هادئ.",
-      "الهدوء هو أعلى درجات القوة في هذا العالم المزدحم.",
-      "من يتقن الصمت، يتقن الاستماع للكون.",
-      "لا تتوقف عندما تتعب، توقف عندما تنتهي."
-    ];
-
-    function runAutoQuoteBot() {
-      const randomIndex = Math.floor(Math.random() * autoBotQuotes.length);
-      const selectedText = autoBotQuotes[randomIndex];
-
-      const botQuote = {
-        id: Date.now(),
-        text: selectedText,
-        author: "بوت الحكمة 🤖",
-        category: "آلي",
-        userCreated: true,
-        createdBy: "AutoBot"
-      };
-
-      const stored = localStorage.getItem('aesthetic_custom_quotes');
-      const customQuotes = stored ? JSON.parse(stored) : [];
-      
-      const exists = customQuotes.some(q => q.text === selectedText);
-      if (!exists) {
-        customQuotes.push(botQuote);
-        localStorage.setItem('aesthetic_custom_quotes', JSON.stringify(customQuotes));
-        
-        loadQuotesData();
-        renderArchive();
-        if (typeof robotsSay === "function") {
-          robotsSay("أثير: البوت نشر اقتباساً جديداً تلقائياً!", "أثيرة: تفقد المكتبة لقد أضاف حكمة جديدة ههههه 🤖");
-        }
-      }
-    }
-
-    setTimeout(runAutoQuoteBot, 3000);
-    setInterval(runAutoQuoteBot, 300000);
-
-    // 8. الفحص التلقائي للجلسة
-    window.onload = () => {
-      const currentUser = localStorage.getItem('aesthetic_current_user');
-      if (currentUser) {
-        showApp(currentUser);
-      }
-    };
+    animate();
   </script>
 </body>
 </html>
