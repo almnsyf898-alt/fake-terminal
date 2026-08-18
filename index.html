@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مملكة الفراعنة السوداء | Dark Pharaohs</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@450;700&display=swap" rel="stylesheet">
+  <title>مملكة الفراعنة السوداء | Cosmic Dark Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-dark: #050508;
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --pharaoh-black: #111116;
-      --glass-bg: rgba(15, 15, 22, 0.85);
-      --border-gold: rgba(212, 175, 55, 0.3);
+      --bg-dark: #030308;
+      --primary-purple: #9d4edd;
+      --deep-purple: #3c096c;
+      --gold: #ffd700;
+      --pharaoh-black: #0d0d12;
+      --glass-bg: rgba(15, 12, 29, 0.85);
+      --glass-border: rgba(255, 215, 0, 0.2);
     }
 
     * {
@@ -29,22 +30,65 @@
       font-family: 'Tajawal', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding-bottom: 80px;
     }
 
-    /* خلفية الفضاء والنجوم */
+    /* خلفية الفضاء والنجوم التفاعلية */
     #bgCanvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
       pointer-events: none;
     }
 
-    /* ⚰️ التابوت المضيء (رابط الفيسبوك للمصمم) */
+    /* 🤖 شريط المغني في أعلى الشاشة (بدون صوت) */
+    .singer-robot-bar {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(10, 8, 20, 0.9);
+      border: 1px solid var(--gold);
+      padding: 6px 18px;
+      border-radius: 30px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    .singer-avatar {
+      width: 35px;
+      height: 35px;
+      background: radial-gradient(circle, var(--gold), #3c096c);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      box-shadow: 0 0 10px var(--gold);
+    }
+
+    .singer-text {
+      font-size: 12px;
+      color: #f3e5ab;
+      font-weight: 500;
+      max-width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ⚰️ التابوت المضيء (الرابط إلى الفيسبوك) */
     .coffin-widget {
       position: fixed;
       left: 20px;
@@ -72,7 +116,7 @@
       justify-content: center;
       align-items: center;
       font-size: 24px;
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
     }
 
     .coffin-label {
@@ -81,7 +125,7 @@
       color: var(--gold);
       padding: 2px 8px;
       border-radius: 10px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
+      border: 1px solid rgba(255, 215, 0, 0.4);
     }
 
     /* نافذة التابوت المنبثقة */
@@ -104,7 +148,7 @@
       text-align: center;
       max-width: 380px;
       width: 90%;
-      box-shadow: 0 0 40px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
     }
 
     .fb-btn {
@@ -122,18 +166,18 @@
       box-shadow: 0 4px 20px rgba(24, 119, 242, 0.4);
     }
 
-    /* هيكل التطبيق */
+    /* 🎮 الهيكل الرئيسي للتطبيق */
     .app-container {
       width: 100%;
       max-width: 720px;
-      margin-top: 40px;
+      margin-top: 80px;
       padding: 0 15px;
       z-index: 10;
     }
 
-    .card {
+    .auth-card, .main-card {
       background: var(--glass-bg);
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px);
       border-radius: 24px;
       padding: 30px;
@@ -146,21 +190,27 @@
       padding: 35px 20px;
       background: rgba(0, 0, 0, 0.5);
       border-radius: 18px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
+      border: 1px solid rgba(255, 215, 0, 0.2);
       margin-bottom: 20px;
     }
 
     .quote-text {
       font-family: 'Amiri', serif;
-      font-size: 24px;
+      font-size: 25px;
       line-height: 1.8;
-      color: var(--gold-light);
+      color: #f8fafc;
       margin-bottom: 15px;
+    }
+
+    .quote-author {
+      font-size: 14px;
+      color: var(--gold);
+      font-weight: bold;
     }
 
     .btn {
       padding: 12px 20px;
-      background: linear-gradient(135deg, #222, #111);
+      background: linear-gradient(135deg, #111, #222);
       border: 1px solid var(--gold);
       border-radius: 12px;
       color: var(--gold);
@@ -168,19 +218,23 @@
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn:hover {
       background: var(--gold);
       color: #000;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
     }
 
     .input-field {
       width: 100%;
       padding: 12px 16px;
       background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--glass-border);
       border-radius: 12px;
       color: #fff;
       font-size: 14px;
@@ -189,29 +243,32 @@
       font-family: inherit;
     }
 
-    /* 🤖 الروبوتات الفرعونية المتجولة والقابلة للسحب باليد */
+    .input-field:focus {
+      border-color: var(--gold);
+    }
+
+    /* 🏛️ الروبوتات الفرعونية السوداء (تتحرك، تُسحب باليد، وتتحدث تلقائياً) */
     .pharaoh-robot {
       position: fixed;
       width: 75px;
-      height: 85px;
+      height: 90px;
       z-index: 900;
       cursor: grab;
       touch-action: none;
-      transition: transform 0.1s ease;
     }
 
     .pharaoh-robot:active {
       cursor: grabbing;
     }
 
-    .pharaoh-wrapper {
+    .pharaoh-body-wrapper {
       position: relative;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle, var(--pharaoh-black), #000);
+      background: radial-gradient(circle, #1a1a24, var(--pharaoh-black));
       border: 2px solid var(--gold);
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      border-radius: 22px;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -220,12 +277,12 @@
     /* القبعة الفرعونية (النمس الأسود والذهبي) */
     .pharaoh-hat {
       position: absolute;
-      top: -16px;
+      top: -18px;
       width: 85px;
-      height: 25px;
+      height: 26px;
       background: linear-gradient(90deg, #111, var(--gold), #111);
-      border-radius: 10px 10px 5px 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.8);
+      border-radius: 12px 12px 6px 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
     .pharaoh-hat::after {
       content: '';
@@ -237,44 +294,46 @@
       border-radius: 3px;
     }
 
-    /* الأيدي الصغيرة المزحة */
-    .p-hand {
+    /* الأيدي المتحركة */
+    .pharaoh-hand {
       position: absolute;
       width: 10px;
       height: 18px;
       background: var(--gold);
       border-radius: 5px;
-      top: 45px;
-      transition: transform 0.2s;
+      top: 50px;
+      transition: transform 0.2s ease-in-out;
     }
-    .p-hand-l { left: -12px; }
-    .p-hand-r { right: -12px; }
-    .p-hand.moving {
+    .hand-left { left: -12px; }
+    .hand-right { right: -12px; }
+
+    .pharaoh-hand.moving {
       transform: translateY(-8px) rotate(15deg);
     }
 
-    /* عيون الروبوت الفرعوني */
-    .p-eyes {
+    /* عيون الفراعنة */
+    .pharaoh-eyes {
       display: flex;
       gap: 10px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
     .p-eye {
       width: 10px;
       height: 12px;
       background: var(--gold);
       border-radius: 50%;
+      box-shadow: 0 0 5px var(--gold);
     }
 
     /* فقاعة الكلام التلقائي */
-    .pharaoh-bubble {
+    .pharaoh-speech-bubble {
       position: absolute;
-      bottom: 95px;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(10, 10, 15, 0.95);
+      background: rgba(10, 8, 20, 0.95);
       border: 1px solid var(--gold);
-      color: var(--gold-light);
+      color: #f3e5ab;
       padding: 6px 12px;
       border-radius: 12px;
       font-size: 11px;
@@ -285,15 +344,25 @@
       transition: opacity 0.3s ease;
       z-index: 950;
     }
-    .pharaoh-bubble.visible {
+
+    .pharaoh-speech-bubble.visible {
       opacity: 1;
     }
   </style>
 </head>
 <body>
 
-  <!-- خلفية الفضاء -->
+  <!-- خلفية الفضاء والنجوم -->
   <canvas id="bgCanvas"></canvas>
+
+  <!-- 🤖 شريط المغني العلوي (بدون صوت) -->
+  <div class="singer-robot-bar">
+    <div class="singer-avatar">🏛️</div>
+    <div>
+      <div style="font-size: 10px; color: var(--gold); font-weight: bold;">حارس المملكة</div>
+      <div class="singer-text" id="singerStatus">أهلاً بك في مملكة الحكمة والفراعنة...</div>
+    </div>
+  </div>
 
   <!-- ⚰️ التابوت الأسطوري - رابط الفيسبوك للمصمم -->
   <div class="coffin-widget" onclick="openCoffinModal()">
@@ -306,44 +375,58 @@
     <div class="coffin-modal-card">
       <div style="font-size: 40px; margin-bottom: 10px;">⚰️✨</div>
       <h3 style="color: var(--gold); margin-bottom: 8px;">لمسة المصمم الإبداعية</h3>
-      <p style="font-size: 13px; color: #aaa; line-height: 1.6;">
-        تم تطوير وتصميم هذه الصفحة بواسطة <strong>السفاح</strong>. انقر للتواصل والمتابعة على الفيسبوك.
+      <p style="font-size: 13px; color: #aaa; line-height: 1.6; margin-bottom: 15px;">
+        تم تطوير وتصميم هذه المملكة بواسطة <strong>السفاح</strong>. انقر للتواصل والمتابعة على الفيسبوك.
       </p>
       <a href="https://www.facebook.com/LONLY8" target="_blank" class="fb-btn">
         زيارة حساب الفيسبوك
       </a>
       <div style="margin-top: 15px;">
-        <button class="btn" style="padding: 6px 15px; font-size: 12px;" onclick="closeCoffinModal()">إغلاق</button>
+        <button class="btn" style="padding: 6px 15px; font-size: 12px; background: transparent;" onclick="closeCoffinModal()">إغلاق</button>
       </div>
     </div>
   </div>
 
-  <!-- المحتوى الرئيسي -->
+  <!-- 🎮 التطبيق الرئيسي -->
   <div class="app-container">
-    <div class="card">
-      <h2 style="text-align: center; color: var(--gold); margin-bottom: 15px;">مملكة الحكماء الفراعنة 🏛️</h2>
-      
-      <div class="quote-display">
-        <p class="quote-text" id="quoteText">"الحكمة تبدأ من الهدوء، وتستمر بالتأمل الصامت."</p>
-        <span style="font-size: 13px; color: var(--gold);" id="quoteAuthor">— إرث الأجداد</span>
-      </div>
-
-      <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-        <button class="btn" onclick="changeQuote()">حكمة جديدة 📜</button>
-      </div>
-
-      <input type="text" class="input-field" placeholder="اكتب شيئاً هنا لتراقب تعليقات الروبوتات الفراعنة..." id="userInput" oninput="userIsTyping()">
+    
+    <!-- شاشة تسجيل الدخول -->
+    <div class="auth-card" id="authCard">
+      <h2 style="text-align: center; color: var(--gold); margin-bottom: 10px;">مملكة الفراعنة السوداء 🌙</h2>
+      <p style="text-align: center; font-size: 12px; color: #888; margin-bottom: 20px;">ادخل بلقبك الخاص وكلمة السر لدخول العزلة</p>
+      <input type="text" id="usernameInput" class="input-field" placeholder="اسم المستخدم / اللقب...">
+      <input type="password" id="passwordInput" class="input-field" placeholder="كلمة السر...">
+      <button class="btn" style="width: 100%; margin-top: 10px;" onclick="login()">دخول إلى العزلة</button>
     </div>
+
+    <!-- الواجهة المتقدمة -->
+    <div class="main-card" id="mainAppCard" style="display: none;">
+      
+      <!-- عرض الاقتباس -->
+      <div class="quote-display">
+        <p class="quote-text" id="quoteText">"في عمق الصمت، تتحدث الأرواح بلغة لا تفهمها إلا القلوب الهادئة."</p>
+        <span class="quote-author" id="quoteAuthor">— إرث الأجداد</span>
+      </div>
+
+      <!-- أزرار التفاعل -->
+      <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+        <button class="btn" onclick="nextRandomQuote()">حكمة جديدة 📜</button>
+      </div>
+
+      <input type="text" class="input-field" placeholder="🔍 اكتب شيئاً هنا ليراقبك الحكماء ويعطوك رأيهم..." id="searchInput" oninput="userIsTyping()">
+      <div id="quotesList" style="display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; margin-top: 10px;"></div>
+    </div>
+
   </div>
 
   <!-- 🤖 الروبوت الفرعوني الأول (حورس الأسود) -->
-  <div class="pharaoh-robot" id="pharaoh1" style="top: 150px; left: 50px;">
-    <div class="pharaoh-bubble" id="bubble1">أنا حورس الحكيم!</div>
-    <div class="pharaoh-wrapper">
+  <div class="pharaoh-robot" id="pharaoh1" style="top: 150px; left: 40px;">
+    <div class="pharaoh-speech-bubble" id="bubble1">أنا حورس الحكيم!</div>
+    <div class="pharaoh-body-wrapper">
       <div class="pharaoh-hat"></div>
-      <div class="p-hand p-hand-l" id="hand1L"></div>
-      <div class="p-hand p-hand-r" id="hand1R"></div>
-      <div class="p-eyes">
+      <div class="pharaoh-hand hand-left" id="hand1L"></div>
+      <div class="pharaoh-hand hand-right" id="hand1R"></div>
+      <div class="pharaoh-eyes">
         <div class="p-eye"></div>
         <div class="p-eye"></div>
       </div>
@@ -351,13 +434,13 @@
   </div>
 
   <!-- 🤖 الروبوت الفرعوني الثاني (أنوبيس الأسود) -->
-  <div class="pharaoh-robot" id="pharaoh2" style="top: 250px; right: 50px;">
-    <div class="pharaoh-bubble" id="bubble2">وأنا أنوبيس!</div>
-    <div class="pharaoh-wrapper">
+  <div class="pharaoh-robot" id="pharaoh2" style="top: 280px; right: 40px;">
+    <div class="pharaoh-speech-bubble" id="bubble2">وأنا أنوبيس حارس الهرم!</div>
+    <div class="pharaoh-body-wrapper">
       <div class="pharaoh-hat"></div>
-      <div class="p-hand p-hand-l" id="hand2L"></div>
-      <div class="p-hand p-hand-r" id="hand2R"></div>
-      <div class="p-eyes">
+      <div class="pharaoh-hand hand-left" id="hand2L"></div>
+      <div class="pharaoh-hand hand-right" id="hand2R"></div>
+      <div class="pharaoh-eyes">
         <div class="p-eye"></div>
         <div class="p-eye"></div>
       </div>
@@ -365,61 +448,82 @@
   </div>
 
   <script>
-    // نافذة التابوت
+    /* --- 1. قاعدة البيانات والتحكم بالتابوت --- */
+    const quotesData = [
+      { text: "في عمق الصمت، تتحدث الأرواح بلغة لا تفهمها إلا القلوب الهادئة.", author: "فلسفة العزلة" },
+      { text: "الهدوء ليس ضعفاً، بل هو القوة في أبهى صورها.", author: "حكمة قديمة" },
+      { text: "الزمن لا ينتظر أحداً، اجعل خطواتك ثابتة كالأهرامات.", author: "تأملات الفضاء" },
+      { text: "الجمال الحقيقي يكمن في الأشياء التي لا نراها بأعيننا بل بنفوسنا.", author: "السفاح" }
+    ];
+
     function openCoffinModal() { document.getElementById('coffinModal').style.display = 'flex'; }
     function closeCoffinModal() { document.getElementById('coffinModal').style.display = 'none'; }
 
-    // الحكم والاقتباسات
-    const quotes = [
-      { text: "الحكمة تبدأ من الهدوء، وتستمر بالتأمل الصامت.", author: "إرث الأجداد" },
-      { text: "الزمن لا ينتظر أحداً، اجعل خطواتك ثابتة كالأهرامات.", author: "فلسفة فرعونية" },
-      { text: "في القلوب النقية تكمن أسرار الملوك.", author: "حكمة العظماء" }
-    ];
-    function changeQuote() {
-      const q = quotes[Math.floor(Math.random() * quotes.length)];
+    function login() {
+      const u = document.getElementById('usernameInput').value;
+      if (!u) return alert("يرجى إدخال اللقب أولاً!");
+      document.getElementById('authCard').style.display = 'none';
+      document.getElementById('mainAppCard').style.display = 'block';
+      document.getElementById('singerStatus').innerText = `مرحباً بك يا ${u} في المملكة السوداء`;
+      renderQuotesList();
+    }
+
+    function nextRandomQuote() {
+      const q = quotesData[Math.floor(Math.random() * quotesData.length)];
       document.getElementById('quoteText').innerText = `"${q.text}"`;
       document.getElementById('quoteAuthor').innerText = `— ${q.author}`;
     }
 
-    // 🤖 محادثات الروبوتات التلقائية والتعليق على المستخدم
-    const comments = [
-      "يا لها من خطوة ذكية يا صديقي!",
-      "هل تبحث عن كنز مفقود في الشاشة؟",
-      "أعجبني ما تكتبه، تابع الإبداع!",
-      "نحن نراقب كل حركاتك يا بطل ههههه!",
-      "التصميم الأسود والذهبي يليق بك حقاً!"
+    function renderQuotesList() {
+      const list = document.getElementById('quotesList');
+      list.innerHTML = '';
+      quotesData.forEach(q => {
+        const item = document.createElement('div');
+        item.style.cssText = "background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; font-size: 13px;";
+        item.innerHTML = `<div>"${q.text}"</div><div style="color:var(--gold); font-size:11px;">— ${q.author}</div>`;
+        list.appendChild(item);
+      });
+    }
+
+    /* --- 2. آراء الفراعنة التلقائية والتعليق على المستخدم --- */
+    const opinions = [
+      "يا لها من فكرة عظيمة يا بطل!",
+      "نحن نراقب كل خطوة تكتبها بدقة!",
+      "هذا التصميم الأسود والذهبي فخم جداً.",
+      "أعجبني اختيارك للأشياء، واصل الإبداع!",
+      "هل تبحث عن أسرار الفراعنة في الشاشة؟"
     ];
 
-    function showRandomComment() {
-      const c1 = comments[Math.floor(Math.random() * comments.length)];
-      const c2 = comments[Math.floor(Math.random() * comments.length)];
-      
-      triggerBubble('bubble1', c1);
-      setTimeout(() => triggerBubble('bubble2', c2), 3000);
-      
+    function triggerPharaohThoughts() {
+      const o1 = opinions[Math.floor(Math.random() * opinions.length)];
+      const o2 = opinions[Math.floor(Math.random() * opinions.length)];
+
+      showBubble('bubble1', o1);
+      setTimeout(() => showBubble('bubble2', o2), 3000);
+
       // تحريك الأيدي المزحة
-      document.getElementById('hand1L').classList.add('moving');
-      document.getElementById('hand2R').classList.add('moving');
+      document.getElementById('hand1R').classList.add('moving');
+      document.getElementById('hand2L').classList.add('moving');
       setTimeout(() => {
-        document.getElementById('hand1L').classList.remove('moving');
-        document.getElementById('hand2R').classList.remove('moving');
+        document.getElementById('hand1R').classList.remove('moving');
+        document.getElementById('hand2L').classList.remove('moving');
       }, 600);
     }
 
     function userIsTyping() {
-      triggerBubble('bubble1', "أنت تكتب شيئاً مثيراً للاهتمام!");
+      showBubble('bubble1', "أنت تكتب شيئاً مميزاً للغاية الآن!");
     }
 
-    function triggerBubble(id, text) {
+    function showBubble(id, text) {
       const b = document.getElementById(id);
       b.innerText = text;
       b.classList.add('visible');
       setTimeout(() => b.classList.remove('visible'), 4000);
     }
 
-    setInterval(showRandomComment, 10000);
+    setInterval(triggerPharaohThoughts, 12000);
 
-    // 🖐️ نظام تحريك الروبوتات باليد (Drag & Drop / Touch)
+    /* --- 3. نظام السحب والتحريك بالأيدي (Drag & Touch) للروبوتات --- */
     function makeDraggable(elm) {
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
       elm.onmousedown = dragMouseDown;
@@ -473,7 +577,7 @@
     makeDraggable(document.getElementById('pharaoh1'));
     makeDraggable(document.getElementById('pharaoh2'));
 
-    // 🌌 خلفية النجوم Canvas
+    /* --- 4. خلفية الفضاء والنجوم (Canvas) --- */
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -494,14 +598,14 @@
         this.alpha = Math.random();
       }
       draw() {
-        ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha})`;
+        ctx.fillStyle = `rgba(255, 215, 0, ${this.alpha})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    for (let i = 0; i < 50; i++) particles.push(new Star());
+    for (let i = 0; i < 60; i++) particles.push(new Star());
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => p.draw());
