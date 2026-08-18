@@ -3144,5 +3144,415 @@ button{
             "أجواء العزلة 🎧";
     }
 
+/* =========================================
+   عيون أثير وأثيرة 👁️🤖🌸
+   تتبع + رمش + حركة تلقائية
+========================================= */
+
+(function(){
+
+    const robots = [
+        {
+            avatar: document.getElementById("avatarAthir"),
+            pupils: document.querySelectorAll("#avatarAthir .pupil")
+        },
+        {
+            avatar: document.getElementById("avatarAthira"),
+            pupils: document.querySelectorAll("#avatarAthira .pupil")
+        }
+    ];
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+
+    /* آخر حركة للمستخدم */
+    let lastUserMove = Date.now();
+
+    /* اتجاه العين الحالي */
+    const eyeState = robots.map(() => ({
+        x: 0,
+        y: 0,
+        targetX: 0,
+        targetY: 0,
+        blinking: false
+    }));
+
+
+    /* =========================================
+       تتبع الماوس
+    ========================================= */
+
+    document.addEventListener("mousemove", function(e){
+
+        targetX = e.clientX;
+        targetY = e.clientY;
+
+        lastUserMove = Date.now();
+
+    }, {passive:true});
+
+
+    /* =========================================
+       تتبع الإصبع
+    ========================================= */
+
+    document.addEventListener("touchmove", function(e){
+
+        if(!e.touches || !e.touches[0]) return;
+
+        targetX = e.touches[0].clientX;
+        targetY = e.touches[0].clientY;
+
+        lastUserMove = Date.now();
+
+    }, {passive:true});
+
+
+    /* =========================================
+       تحديد اتجاه العين
+    ========================================= */
+
+    function lookAt(robot, state){
+
+        if(!robot.avatar) return;
+
+        const rect = robot.avatar.getBoundingClientRect();
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        let dx = targetX - centerX;
+        let dy = targetY - centerY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if(distance > 0){
+
+            dx /= distance;
+            dy /= distance;
+
+        }
+
+        const maxMove = 3.5;
+
+        state.targetX = dx * maxMove;
+        state.targetY = dy * maxMove;
+    }
+
+
+    /* =========================================
+       حركة العيون الناعمة
+    ========================================= */
+
+    function animateEyes(){
+
+        robots.forEach((robot, index) => {
+
+            const state = eyeState[index];
+
+            if(!robot.avatar) return;
+
+            /* إذا لم يتحرك المستخدم لفترة،
+               تقوم الشخصية بالنظر تلقائياً */
+            if(Date.now() - lastUserMove > 3000){
+
+                const randomLook =
+                    Math.random() < 0.008;
+
+                if(randomLook){
+
+                    state.targetX =
+                        (Math.random() * 2 - 1) * 3;
+
+                    state.targetY =
+                        (Math.random() * 2 - 1) * 2.5;
+                }
+
+            } else {
+
+                lookAt(robot, state);
+
+            }
+
+
+            /* حركة ناعمة */
+            state.x +=
+                (state.targetX - state.x) * 0.08;
+
+            state.y +=
+                (state.targetY - state.y) * 0.08;
+
+
+            robot.pupils.forEach(pupil => {
+
+                if(!state.blinking){
+
+                    pupil.style.transform =
+                        `translate(${state.x}px, ${state.y}px)`;
+
+                }
+
+            });
+
+        });
+
+        requestAnimationFrame(animateEyes);
+    }
+
+
+    /* =========================================
+       الرمش
+    ========================================= */
+
+    function blink(robot, state){
+
+        if(!robot.pupils.length) return;
+
+        state.blinking = true;
+
+        robot.pupils.forEach(pupil => {
+
+            pupil.style.transform =
+                "translate(0, 2px) scaleY(0.08)";
+
+        });
+
+
+        /* فتح العين */
+        setTimeout(() => {
+
+            state.blinking = false;
+
+        }, 130);
+
+    }
+
+
+    /* =========================================
+       رمش عشوائي لكل روبوت
+    ========================================= */
+
+    function scheduleBlink(index){
+
+        const robot = robots[index];
+        const state = eyeState[index];
+
+        if(!robot) return;
+
+        const delay =
+            2500 + Math.random() * 4500;
+
+        setTimeout(() => {
+
+            blink(robot, state);
+
+            scheduleBlink(index);
+
+        }, delay);
+    }
+
+
+    /* =========================================
+       تشغيل النظام
+    ========================================= */
+
+    robots.forEach((robot, index) => {
+
+        scheduleBlink(index);
+
+    });
+
+    animateEyes();
+/* =========================================
+   🤖✨ تفاعل أثير وأثيرة
+========================================= */
+
+(function(){
+
+    const athir = document.getElementById("avatarAthir");
+    const athira = document.getElementById("avatarAthira");
+
+    const robots = [
+        {
+            avatar: athir,
+            pupils: document.querySelectorAll("#avatarAthir .pupil"),
+            bubble: document.getElementById("bubbleAthir"),
+            messages: [
+                "أراك... 👁️",
+                "هل تبحث عن شيء؟ 🌙",
+                "أنا هنا معك 🤖",
+                "هدوء جميل، أليس كذلك؟",
+                "ماذا يدور في بالك؟"
+            ]
+        },
+        {
+            avatar: athira,
+            pupils: document.querySelectorAll("#avatarAthira .pupil"),
+            bubble: document.getElementById("bubbleAthira"),
+            messages: [
+                "أهلاً بك 🌸",
+                "لا تختفِ طويلاً ✨",
+                "لدي شعور أنك تفكر كثيراً...",
+                "هل تريد اقتباساً جميلاً؟",
+                "أنا أراقب النجوم معك 🌙"
+            ]
+        }
+    ];
+
+    /* =========================
+       👆 تتبع اللمس بالعيون
+    ========================= */
+
+    document.addEventListener("pointermove", function(e){
+
+        robots.forEach(robot => {
+
+            if(!robot.avatar) return;
+
+            const rect = robot.avatar.getBoundingClientRect();
+
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            let dx = e.clientX - centerX;
+            let dy = e.clientY - centerY;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if(distance > 0){
+
+                const maxMove = 3;
+
+                dx = (dx / distance) * maxMove;
+                dy = (dy / distance) * maxMove;
+
+                robot.pupils.forEach(pupil => {
+
+                    pupil.style.transition = "transform .12s ease";
+
+                    pupil.style.transform =
+                        `translate(${dx}px, ${dy}px)`;
+
+                });
+
+            }
+
+        });
+
+    });
+
+    /* =========================
+       🤖 اهتزاز عند الضغط
+    ========================= */
+
+    robots.forEach(robot => {
+
+        if(!robot.avatar) return;
+
+        robot.avatar.addEventListener("pointerdown", function(){
+
+            robot.avatar.style.transition =
+                "transform .08s ease";
+
+            robot.avatar.style.transform =
+                "scale(1.12) rotate(-4deg)";
+
+            setTimeout(() => {
+
+                robot.avatar.style.transform =
+                    "scale(1.04) rotate(4deg)";
+
+            }, 80);
+
+            setTimeout(() => {
+
+                robot.avatar.style.transform =
+                    "scale(1) rotate(0deg)";
+
+            }, 160);
+
+            showRobotMessage(robot);
+
+        });
+
+    });
+
+    /* =========================
+       💬 رسائل عشوائية
+    ========================= */
+
+    function showRobotMessage(robot){
+
+        if(!robot.bubble) return;
+
+        const message =
+            robot.messages[
+                Math.floor(
+                    Math.random() * robot.messages.length
+                )
+            ];
+
+        robot.bubble.textContent = message;
+
+        robot.bubble.classList.add("active");
+
+        setTimeout(() => {
+
+            robot.bubble.classList.remove("active");
+
+        }, 3000);
+
+    }
+
+    /* =========================
+       🌙 رسائل تلقائية
+    ========================= */
+
+    setInterval(() => {
+
+        const robot =
+            robots[
+                Math.floor(Math.random() * robots.length)
+            ];
+
+        showRobotMessage(robot);
+
+    }, 12000);
+
+    /* =========================
+       ✨ وميض العيون
+    ========================= */
+
+    setInterval(() => {
+
+        robots.forEach(robot => {
+
+            robot.pupils.forEach(pupil => {
+
+                pupil.style.boxShadow =
+                    "0 0 16px currentColor";
+
+            });
+
+        });
+
+        setTimeout(() => {
+
+            robots.forEach(robot => {
+
+                robot.pupils.forEach(pupil => {
+
+                    pupil.style.boxShadow = "";
+
+                });
+
+            });
+
+        }, 250);
+
+    }, 4500);
+
+})();
+
 })();
     </script>
