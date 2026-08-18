@@ -3,215 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>السجل الأسود</title>
-    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;700&display=swap" rel="stylesheet">
+    <title>موقع الاقتباسات والقصص الغامضة</title>
     <style>
-        :root {
-            --blood: #8a0303;
-            --dark: #050505;
-            --terminal: #ff3333;
-        }
-
-        body, html {
-            margin: 0; padding: 0;
-            background-color: var(--dark);
-            color: var(--terminal);
-            font-family: 'Changa', sans-serif;
-            overflow-x: hidden;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #050505;
+            color: #d1d1d1;
+            font-family: 'Tahoma', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             height: 100vh;
+            padding: 15px;
         }
-
-        /* تأثير تشويش التلفاز (Static Noise & Scanlines) */
-        .crt::before {
-            content: " ";
-            display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #330000;
+            color: #ff3333;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
-        
-        @keyframes flicker {
-            0% { opacity: 0.9; } 5% { opacity: 0.5; } 10% { opacity: 0.9; } 15% { opacity: 1; }
-            50% { opacity: 0.8; } 100% { opacity: 1; }
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
         }
-
-        .container {
-            position: relative; z-index: 10;
-            max-width: 800px; margin: 0 auto; padding: 50px 20px;
-            animation: flicker 0.15s infinite;
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            max-width: 80%;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
-
-        h1 {
-            text-align: center; font-size: 3rem; text-shadow: 0 0 10px var(--terminal);
-            margin-bottom: 50px; letter-spacing: 5px;
+        .user-message {
+            background-color: #1a0000;
+            color: #ff9999;
+            align-self: flex-start;
+            border: 1px solid #4d0000;
         }
-
-        /* صندوق الاعترافات */
-        .confession-box {
-            background: rgba(10, 0, 0, 0.8);
-            border: 1px solid var(--blood);
-            padding: 30px; border-radius: 5px;
-            box-shadow: 0 0 15px rgba(138, 3, 3, 0.3);
-            text-align: center; margin-bottom: 40px;
+        .ai-message {
+            background-color: #111111;
+            color: #e0e0e0;
+            align-self: flex-end;
+            border: 1px solid #222;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
         }
-
-        textarea {
-            width: 90%; background: #000; color: #fff;
-            border: 1px dashed var(--terminal);
-            padding: 15px; font-family: inherit; font-size: 1.2rem;
-            resize: none; outline: none; margin-bottom: 15px;
+        .input-area {
+            display: flex;
+            gap: 10px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px 0;
         }
-
-        textarea:focus { border-color: #fff; box-shadow: 0 0 10px #fff; }
-
+        input {
+            flex: 1;
+            padding: 12px;
+            background-color: #0a0a0a;
+            border: 1px solid #330000;
+            color: #fff;
+            border-radius: 6px;
+            outline: none;
+            font-size: 1rem;
+        }
+        input:focus {
+            border-color: #ff3333;
+        }
         button {
-            background: transparent; border: 1px solid var(--terminal);
-            color: var(--terminal); padding: 10px 40px; font-size: 1.2rem;
-            cursor: pointer; font-family: inherit; transition: 0.3s;
+            padding: 0 20px;
+            background-color: #330000;
+            color: #ff3333;
+            border: 1px solid #ff3333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
         }
-        
-        button:hover { background: var(--blood); color: #000; box-shadow: 0 0 20px var(--blood); }
-
-        /* البطاقات المعروضة */
-        #feed { display: flex; flex-direction: column; gap: 20px; }
-
-        .post-card {
-            background: rgba(0, 0, 0, 0.9);
-            border-right: 4px solid var(--blood);
-            padding: 20px; font-size: 1.3rem;
-            position: relative; opacity: 0;
-            animation: slideIn 0.5s forwards;
-        }
-        
-        .post-card::before { content: ">_ "; color: #fff; }
-
-        @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* الصندوق السحري للمطور */
-        #magic-box {
-            position: fixed; top: 20px; left: 20px; width: 40px; height: 40px;
-            background: var(--blood); cursor: pointer; z-index: 100;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            box-shadow: 0 0 20px var(--blood); transition: 0.3s;
-        }
-        #magic-box:hover { transform: scale(1.2) rotate(90deg); }
-
-        /* الحكيم (العين المراقبة) */
-        #watcher {
-            position: fixed; bottom: 20px; left: 20px; z-index: 100;
-            font-size: 2rem; cursor: crosshair; transition: 0.2s;
+        button:hover {
+            background-color: #ff3333;
+            color: #000;
         }
     </style>
 </head>
-<body class="crt">
+<body>
 
-    <div id="magic-box" onclick="window.open('https://www.facebook.com/LONLY8', '_blank')" title="صانع السجل"></div>
-    <div id="watcher" onclick="alert('لقد رأيت ما فعلته.')">👁️</div>
+    <header>أهلاً بك في العتمة... الموقع الرسمي للاقتباسات والقصص الغامضة</header>
 
-    <div class="container">
-        <h1>السجل الأسود</h1>
+    <div id="chat-container">
+        <div class="message ai-message">أهلاً بك في العتمة... لقد اخترت أن تفتح باباً لا يمكن إغلاقه. ماذا تريد أن تعرف؟</div>
+    </div>
 
-        <div class="confession-box">
-            <p style="font-size: 1.2rem; margin-bottom: 20px;">اهمس للعدم بما تخفيه... وسيتذكره إلى الأبد.</p>
-            <textarea id="whisper-input" rows="3" placeholder="اكتب فكرتك المظلمة هنا..."></textarea><br>
-            <button onclick="saveWhisper()">إرسال إلى الهاوية</button>
-        </div>
-
-        <div style="text-align: center; margin-bottom: 30px;">
-            <button onclick="summonThought()">استدعاء الأرواح (عرض اقتباس)</button>
-        </div>
-
-        <div id="feed">
-            <!-- ستظهر الاقتباسات هنا -->
-        </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="اكتب رسالتك هنا..." onkeydown="checkEnter(event)">
+        <button onclick="sendMessage()">إرسال</button>
     </div>
 
     <script>
-        // قاعدة البيانات الثابتة (اكتب هنا أقوى الاقتباسات التي تعجبك)
-        const coreQuotes = [
-            "أكبر كذبة صدقناها، هي أن الغد سيكون أفضل.",
-            "نحن ندفن أجزاءً منا كل يوم لكي نتمكن من العيش مع الآخرين.",
-            "الوحوش لا تعيش في الغابات، إنها تستيقظ عندما تنظر في المرآة.",
-            "الضوء لا يمحو الظلام، بل يجعله يختبئ في الزوايا فقط.",
-            "يأتي وقت تدرك فيه أن الصمت هو الرد الوحيد الذي يفهمه هذا العالم."
+        const darkResponses = [
+            "العدم ليس فراغاً، إنه المكان الذي تذهب إليه كل الكلمات التي لم تُقُل.",
+            "أنت تظن أنك مراقب من خلف الشاشة، ولكن الحقيقة أنك تقف في منتصف مرآتي.",
+            "كل سؤال تطرحه يفتح صدعاً جديداً في جدار الواقع الذي تثق به كثيراً.",
+            "الزوار يأتفون ويبحثون عن إجابات، بينما هم أنهم الإجابة التي أبحث عنها منذ أزل.",
+            "الظل الذي تراه على حائط غرفتك الآن... هل أنت متأكد أنه يتبعك، أم أنه ينتظر حركة منك؟",
+            "الذاكرة مجرد مقبرة صغيرة، وأنت تحفر فيها بفضولك هذا.",
+            "الإجابات الحقيقية مؤلمة لدرجة أن العقول تفضل البقاء في الظلام."
         ];
 
-        // تهيئة الذاكرة المحلية (LocalStorage)
-        if (!localStorage.getItem('user_whispers')) {
-            localStorage.setItem('user_whispers', JSON.stringify([]));
+        function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const chatContainer = document.getElementById('chat-container');
+            const text = inputField.value.trim();
+
+            if (!text) return;
+
+            // عرض رسالة المستخدم
+            chatContainer.innerHTML += `<div class="message user-message">${escapeHtml(text)}</div>`;
+            inputField.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // محاكاة التفكير بنسج العتمة
+            setTimeout(() => {
+                const randomReply = darkResponses[Math.floor(Math.random() * darkResponses.length)];
+                chatContainer.innerHTML += `<div class="message ai-message">${escapeHtml(randomReply)}</div>`;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 600);
         }
 
-        // دالة حفظ اعتراف الزائر
-        function saveWhisper() {
-            const input = document.getElementById('whisper-input');
-            const text = input.value.trim();
-            if (text === "") return;
-
-            let whispers = JSON.parse(localStorage.getItem('user_whispers'));
-            whispers.push(text);
-            localStorage.setItem('user_whispers', JSON.stringify(whispers));
-            
-            input.value = "";
-            input.placeholder = "لقد تم حفظ سرك... لا مفر الآن.";
-            
-            displayPost(text, true); // عرض ما كتبه فوراً
-        }
-
-        // دالة استدعاء حكمة (إما من الاقتباسات الثابتة أو من أسرار الزائر)
-        function summonThought() {
-            let whispers = JSON.parse(localStorage.getItem('user_whispers'));
-            
-            // دمج الاقتباسات الثابتة مع أسرار الزائر المحفوظة سابقاً
-            let allThoughts = coreQuotes.concat(whispers);
-            
-            // اختيار عشوائي
-            let randomThought = allThoughts[Math.floor(Math.random() * allThoughts.length)];
-            
-            // معرفة ما إذا كان هذا الاقتباس هو من أسرار الزائر لتمييزه
-            let isUserWhisper = whispers.includes(randomThought);
-            
-            displayPost(randomThought, isUserWhisper);
-        }
-
-        // دالة عرض العنصر في الصفحة
-        function displayPost(text, isWhisper) {
-            const feed = document.getElementById('feed');
-            const post = document.createElement('div');
-            post.className = 'post-card';
-            
-            // إذا كان الاقتباس من أسرار الزائر، نضيف رسالة مرعبة أسفله
-            if (isWhisper) {
-                post.innerHTML = `<span>${text}</span> <br><br><span style="font-size:0.9rem; color:#888;">[رسالة مسترجعة من ذاكرتك...]</span>`;
-                post.style.borderColor = "#fff"; // تمييزه بلون مختلف
-            } else {
-                post.innerHTML = text;
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
             }
-
-            // إضافة العنصر في أعلى القائمة
-            feed.insertBefore(post, feed.firstChild);
-
-            // تفعيل صوت مرعب قصير جداً (اختياري)
-            playGlitchSound();
         }
 
-        // صوت تشويش قصير عند الاستدعاء
-        let audioCtx;
-        function playGlitchSound() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(100 + Math.random() * 500, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
-
-        // حركة العين المراقبة (الحكيم)
-        document.addEventListener('mousemove', (e) => {
-            const watcher = document.getElementById('watcher');
-            watcher.style.transform = `translate(${e.clientX / 50}px, ${e.clientY / 50}px)`;
-        });
     </script>
 </body>
 </html>
