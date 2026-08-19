@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚠️ اختراق وهمي ⚠️</title>
+  <style>
+    body { background-color: #050000; color: #ff0000; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; text-align: center; overflow-x: hidden; }
+    .alert-box { border: 3px solid #ff0000; padding: 15px; background-color: rgba(255, 0, 0, 0.15); box-shadow: 0 0 20px #ff0000; animation: blink 0.8s infinite alternate; width: 95%; max-width: 500px; border-radius: 8px; }
+    @keyframes blink { 0% { border-color: #ff0000; box-shadow: 0 0 10px #ff0000; } 100% { border-color: #550000; box-shadow: 0 0 25px #ff0000; } }
+    h1 { font-size: 22px; margin: 0 0 10px 0; color: #ff0000; text-shadow: 0 0 8px #ff0000; }
+    .repeating-container { margin-top: 20px; font-size: 13px; line-height: 1.8; color: #ff2222; text-shadow: 0 0 5px #ff0000; max-width: 100%; word-wrap: break-word; }
+  </style>
+</head>
+<body>
+  <div class="alert-box">
+    <h1>⚠️ انذار أمني عاجل ⚠️</h1>
+    <p>[!] تم اختراق الهاتف!</p>
+  </div>
+  <div class="repeating-container" id="stream"></div>
+  <script>
+    const myName = "السفاح"; // استبدل كلمة "السفاح" باسمك هنا
+    const container = document.getElementById("stream");
+    let text = "";
+    for (let i = 0; i < 150; i++) { text += `🚨 تم الاختراق بواسطة: ${myName} 🚨 &nbsp; `; }
+    container.innerHTML = text;
+  </script>
+</body>
+</html>
